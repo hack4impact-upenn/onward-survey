@@ -21,7 +21,7 @@ const Main = () => {
 
   return (
     <ContentContainer>
-      <h1 className="title is-1">Welcome to TS Boilerplate</h1>
+      <h1 className="title is-1">Welcome to Onward Financial</h1>
       <p>
         Dead simple monorepo boilerplate web project designed to take you from
         Git Cloning to Heroku Deployment in less 5 minutes. 🚀🤩

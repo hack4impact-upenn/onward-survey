@@ -40,7 +40,7 @@ const Navbar = () => {
     <NavbarContainer>
       <NavbarItem>
         <a href="/" className="title is-6 has-text-white">
-          🚀 TS-Boilerplate
+          Onward Financial
         </a>
       </NavbarItem>
       <NavbarItem>

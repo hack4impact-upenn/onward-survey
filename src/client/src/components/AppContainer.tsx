@@ -22,7 +22,7 @@ const AppContainer = ({ children }: { children: any }) => {
       <Navbar />
       {children}
       <FooterContainer>
-        <h1 className="has-text-grey-light">Made with ❤️ by DT</h1>
+        <h1 className="has-text-grey-light">Made with ❤️ by Hack4Impact</h1>
       </FooterContainer>
     </div>
   );
