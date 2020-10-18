@@ -31,8 +31,8 @@ Essentially, here're some of its features:
 #### Installing Requirements
 
 ```bash
-$ git clone https://github.com/Orang-utan/ts-boilerplate.git
-$ cd ts-boilerplate
+$ git clone https://github.com/hack4impact-upenn/onward-survey.git
+$ cd onward-survey
 $ yarn setup
 ```
 
