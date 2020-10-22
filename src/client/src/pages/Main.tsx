@@ -22,10 +22,7 @@ const Main = () => {
   return (
     <ContentContainer>
       <h1 className="title is-1">Welcome to Onward Financial</h1>
-      <p>
-        Dead simple monorepo boilerplate web project designed to take you from
-        Git Cloning to Heroku Deployment in less 5 minutes. 🚀🤩
-      </p>
+      <p>Hello! 🚀🤩</p>
       <a href="https://github.com/Orang-utan/ts-boilerplate">
         Check out our Github
       </a>
