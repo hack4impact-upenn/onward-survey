@@ -1,12 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+table {
+    position: absolute;
+    width: 896px;
+    height: 357px;
+    left: 272px;
+    top: 518px;
 
-<h1>This is a heading</h1>
-<p>This is a paragraph.</p>
+    background: #FFFFFF;
+    border: 1.2px solid #878787;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
 
-</body>
-</html>
+th#status {
+    position: absolute;
+    width: 53px;
+    height: 20px;
+    left: 316px;
+    top: 538px;
+
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #000000;
+}
