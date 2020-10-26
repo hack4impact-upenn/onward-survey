@@ -3,25 +3,20 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../api/core/auth';
 
-const columns = React.useMemo(
-    () => [
-        {
-            Header: 'Status',
-            accessor: 'status'
-        },
-        {
-            Header: 'Email',
-            accessor: 'email'
-        },
-        {
-            Header: 'Resend Email',
-            accessor: 'resend'
-        }
-    ],
-    []
-)
+const TableContainer = styled.div`
+    position: absolute;
+    width: 896px;
+    height: 357px;
+    left: 272px;
+    top: 518px;
 
-const data = React.useMemo(() =>
+    background: #FFFFFF;
+    border: 1.2px solid #878787;
+    box-sizing: border-box;
+    border-radius: 10px;
+`;
+
+const data =
     [
         {
             status: true,
@@ -35,30 +30,31 @@ const data = React.useMemo(() =>
             status: true,
             email: 'mohamed@h4i.com',
         }
-    ],
-    []
-)
+    ]
+
 interface Props {}
 const Table: React.FC<Props> = (props) => {
     return(
-        <table>
-            <thead>
-                <tr>
-                    <th>Status</th>
-                    <th>Email</th>
-                    <th>Resend Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                {data.map(entry => {
+        <TableContainer>
+            <table>
+                <thead>
                     <tr>
-                        <td>{entry.status}</td>
-                        <td>{entry.email}</td>
-                        <td>Resend email</td>
+                        <th>Status</th>
+                        <th>Email</th>
+                        <th>Resend Email</th>
                     </tr>
-                })}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {data.map((entry) => 
+                        <tr>
+                            <td>{entry.status.toString()}</td>
+                            <td>{entry.email}</td>
+                            <td>Resend email</td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </TableContainer>
     )
 }
 

@@ -18,10 +18,10 @@ const Button = styled.button`
 `;
 
 const ManageSurvey = () => {
-  const history = useHistory();
 
   return (
     <ContentContainer>
+        <Table></Table>
     </ContentContainer>
   );
 };
