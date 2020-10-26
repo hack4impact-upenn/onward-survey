@@ -7,6 +7,7 @@ import Profile from './Profile';
 import AppContainer from '../components/AppContainer';
 import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
+import Table from '../components/Table';
 
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ const AppRouter = () => {
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <PublicRoute exact={false} path="/" component={Main} />
+          <PublicRoute exact path="/table" component={Table} />
         </Switch>
       </AppContainer>
     </Router>
