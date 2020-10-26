@@ -16,27 +16,6 @@ const TableContainer = styled.div`
     border-radius: 10px;
 `;
 
-const StatusHeader = styled.div`
-position: absolute;
-width: 53px;
-height: 20px;
-left: 316px;
-top: 538px;
-
-font-family: Montserrat;
-font-style: normal;
-font-weight: 600;
-font-size: 16px;
-line-height: 20px;
-/* identical to box height */
-
-display: flex;
-align-items: center;
-text-align: center;
-
-color: #000000;
-`;
-
 const data =
     [
         {
@@ -60,7 +39,7 @@ const Table: React.FC<Props> = (props) => {
             <table>
                 <thead>
                     <tr>
-                        <StatusHeader>Status</StatusHeader>
+                        <th>Status</th>
                         <th>Email</th>
                         <th>Resend Email</th>
                     </tr>
@@ -68,7 +47,7 @@ const Table: React.FC<Props> = (props) => {
                 <tbody>
                     {data.map((entry) => 
                         <tr>
-                            <td>{entry.status.toString()}</td>
+                            <td>{entry.status?'<img src="checkmark.png" alt="checkmark">':'<p></p>'}</td>
                             <td>{entry.email}</td>
                             <td>Resend email</td>
                         </tr>
