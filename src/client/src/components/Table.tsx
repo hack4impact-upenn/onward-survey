@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../api/core/auth';
+import checkmark from '../assets/checkmark.png'
 
 const data =
     [
@@ -33,7 +34,7 @@ const Table: React.FC<Props> = (props) => {
             <tbody>
                 {data.map((entry) => 
                     <tr>
-                        <td>{entry.status.toString()}</td>
+                        <td>{entry.status?<img src={checkmark} alt="checkmark"></img>:<p></p>}</td>
                         <td>{entry.email}</td>
                         <td>Resend email</td>
                     </tr>
