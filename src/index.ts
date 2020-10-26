@@ -6,7 +6,7 @@ import socket from 'socket.io';
 import expressStatusMonitor from 'express-status-monitor';
 import connectToDatabase from './utils/mongo';
 import './utils/config';
-
+import { v4 as uuidv4 } from 'uuid';
 import userRouter from './routes/user.api';
 
 const app = express();
@@ -22,6 +22,8 @@ app.use(cors());
 
 // API Routes
 app.use('/api/users', userRouter);
+
+console.log(uuidv4());
 
 // Serving static files
 if (process.env.NODE_ENV === 'production') {
