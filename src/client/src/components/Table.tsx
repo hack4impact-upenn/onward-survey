@@ -16,6 +16,27 @@ const TableContainer = styled.div`
     border-radius: 10px;
 `;
 
+const StatusHeader = styled.div`
+position: absolute;
+width: 53px;
+height: 20px;
+left: 316px;
+top: 538px;
+
+font-family: Montserrat;
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 20px;
+/* identical to box height */
+
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #000000;
+`;
+
 const data =
     [
         {
@@ -39,7 +60,7 @@ const Table: React.FC<Props> = (props) => {
             <table>
                 <thead>
                     <tr>
-                        <th>Status</th>
+                        <StatusHeader>Status</StatusHeader>
                         <th>Email</th>
                         <th>Resend Email</th>
                     </tr>
