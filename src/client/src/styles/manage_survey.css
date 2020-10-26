@@ -12,11 +12,30 @@ table {
 }
 
 th#status {
-    position: absolute;
-    width: 53px;
-    height: 20px;
-    left: 316px;
-    top: 538px;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height */
+
+
+    color: #000000;
+}
+
+th#email {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height */
+    text-align: left;
+
+    color: #000000;
+}
+
+th#resendemail {
 
     font-family: Montserrat;
     font-style: normal;
@@ -27,7 +46,21 @@ th#status {
 
     display: flex;
     align-items: center;
-    text-align: center;
+    text-align: right;
+
+    color: #000000;
+}
+
+td#email {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: center;
 
     color: #000000;
 }
