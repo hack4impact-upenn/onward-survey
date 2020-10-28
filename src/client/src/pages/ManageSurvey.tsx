@@ -3,39 +3,29 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import ManageSurveyTable from '../components/Table';
 import AddEmailField from '../components/AddEmailField';
+import '../styles/manage_survey.css'
 
 const ContentContainer = styled.div`
   text-align: center;
   margin: 10vh auto;
   width: 896px;
-`;
-
-const ButtonGroup = styled.div`
-  margin: 20px;
-`;
-
-const Button = styled.button`
-  width: 140px;
-  height: 50px;
-`;
-  
-const EmailInput = styled.input`
-  width: 750px;
-  height: 50px;
-`;
+  font-family: 'Montserrat';
+`
 
 const EmployerName = styled.b`
-  font-weight: 800;
+  font-family: 'Montserrat';  
+  font-weight: bold;
   line-height: 44px;
 `;
 
 const ToggleViewGroup = styled.div`
   padding-top: 30px;
   padding-bottom: 30px;
-  width: 280px;
+  width: 300px;
 `;
 
 const ToggleViewText = styled.p`
+  font-family: 'Montserrat';
   font-size: 18px;
   font-weight: 600;
   color: #00AADE;
@@ -55,12 +45,16 @@ const SendOutButton = styled.div`
   background: #00D898;
 `;
 
+const WelcomeText = styled.h1`
+  width: 315px;
+`;
+
 const ManageSurvey = () => {
   return (
     <ContentContainer>
           <div className="columns">
             <div className="column is-two-fifths">
-              <h1 className="title has-text-left">Welcome Back, <EmployerName>Employer Name</EmployerName>!</h1>
+              <WelcomeText className="title has-text-left">Welcome Back, <EmployerName>Employer Name</EmployerName>!</WelcomeText>
             </div>
           </div>
           <ToggleViewGroup className="columns is-gapless">

@@ -5,6 +5,8 @@ import auth from '../api/core/auth';
 
 const AddEmailGroup = styled.div`
     padding-bottom: 34px;
+    font-family: 'Montserrat';
+    font-weight: 700;
 `;
 
 interface Props {}
