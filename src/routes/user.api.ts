@@ -130,17 +130,9 @@ router.post('/create/employee', auth, async (req, res) => {
   const { firstName, lastName, email } = req.body;
   // getting employee id froma uth
   const { userId } = req;
-
   // Check if user (or employer) exists based on user id, if not return error
-
-  User.findById(userId)
-    .then((user) => {
-      if (!user) {
-        return errorHandler(res, 'User does not exist.')
-      };
-    })
-    .catch((err) => errorHandler(res, err.message));
-
+    const user = await User.findById(userId);
+    if (!user) return errorHandler(res, 'User does not exist.')
   // create new employee
   const newEmployee = new Employee();
   newEmployee.firstName = firstName;
@@ -148,22 +140,14 @@ router.post('/create/employee', auth, async (req, res) => {
   newEmployee.email = email;
   newEmployee.employer = new Types.ObjectId(userId!);
   const surveyId = shortid.generate();
-  newEmployee.surveyId = surveyId;
-  
+  newEmployee.surveyId = surveyId; 
   // save new employee
   await newEmployee.save();
 
   // Insert new employee id to employer array
-
-  User.findById(userId)
-    .then((user) => {
-      if (!user) {
-        return errorHandler(res, 'User does not exist.')
-      }
-      user.employees.push(newEmployee.id);
+      const newEmployer = {...user, employees : [user.employees, newEmployee.id]}
+      await newEmployer.save();
       return res.status(200).json({ message: 'success' });
-    })
-    .catch((err) => errorHandler(res, err.message));
 });
 
 // TESTING ROUTES BELOW
