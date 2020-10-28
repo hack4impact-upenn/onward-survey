@@ -6,7 +6,7 @@ import ManageSurveyTable from '../components/Table';
 const ContentContainer = styled.div`
   text-align: center;
   margin: 10vh auto;
-  width: 100%;
+  width: 80vh;
 `;
 
 const ButtonGroup = styled.div`

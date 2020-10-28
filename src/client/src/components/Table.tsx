@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../api/core/auth';
 import checkmark from '../assets/checkmark.png';
-//import '../styles/manage_survey.css';
 
 const TableContainer = styled.div`
   margin: 10vh auto;
@@ -11,21 +10,20 @@ const TableContainer = styled.div`
 
 const Table = styled.table`
     border: 1.2px solid #878787;
-    border-radius: 10px;
-    margin: 1em;
+    border-radius: 1px;
     display: table;
     width: 896px;
-    height: 357px;
-    left: 272px;
-    top: 518px;
-
+    border-collapse: separate;
+    border-spacing: 0px 20px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    
     th {
-        font-family: Montserrat;
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
-        line-height: 20px;
-        padding-top: 20px;
         padding-bottom: 20px;
         border-bottom: 1.2px solid #878787;
 
@@ -37,13 +35,31 @@ const Table = styled.table`
     th#email {
         text-align: left; 
         align-items: left;
-        padding-left: 10%;
+        padding-left: 80px;
+    }
+
+    td {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+    }
+    
+    td#checkmark {
+        position: relative;
+        top: 4px;
     }
 
     td#email {
         width: 70%;
         text-align: left;
-        padding-left: 10%;
+        padding-left: 80px;
+    }
+
+    td#resendtrue{
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        color: #00AADE;
     }
 `;
 
@@ -51,63 +67,52 @@ const data =
     [
         {
             status: true,
-            email: 'ericchen@h4i.com',
+            email: 'daniel.tian@hack4impact.org',
         },
         {
             status: false,
-            email: 'abhishekp@h4i.com',
+            email: 'grace.jiang@hack4impact.org',
         },
         {
             status: true,
-            email: 'mohamed@h4i.com',
+            email: 'hello.world@gmail.com',
+        },
+        {
+            status: true,
+            email: 'abhishekanderic@hack4impact.org',
         }
     ]
+
+function getResendElement(status : boolean) {
+    if (status) {
+        return <td>Resend Email</td>
+    } else {
+        return <td id="resendtrue">Resend Email</td>
+    }
+}
 
 interface Props {}
 const ManageSurveyTable: React.FC<Props> = (props) => {
     return(
-            <Table>
-                <thead>
+        <Table>
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th id="email">Email</th>
+                    <th>Resend Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {data.map((entry) => 
                     <tr>
-                        <th>Status</th>
-                        <th id="email">Email</th>
-                        <th>Resend Email</th>
+                        <td id="checkmark">{entry.status?<img src={checkmark} alt="checkmark"></img>:<p></p>}</td>
+                        <td id="email">{entry.email}</td>
+                        {getResendElement(entry.status)}
                     </tr>
-                </thead>
-                <tbody>
-                    {data.map((entry) => 
-                        <tr>
-                            <td>{entry.status?<img src={checkmark} alt="checkmark"></img>:<p></p>}</td>
-                            <td id="email">{entry.email}</td>
-                            <td>Resend Email</td>
-                        </tr>
-                    )}
-                </tbody> 
-            </Table>
+                )}
+            </tbody> 
+        </Table>
     )
 }
-
-/*
-<div className="table-container">
-            <table className="table is-hoverable is-fullwidth is-rounded">
-                <thead>
-                    <tr>
-                        <th className="is-bordered">Status</th>
-                        <th id='email'>Email</th>
-                        <th id='resendemail'>Resend Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((entry) => 
-                        <tr>
-                            <td>{entry.status?<img src={checkmark} alt="checkmark"></img>:<p></p>}</td>
-                            <td>{entry.email}</td>
-                            <td>Resend email</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </div>
-*/
 
 export default ManageSurveyTable;
