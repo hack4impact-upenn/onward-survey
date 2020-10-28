@@ -17,3 +17,5 @@ declare interface IUserLogin {
 declare interface IAPIResponse {
   success: boolean;
 }
+
+declare module 'react-bulma-components';
