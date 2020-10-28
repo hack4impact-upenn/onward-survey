@@ -9,6 +9,7 @@ const TableContainer = styled.div`
 `;
 
 const Table = styled.table`
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
     border: 1.2px solid #878787;
     display: table;
     width: 896px;
@@ -18,6 +19,7 @@ const Table = styled.table`
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    font-family: 'Montserrat';
     
     th {
         font-style: normal;
@@ -46,6 +48,7 @@ const Table = styled.table`
     }
 
     td {
+        font-family: 'Montserrat';
         font-style: normal;
         font-weight: 400;
         font-size: 16px;
