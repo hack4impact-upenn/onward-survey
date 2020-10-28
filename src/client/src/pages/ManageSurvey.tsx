@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import Table from '../components/Table';
+import ManageSurveyTable from '../components/Table';
 
 const ContentContainer = styled.div`
   text-align: center;
   margin: 10vh auto;
-  width: 80vw;
+  width: 100%;
 `;
 
 const ButtonGroup = styled.div`
@@ -21,7 +21,7 @@ const ManageSurvey = () => {
 
   return (
     <ContentContainer>
-        <Table></Table>
+        <ManageSurveyTable></ManageSurveyTable>
     </ContentContainer>
   );
 };
