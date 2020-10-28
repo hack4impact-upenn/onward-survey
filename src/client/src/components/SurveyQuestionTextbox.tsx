@@ -10,8 +10,6 @@ const SurveyQuestionTextbox = (props: any) => {
             <input className="input" type="text" placeholder="Type Response Here"></input>
         <br />
     </div>
-      
-   
   );
 };
 

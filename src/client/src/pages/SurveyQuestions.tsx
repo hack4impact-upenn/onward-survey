@@ -15,9 +15,7 @@ const Button = styled.button`
 
 const SurveyQuestions = () => {
     return (
-        
         <ContentContainer>
-         
             <h1 className="title is-3 is-spaced">Onward Financial Survey</h1>
             <h2 className="subtitle is-6">Lorem ipsum dolor sit amet, 
                 consectetur adipiscing elit. Quisque molestie, 
@@ -32,7 +30,6 @@ const SurveyQuestions = () => {
 
             <br />
             <Button className="button is-primary"> Submit </Button>
-
         </ContentContainer>
     )
 }

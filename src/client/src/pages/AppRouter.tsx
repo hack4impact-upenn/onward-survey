@@ -8,8 +8,6 @@ import SurveyQuestions from './SurveyQuestions';
 import AppContainer from '../components/AppContainer';
 import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
-
-
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 const AppRouter = () => {
@@ -24,7 +22,6 @@ const AppRouter = () => {
           <PrivateRoute exact path="/profile" component={Profile} />
           <PublicRoute exact path="/survey/questions" component={SurveyQuestions} />
           <PublicRoute exact={false} path="/" component={Main} />
-          
         </Switch>
       </AppContainer>
     </Router>
