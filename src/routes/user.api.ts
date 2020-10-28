@@ -125,7 +125,7 @@ router.get('/me', auth, (req, res) => {
 });
 
 //creating employees
-router.post("/", async (req , res) => {
+router.post("/employee", async (req , res) => {
   const {firstName, lastName, email, employerId} = req.body
   const newEmployee = new Employee;
   newEmployee.firstName = firstName;
