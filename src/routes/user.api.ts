@@ -131,7 +131,15 @@ router.post('/create/employee', auth, async (req, res) => {
   // getting employee id froma uth
   const { userId } = req;
 
-  // TODO: check if user (or employer) exists based on user id, if not return error
+  // Check if user (or employer) exists based on user id, if not return error
+
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return errorHandler(res, 'User does not exist.')
+      };
+    })
+    .catch((err) => errorHandler(res, err.message));
 
   // create new employee
   const newEmployee = new Employee();
@@ -141,12 +149,21 @@ router.post('/create/employee', auth, async (req, res) => {
   newEmployee.employer = new Types.ObjectId(userId!);
   const surveyId = shortid.generate();
   newEmployee.surveyId = surveyId;
+  
   // save new employee
   await newEmployee.save();
 
-  // TODO: insert new employee id to employer array
+  // Insert new employee id to employer array
 
-  return res.status(200).json({ message: 'success' });
+  User.findById(userId)
+    .then((user) => {
+      if (!user) {
+        return errorHandler(res, 'User does not exist.')
+      }
+      user.employees.push(newEmployee.id);
+      return res.status(200).json({ message: 'success' });
+    })
+    .catch((err) => errorHandler(res, err.message));
 });
 
 // TESTING ROUTES BELOW
