@@ -7,6 +7,7 @@ interface IEmployee extends mongoose.Document {
   firstName: string;
   lastName: string;
   email: string;
+  surveyId: string
   employer: mongoose.Schema.Types.ObjectId
 }
 
@@ -15,6 +16,7 @@ const EmployeeSchema = new Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true },
   employer: { type: mongoose.Schema.Types.ObjectId, required: true },
+  surveyId: { type: String, required: true },
 });
 
 const Employee = mongoose.model<IEmployee>('Employee', EmployeeSchema);
