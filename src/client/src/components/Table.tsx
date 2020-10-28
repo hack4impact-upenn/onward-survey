@@ -10,7 +10,6 @@ const TableContainer = styled.div`
 
 const Table = styled.table`
     border: 1.2px solid #878787;
-    border-radius: 1px;
     display: table;
     width: 896px;
     border-collapse: separate;
@@ -32,10 +31,18 @@ const Table = styled.table`
         color: #000000;
     }
 
+    th#status {
+        padding-left: 20px;
+    }
+
     th#email {
         text-align: left; 
         align-items: left;
-        padding-left: 80px;
+        padding-left: 60px;
+    }
+
+    th#resend {
+       padding-right: 5px;
     }
 
     td {
@@ -47,12 +54,13 @@ const Table = styled.table`
     td#checkmark {
         position: relative;
         top: 4px;
+        padding-left: 20px;
     }
 
     td#email {
         width: 70%;
         text-align: left;
-        padding-left: 80px;
+        padding-left: 60px;
     }
 
     td#resendtrue{
@@ -60,6 +68,11 @@ const Table = styled.table`
         font-weight: 600;
         font-size: 16px;
         color: #00AADE;
+        padding-right: 5px;
+    }
+
+    td#resendfalse{
+        padding-right: 5px;
     }
 `;
 
@@ -80,12 +93,20 @@ const data =
         {
             status: true,
             email: 'abhishekanderic@hack4impact.org',
-        }
+        },
+        {
+            status: true,
+            email: 'daniel.tian@hack4impact.org',
+        },
+        {
+            status: false,
+            email: 'grace.jiang@hack4impact.org',
+        },
     ]
 
 function getResendElement(status : boolean) {
     if (status) {
-        return <td>Resend Email</td>
+        return <td id="resendfalse">Resend Email</td>
     } else {
         return <td id="resendtrue">Resend Email</td>
     }
@@ -97,9 +118,9 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
         <Table>
             <thead>
                 <tr>
-                    <th>Status</th>
+                    <th id="status">Status</th>
                     <th id="email">Email</th>
-                    <th>Resend Email</th>
+                    <th id="resend">Resend Email</th>
                 </tr>
             </thead>
             <tbody>

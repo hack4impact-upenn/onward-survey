@@ -6,7 +6,7 @@ import ManageSurveyTable from '../components/Table';
 const ContentContainer = styled.div`
   text-align: center;
   margin: 10vh auto;
-  width: 80vh;
+  width: 896px;
 `;
 
 const ButtonGroup = styled.div`
@@ -14,14 +14,29 @@ const ButtonGroup = styled.div`
 `;
 
 const Button = styled.button`
-  margin: 5px;
+  width: 140px;
+  height: 50px;
+`;
+  
+const EmailInput = styled.input`
+  width: 750px;
+  height: 50px;
 `;
 
 const ManageSurvey = () => {
-
   return (
     <ContentContainer>
-        <ManageSurveyTable></ManageSurveyTable>
+        
+          <div className="field">
+              <div className="control">
+                <EmailInput className="input" type="text" placeholder="Enter In Email"></EmailInput>
+              </div>
+            </div>
+            <Button className="button is-primary fa-align-right">Add Email</Button>
+        
+        
+            <ManageSurveyTable></ManageSurveyTable>
+        
     </ContentContainer>
   );
 };
