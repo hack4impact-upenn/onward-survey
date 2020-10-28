@@ -20,12 +20,11 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   refreshToken: { type: String, required: false },
-  surveyUrl: { type: String, required: true },
-  surveyIDs: { type: String, required: true, default: [] },
+  surveyUrl: { type: String, required: false },
   employees: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Employee",
-    required: true,
+    required: false,
      default: []
   }]
 });

@@ -15,7 +15,7 @@ switch (process.env.NODE_ENV) {
     throw new Error(`'NODE_ENV' ${process.env.NODE_ENV} is not handled!`);
 }
 
-const ATLAS_URI = process.env.ATLAS_URI || 'mongodb+srv://admin:mohammedVX7@cluster0.lob0u.mongodb.net/test?retryWrites=true&w=majority';
+const ATLAS_URI = process.env.ATLAS_URI || '';
 const JWT_SECRET = process.env.JWT_SECRET || '';
 
 // sendgrid configs

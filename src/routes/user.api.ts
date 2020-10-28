@@ -1,6 +1,7 @@
 import express from 'express';
 import { hash, compare } from 'bcrypt';
 import { User, IUser } from '../models/user.model';
+import {Employee} from "../models/employee.model"
 import auth from '../middleware/auth';
 import errorHandler from './error';
 import {
@@ -122,6 +123,21 @@ router.get('/me', auth, (req, res) => {
     })
     .catch((err) => errorHandler(res, err.message));
 });
+
+//creating employees
+router.post("/", async (req , res) => {
+  const {firstName, lastName, email, employerId} = req.body
+  const newEmployee = new Employee;
+  newEmployee.firstName = firstName;
+  newEmployee.lastName = lastName;
+  newEmployee.email = email;
+  newEmployee.employer = employerId;
+  const surveyId = shortid.generate();
+  newEmployee.surveyId = surveyId
+  return newEmployee.save()
+  .then(()=> res.status(200).json({message:"success"}))
+  .catch ((err) => errorHandler(res, err.message));
+} )
 
 // TESTING ROUTES BELOW
 // get all users

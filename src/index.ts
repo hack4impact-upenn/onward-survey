@@ -6,6 +6,7 @@ import socket from 'socket.io';
 import expressStatusMonitor from 'express-status-monitor';
 import connectToDatabase from './utils/mongo';
 import './utils/config';
+
 import userRouter from './routes/user.api';
 
 const app = express();
@@ -21,7 +22,6 @@ app.use(cors());
 
 // API Routes
 app.use('/api/users', userRouter);
-
 
 // Serving static files
 if (process.env.NODE_ENV === 'production') {
