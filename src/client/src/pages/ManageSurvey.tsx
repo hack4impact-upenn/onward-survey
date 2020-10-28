@@ -57,7 +57,6 @@ const SendOutButton = styled.div`
 
 const ManageSurvey = () => {
   return (
-    //<AddEmailField></AddEmailField>
     <ContentContainer>
           <div className="columns">
             <div className="column is-two-fifths">
@@ -72,6 +71,7 @@ const ManageSurvey = () => {
               <ToggleViewText className="has-text-left">Manage Survey</ToggleViewText>
             </div>
           </ToggleViewGroup>
+          <AddEmailField></AddEmailField>
           <ManageSurveyTable></ManageSurveyTable>
           <SurveyButtonGroup>
               <SendOutButton className="button is-primary is-pulled-right is-large">Send Out Survey</SendOutButton>
