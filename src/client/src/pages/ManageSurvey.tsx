@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import ManageSurveyTable from '../components/Table';
+import AddEmailField from '../components/AddEmailField';
 
 const ContentContainer = styled.div`
   text-align: center;
@@ -56,6 +57,7 @@ const SendOutButton = styled.div`
 
 const ManageSurvey = () => {
   return (
+    //<AddEmailField></AddEmailField>
     <ContentContainer>
           <div className="columns">
             <div className="column is-two-fifths">
