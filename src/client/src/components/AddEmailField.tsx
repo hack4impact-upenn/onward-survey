@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import auth from '../api/core/auth';
 
 interface Props {}
-const Table: React.FC<Props> = (props) => {
+const AddEmailField: React.FC<Props> = (props) => {
     return(
         <form>
             <label>
@@ -15,5 +15,5 @@ const Table: React.FC<Props> = (props) => {
     )
 }
 
-export default Table;
+export default AddEmailField;
    
