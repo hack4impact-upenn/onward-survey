@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import ManageSurveyTable from '../components/Table';
 import AddEmailField from '../components/AddEmailField';
+import SurveyTabs from '../components/ToggleTabs';
 import '../styles/manage_survey.css'
 
 const ContentContainer = styled.div`
@@ -57,14 +58,8 @@ const ManageSurvey = () => {
               <WelcomeText className="title has-text-left">Welcome Back, <EmployerName>Employer Name</EmployerName>!</WelcomeText>
             </div>
           </div>
-          <ToggleViewGroup className="columns is-gapless">
-            <div className="column is-one-half">
-              <ToggleViewText className="has-text-left">View Results</ToggleViewText>
-            </div>
-            <div className="column is-one-half">
-              <ToggleViewText className="has-text-left">Manage Survey</ToggleViewText>
-            </div>
-          </ToggleViewGroup>
+          <SurveyTabs></SurveyTabs>
+          
           <AddEmailField></AddEmailField>
           <ManageSurveyTable></ManageSurveyTable>
           <SurveyButtonGroup>
