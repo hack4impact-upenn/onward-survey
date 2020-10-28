@@ -25,7 +25,8 @@ const UserSchema = new Schema({
   employees: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Employee",
-    required: true
+    required: true,
+     default: []
   }]
 });
 
