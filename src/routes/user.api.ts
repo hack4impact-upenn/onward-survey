@@ -145,8 +145,7 @@ router.post('/create/employee', auth, async (req, res) => {
   await newEmployee.save();
 
   // Insert new employee id to employer array
-      const newEmployer = {...user, employees : [user.employees, newEmployee.id]}
-      await newEmployer.save();
+      await User.findByIdAndUpdate(userId, {employees: [user.employees, newEmployee.id]})
       return res.status(200).json({ message: 'success' });
 });
 
