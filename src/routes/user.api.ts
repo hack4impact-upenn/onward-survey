@@ -1,15 +1,16 @@
 import express from 'express';
 import { hash, compare } from 'bcrypt';
+import shortid from 'shortid';
 import { User, IUser } from '../models/user.model';
-import {Employee} from "../models/employee.model"
+import { Employee } from '../models/employee.model';
 import auth from '../middleware/auth';
+import { Types } from 'mongoose';
 import errorHandler from './error';
 import {
   generateAccessToken,
   generateRefreshToken,
   validateRefreshToken,
 } from './user.util';
-import shortid from "shortid";
 
 const router = express.Router();
 
@@ -124,20 +125,29 @@ router.get('/me', auth, (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
-//creating employees
-router.post("/employee", async (req , res) => {
-  const {firstName, lastName, email, employerId} = req.body
-  const newEmployee = new Employee;
+// creating employees
+router.post('/create/employee', auth, async (req, res) => {
+  const { firstName, lastName, email } = req.body;
+  // getting employee id froma uth
+  const { userId } = req;
+
+  // TODO: check if user (or employer) exists based on user id, if not return error
+
+  // create new employee
+  const newEmployee = new Employee();
   newEmployee.firstName = firstName;
   newEmployee.lastName = lastName;
   newEmployee.email = email;
-  newEmployee.employer = employerId;
+  newEmployee.employer = new Types.ObjectId(userId!);
   const surveyId = shortid.generate();
-  newEmployee.surveyId = surveyId
-  return newEmployee.save()
-  .then(()=> res.status(200).json({message:"success"}))
-  .catch ((err) => errorHandler(res, err.message));
-} )
+  newEmployee.surveyId = surveyId;
+  // save new employee
+  await newEmployee.save();
+
+  // TODO: insert new employee id to employer array
+
+  return res.status(200).json({ message: 'success' });
+});
 
 // TESTING ROUTES BELOW
 // get all users

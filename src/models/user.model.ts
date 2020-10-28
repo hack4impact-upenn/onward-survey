@@ -9,9 +9,9 @@ interface IUser extends mongoose.Document {
   email: string;
   password: string;
   refreshToken: string;
-  surveyUrl : string;
+  surveyUrl: string;
   surveyIDs: string[];
-  employees: []
+  employees: mongoose.Types.ObjectId[];
 }
 
 const UserSchema = new Schema({
@@ -21,12 +21,14 @@ const UserSchema = new Schema({
   password: { type: String, required: true },
   refreshToken: { type: String, required: false },
   surveyUrl: { type: String, required: false },
-  employees: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Employee",
-    required: false,
-     default: []
-  }]
+  employees: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Employee',
+      required: false,
+      default: [],
+    },
+  ],
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);
