@@ -1,10 +1,10 @@
 import express from 'express';
 import { hash, compare } from 'bcrypt';
 import shortid from 'shortid';
+import { Types } from 'mongoose';
 import { User, IUser } from '../models/user.model';
 import { Employee } from '../models/employee.model';
 import auth from '../middleware/auth';
-import { Types } from 'mongoose';
 import errorHandler from './error';
 import {
   generateAccessToken,
@@ -56,10 +56,10 @@ router.post('/login', async (req, res) => {
   const { password } = req.body;
 
   User.findOne({ email }).then((user):
-    | Response
-    | Promise<boolean>
-    | boolean
-    | PromiseLike<boolean> => {
+  | Response
+  | Promise<boolean>
+  | boolean
+  | PromiseLike<boolean> => {
     // user does not exist
     if (!user) return errorHandler(res, 'User email or password is incorrect.');
 
@@ -131,8 +131,8 @@ router.post('/create/employee', auth, async (req, res) => {
   // getting employee id froma uth
   const { userId } = req;
   // Check if user (or employer) exists based on user id, if not return error
-    const user = await User.findById(userId);
-    if (!user) return errorHandler(res, 'User does not exist.')
+  const user = await User.findById(userId);
+  if (!user) return errorHandler(res, 'User does not exist.');
   // create new employee
   const newEmployee = new Employee();
   newEmployee.firstName = firstName;
@@ -145,8 +145,8 @@ router.post('/create/employee', auth, async (req, res) => {
   await newEmployee.save();
 
   // Insert new employee id to employer array
-      await User.findByIdAndUpdate(userId, {employees: [user.employees, newEmployee.id]})
-      return res.status(200).json({ message: 'success' });
+  await User.findByIdAndUpdate(userId, {employees: [user.employees, newEmployee.id]});
+  return res.status(200).json({ message: 'success' });
 });
 
 // TESTING ROUTES BELOW
