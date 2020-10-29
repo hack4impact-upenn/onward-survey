@@ -7,6 +7,12 @@ const TabsContainer = styled.div`
     padding-bottom: 34px;
     font-family: 'Montserrat';
     font-weight: 700;
+    font-size: 18px;
+`;
+
+const Tab = styled.li`
+    font-size: 18px;
+    color: #00AADE;
 `;
 
 interface Props {}
@@ -14,8 +20,8 @@ const SurveyTabs: React.FC<Props> = (props) => {
     return(
         <TabsContainer className="tabs is-large">
             <ul>
-                <li className="is-active"><a>Manage Survey</a></li>
-                <li><a>View Results</a></li>
+                <Tab><a>View Results</a></Tab>
+                <Tab className="is-active"><a>Manage Survey</a></Tab>
             </ul>
         </TabsContainer>
     )
