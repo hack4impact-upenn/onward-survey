@@ -128,7 +128,7 @@ router.get('/me', auth, (req, res) => {
 // creating employees
 router.post('/create/employee', auth, async (req, res) => {
   const { firstName, lastName, email } = req.body;
-  // getting employee id froma uth
+  // getting employee id from auth
   const { userId } = req;
   // Check if user (or employer) exists based on user id, if not return error
   const user = await User.findById(userId);
@@ -140,12 +140,19 @@ router.post('/create/employee', auth, async (req, res) => {
   newEmployee.email = email;
   newEmployee.employer = new Types.ObjectId(userId!);
   const surveyId = shortid.generate();
-  newEmployee.surveyId = surveyId; 
-  // save new employee
-  await newEmployee.save();
+  newEmployee.surveyId = surveyId;
 
-  // Insert new employee id to employer array
-  await User.findByIdAndUpdate(userId, {employees: [user.employees, newEmployee.id]});
+  try {
+    // save new employee
+    await newEmployee.save();
+    await User.updateOne(
+      { _id: userId },
+      { $push: { employees: newEmployee.id } }
+    );
+  } catch (err) {
+    console.log(err);
+    return errorHandler(res, err);
+  }
   return res.status(200).json({ message: 'success' });
 });
 
