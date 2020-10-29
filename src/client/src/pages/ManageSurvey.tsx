@@ -11,6 +11,7 @@ const ContentContainer = styled.div`
   margin: 10vh auto;
   width: 896px;
   font-family: 'Montserrat';
+  font-weight: 400px;
 `
 
 const EmployerName = styled.b`
