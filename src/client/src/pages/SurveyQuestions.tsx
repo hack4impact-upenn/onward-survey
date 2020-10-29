@@ -17,9 +17,9 @@ const SurveyQuestions = () => {
     return (
         <ContentContainer>
             <h1 className="title is-3 is-spaced">Onward Financial Survey</h1>
-            <h2 className="subtitle is-6">Lorem ipsum dolor sit amet, 
-                consectetur adipiscing elit. Quisque molestie, 
-                sapien sit amet dapibus dictum, sapien turpis maximus diam, 
+            <h2 className="subtitle is-6">Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit. Quisque molestie,
+                sapien sit amet dapibus dictum, sapien turpis maximus diam,
                 pulvinar tempus augue lorem eu nisl.
             </h2>
 
@@ -34,4 +34,4 @@ const SurveyQuestions = () => {
     )
 }
 
-export default SurveyQuestions; 
+export default SurveyQuestions;
