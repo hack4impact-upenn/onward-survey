@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import auth from '../api/core/auth';
 
 const TabsContainer = styled.div`
-    padding-bottom: 34px;
+    padding-bottom: 25px;
     font-family: 'Montserrat';
     font-weight: 600;
     font-size: 18px;
