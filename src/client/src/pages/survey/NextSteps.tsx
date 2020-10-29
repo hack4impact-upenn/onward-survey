@@ -17,7 +17,7 @@ const Button = styled.button`
 
 const NextSteps = () => {
     const history = useHistory();
-    
+
     return (
       <ContentContainer>
         <div className="columns is-mobile is-centered is-vcentered">
@@ -25,7 +25,6 @@ const NextSteps = () => {
             <h1 className="title is-3">Thank you for filling out our survey!</h1>
             <Button
               className="button is-info is-size-10-desktop is-fullwidth"
-              //onclick
             >
               Learn More About Onward
             </Button>

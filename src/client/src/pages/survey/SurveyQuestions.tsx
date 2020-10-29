@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import SurveyQuestionTextbox from '../components/SurveyQuestionTextbox';
+import SurveyQuestionTextbox from '../../components/SurveyQuestionTextbox';
 
 const ContentContainer = styled.div`
     margin: 10vh auto;
@@ -14,6 +14,8 @@ const Button = styled.button`
 `;
 
 const SurveyQuestions = () => {
+    const history = useHistory();
+
     return (
         <ContentContainer>
             <h1 className="title is-3 is-spaced">Onward Financial Survey</h1>
@@ -22,14 +24,12 @@ const SurveyQuestions = () => {
                 sapien sit amet dapibus dictum, sapien turpis maximus diam,
                 pulvinar tempus augue lorem eu nisl.
             </h2>
-
             <SurveyQuestionTextbox number="1." />
             <SurveyQuestionTextbox number="2." />
             <SurveyQuestionTextbox number="3." />
             <SurveyQuestionTextbox number="4." />
-
             <br />
-            <Button className="button is-primary"> Submit </Button>
+            <Button className="button is-primary" onClick={()=> history.push("/survey/nextsteps")}> Submit </Button>
         </ContentContainer>
     )
 }
