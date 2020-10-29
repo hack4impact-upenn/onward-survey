@@ -1,6 +1,9 @@
 import express from 'express';
 import { hash, compare } from 'bcrypt';
+import shortid from 'shortid';
+import { Types } from 'mongoose';
 import { User, IUser } from '../models/user.model';
+import { Employee } from '../models/employee.model';
 import auth from '../middleware/auth';
 import errorHandler from './error';
 import {
@@ -30,11 +33,14 @@ router.post('/signup', async (req, res) => {
       return errorHandler(res, err.message);
     }
 
+    const url = shortid.generate();
+
     const newUser = new User({
       firstName,
       lastName,
       email,
       password: hashedPassword,
+      surveyUrl: url,
     });
 
     return newUser
@@ -50,10 +56,10 @@ router.post('/login', async (req, res) => {
   const { password } = req.body;
 
   User.findOne({ email }).then((user):
-    | Response
-    | Promise<boolean>
-    | boolean
-    | PromiseLike<boolean> => {
+  | Response
+  | Promise<boolean>
+  | boolean
+  | PromiseLike<boolean> => {
     // user does not exist
     if (!user) return errorHandler(res, 'User email or password is incorrect.');
 
@@ -117,6 +123,37 @@ router.get('/me', auth, (req, res) => {
       return res.status(200).json({ success: true, data: user });
     })
     .catch((err) => errorHandler(res, err.message));
+});
+
+// creating employees
+router.post('/create/employee', auth, async (req, res) => {
+  const { firstName, lastName, email } = req.body;
+  // getting employee id from auth
+  const { userId } = req;
+  // Check if user (or employer) exists based on user id, if not return error
+  const user = await User.findById(userId);
+  if (!user) return errorHandler(res, 'User does not exist.');
+  // create new employee
+  const newEmployee = new Employee();
+  newEmployee.firstName = firstName;
+  newEmployee.lastName = lastName;
+  newEmployee.email = email;
+  newEmployee.employer = new Types.ObjectId(userId!);
+  const surveyId = shortid.generate();
+  newEmployee.surveyId = surveyId;
+
+  try {
+    // save new employee
+    await newEmployee.save();
+    await User.updateOne(
+      { _id: userId },
+      { $push: { employees: newEmployee.id } }
+    );
+  } catch (err) {
+    console.log(err);
+    return errorHandler(res, err);
+  }
+  return res.status(200).json({ message: 'success' });
 });
 
 // TESTING ROUTES BELOW
