@@ -6,12 +6,12 @@ import auth from '../api/core/auth';
 const TabsContainer = styled.div`
     padding-bottom: 34px;
     font-family: 'Montserrat';
-    font-weight: 700;
+    font-weight: 600;
     font-size: 18px;
 `;
 
 const Tab = styled.li`
-    font-size: 18px;
+    font-size: 16px;
     color: #00AADE;
 `;
 
