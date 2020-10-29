@@ -18,7 +18,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   refreshToken: { type: String, required: false },
-  surveyIDs: { type: String, required: true, default: [] },
+  surveyIDs: { type: [String], required: false, default: [] },
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);

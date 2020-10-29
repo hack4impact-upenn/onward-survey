@@ -23,7 +23,6 @@ const AppRouter = () => {
           <PrivateRoute exact path="/profile" component={Profile} />
           <PublicRoute exact path="/manage_survey" component={ManageSurvey} />
           <PublicRoute exact={false} path="/" component={Main} />
-          
         </Switch>
       </AppContainer>
     </Router>
