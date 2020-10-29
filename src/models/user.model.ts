@@ -20,6 +20,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   refreshToken: { type: String, required: false },
+  surveyIDs: { type: [String], required: false, default: [] },
   surveyUrl: { type: String, required: false },
   employees: [
     {

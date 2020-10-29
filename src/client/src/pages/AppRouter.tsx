@@ -11,6 +11,7 @@ import AppContainer from '../components/AppContainer';
 import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import ManageSurvey from './ManageSurvey';
 
 const AppRouter = () => {
   return (
@@ -22,6 +23,7 @@ const AppRouter = () => {
           <PublicRoute exact path="/login" component={Login} />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/profile" component={Profile} />
+          <PublicRoute exact path="/manage_survey" component={ManageSurvey} />
           <PublicRoute exact path="/survey/questions" component={SurveyQuestions} />
           <PublicRoute exact path="/survey/welcome" component={SurveyWelcome} />
           <PublicRoute exact path="/survey/nextsteps" component={NextSteps} />
