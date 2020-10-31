@@ -6,10 +6,11 @@ const PublicRoute: React.FC<{
   component: React.FC;
   path: string;
   exact: boolean;
+  loginRedirect: boolean;
 }> = (props) => {
   const condition = auth.isAuthenticated();
 
-  return condition ? (
+  return condition && props.loginRedirect ? (
     <Redirect to="/dashboard" />
   ) : (
     <Route path={props.path} exact={props.exact} component={props.component} />

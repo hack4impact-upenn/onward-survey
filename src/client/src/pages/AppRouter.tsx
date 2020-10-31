@@ -18,20 +18,36 @@ const AppRouter = () => {
     <Router>
       <AppContainer>
         <Switch>
-          <PublicRoute exact path="/" component={Main} />
-          <PublicRoute exact path="/signup" component={Signup} />
-          <PublicRoute exact path="/login" component={Login} />
+          <PublicRoute exact loginRedirect path="/" component={Main} />
+          <PublicRoute exact loginRedirect path="/signup" component={Signup} />
+          <PublicRoute exact loginRedirect path="/login" component={Login} />
           <PrivateRoute exact path="/dashboard" component={ManageSurvey} />
           <PrivateRoute exact path="/profile" component={Profile} />
-          <PublicRoute exact path="/dashboard-old" component={Dashboard} />
           <PublicRoute
             exact
+            loginRedirect={false}
+            path="/dashboard-old"
+            component={Dashboard}
+          />
+          <PublicRoute
+            exact
+            loginRedirect={false}
+            path="/survey/welcome"
+            component={SurveyWelcome}
+          />
+          <PublicRoute
+            exact
+            loginRedirect={false}
             path="/survey/questions"
             component={SurveyQuestions}
           />
-          <PublicRoute exact path="/survey/welcome" component={SurveyWelcome} />
-          <PublicRoute exact path="/survey/nextsteps" component={NextSteps} />
-          <PublicRoute exact={false} path="/" component={Main} />
+          <PublicRoute
+            exact
+            loginRedirect={false}
+            path="/survey/nextsteps"
+            component={NextSteps}
+          />
+          <PublicRoute exact={false} loginRedirect path="/" component={Main} />
         </Switch>
       </AppContainer>
     </Router>
