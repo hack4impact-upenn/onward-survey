@@ -4,12 +4,8 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import auth from '../api/core/auth';
 
-// image imports
-import logo from "../assets/logo-full.png";
-
-// style imports
+import logo from '../assets/logo-full.png';
 import '../styles/navbar.css';
-
 
 const NavbarContainer = styled.div`
   width: 100vw;
@@ -33,15 +29,13 @@ const Logo = styled.div`
   margin-top: 2px;
 `;
 
-
-class ProfileMenu extends React.Component<{}, {open: boolean}> {
-
+class ProfileMenu extends React.Component<{}, { open: boolean }> {
   state = {
     open: false,
   };
 
   toggleMenu = () => {
-    this.setState(state => {
+    this.setState((state) => {
       return {
         open: !state.open,
       };
@@ -50,22 +44,34 @@ class ProfileMenu extends React.Component<{}, {open: boolean}> {
 
   render() {
     return (
-      <div className="navbar-container">
-        <button type="button" className="button" onClick={this.toggleMenu}>
-          Profile
-        </button>
-        {this.state.open && (
-          <div className="dropdown">
-            <ul className="navbar-ul">
-              <li className="navbar-li">
-                Profile
-              </li>
-              <li className="navbar-li" onClick={() => auth.logout()}>
-                Logout
-              </li>
-            </ul>
+      <div
+        className={
+          this.state.open ? 'dropdown is-right is-active' : 'dropdown is-right '
+        }
+        style={{ boxShadow: 'none' }}
+      >
+        <div className="dropdown-trigger">
+          <button
+            className="button"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu"
+            onClick={this.toggleMenu}
+          >
+            <span>Profile</span>
+            <span className="icon is-small">
+              <i className="fas fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+        <div className="dropdown-menu" id="dropdown-menu" role="menu">
+          <div className="dropdown-content">
+            <strong className="dropdown-item">Profile</strong>
+            <hr className="dropdown-divider"></hr>
+            <strong className="dropdown-item" onClick={() => auth.logout()}>
+              Logout
+            </strong>
           </div>
-        )}
+        </div>
       </div>
     );
   }
@@ -96,14 +102,8 @@ const Navbar = () => {
           </Logo>
         </a>
       </NavbarItem>
-      <NavbarItem>
-        
-      </NavbarItem>
-      <NavbarItem>
-        {loggedIn && (
-          <ProfileMenu></ProfileMenu>
-        )}
-      </NavbarItem>
+      <NavbarItem></NavbarItem>
+      <NavbarItem>{loggedIn && <ProfileMenu></ProfileMenu>}</NavbarItem>
       {/* <NavbarItem>
         {loggedIn && (
           <h1
