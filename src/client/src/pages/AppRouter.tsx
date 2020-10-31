@@ -21,10 +21,14 @@ const AppRouter = () => {
           <PublicRoute exact path="/" component={Main} />
           <PublicRoute exact path="/signup" component={Signup} />
           <PublicRoute exact path="/login" component={Login} />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
+          <PrivateRoute exact path="/dashboard" component={ManageSurvey} />
           <PrivateRoute exact path="/profile" component={Profile} />
-          <PublicRoute exact path="/manage-survey" component={ManageSurvey} />
-          <PublicRoute exact path="/survey/questions" component={SurveyQuestions} />
+          <PublicRoute exact path="/dashboard-old" component={Dashboard} />
+          <PublicRoute
+            exact
+            path="/survey/questions"
+            component={SurveyQuestions}
+          />
           <PublicRoute exact path="/survey/welcome" component={SurveyWelcome} />
           <PublicRoute exact path="/survey/nextsteps" component={NextSteps} />
           <PublicRoute exact={false} path="/" component={Main} />

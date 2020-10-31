@@ -22,7 +22,6 @@ const Main = () => {
   return (
     <ContentContainer>
       <h1 className="title is-1">Welcome to Onward Financial</h1>
-      <p>Hello! 🚀🤩</p>
       <a href="https://github.com/Orang-utan/ts-boilerplate">
         Check out our Github
       </a>
