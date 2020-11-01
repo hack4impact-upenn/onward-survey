@@ -56,10 +56,10 @@ router.post('/login', async (req, res) => {
   const { password } = req.body;
 
   User.findOne({ email }).then((user):
-  | Response
-  | Promise<boolean>
-  | boolean
-  | PromiseLike<boolean> => {
+    | Response
+    | Promise<boolean>
+    | boolean
+    | PromiseLike<boolean> => {
     // user does not exist
     if (!user) return errorHandler(res, 'User email or password is incorrect.');
 
@@ -141,6 +141,7 @@ router.post('/create/employee', auth, async (req, res) => {
   newEmployee.employer = new Types.ObjectId(userId!);
   const surveyId = shortid.generate();
   newEmployee.surveyId = surveyId;
+  newEmployee.completed = false;
 
   try {
     // save new employee
