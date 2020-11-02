@@ -148,7 +148,8 @@ router.post('/create/employee', auth, async (req, res) => {
     await newEmployee.save();
     await User.updateOne(
       { _id: userId },
-      { $push: { employees: newEmployee.id } }
+      { $push: { employees: newEmployee.id } },
+      { $push: { surveyIDs: newEmployee.surveyId } }
     );
   } catch (err) {
     console.log(err);
