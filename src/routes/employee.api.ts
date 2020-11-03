@@ -41,11 +41,11 @@ router.route('/survey/:employerSurveyId-:surveyId').get((req, res) => {
       if (!employee) return errorHandler(res, 'Employee does not exist.');
       //for some reason employee.completed is always true regardless of its value
       if (employee.completed){
-       res.render('../client/src/pages/survey/PLACEHOLDER'); //need a view engine to render
-       return res.status(200).json({ success: true, message: 'Employee has already opened survey' });
+        res.redirect('/survey/completed');
+        return res.status(200).json({ success: true, message: 'Employee has already opened survey' });
       }
-    res.render('../client/src/pages/survey/welcome');
-    return res.status(200).json({ success: true, message: 'Employee opened survey' });
+      res.redirect('/survey/' + surveyUrl + '-'+ surveyId + '/welcome');
+      return res.status(200).json({ success: true, message: 'Employee opened survey' });
   })
   .catch((err) => errorHandler(res, err.message));
 });
