@@ -39,8 +39,7 @@ router.route('/survey/:employerSurveyId-:surveyId').get((req, res) => {
   const employee = Employee.findOne({surveyId})
   .then((employee) => {
       if (!employee) return errorHandler(res, 'Employee does not exist.');
-      //for some reason employee.completed is always true regardless of its value
-      if (employee.completed){
+      if (employee.completed.valueOf()){
         res.redirect('/survey/completed');
         return res.status(200).json({ success: true, message: 'Employee has already opened survey' });
       }
