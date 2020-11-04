@@ -110,6 +110,26 @@ router.post('/refreshToken', (req, res) => {
     });
 });
 
+router.post("/sendSurveyUrl", auth, async (req, res) => {
+  const {userId} = req;
+  const employer = await User.findById(userId)
+  const surveyUrl = employer?.surveyUrl
+  const surveyIDs = employer?.surveyIDs
+  const newIDs = surveyIDs?.map((id) => surveyUrl?.concat(id));
+  newIDs?.forEach((id) => {
+    //send twilio email
+  })
+})
+
+router.post("/sendIndividualUrl", auth, async (req, res) => {
+  const {userId} = req;
+  const employeeId = req.body
+  const employer = await User.findById(userId)
+  const surveyUrl = employer?.surveyUrl
+  const newIDs = surveyUrl?.concat(employeeId)
+  //send twilio email
+})
+
 // get me
 // protected route
 router.get('/me', auth, (req, res) => {
