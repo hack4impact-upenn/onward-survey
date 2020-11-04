@@ -6,7 +6,6 @@ import ManageSurveyTable from '../components/Table';
 import ManageSurveyTab from '../components/ManageSurveyTab';
 import ViewResultsTab from '../components/ViewResultsTab';
 import '../styles/manage_survey.css';
-import SurveyTabs from "../components/SurveyTabs";
 
 const ContentContainer = styled.div`
   text-align: center;
@@ -62,7 +61,29 @@ const ManageSurvey  = ()=> {
           </WelcomeText>
         </div>
       </div>
-      <SurveyTabs children = {[ViewResultsTab, ManageSurveyTab]}></SurveyTabs>
+      <TabsContainer className="tabs is-large">
+            <ul>
+                <Tab>
+                  <a
+                  onClick =  {() => {
+                      clickedTab = "View Results";
+                      console.log("clicked");
+                      console.log("Clicked tab: " + clickedTab);
+                  }}>
+                    View Results
+                  </a>
+                </Tab>
+                <Tab className="is-active">
+                  <a
+                    onClick =  {() => {
+                      clickedTab = "Manage Survey";
+                      console.log("Clicked tab: " + clickedTab);
+                    }}>
+                    Manage Survey
+                  </a>
+                </Tab>
+            </ul>
+        </TabsContainer>
     <GetTab tabName = {clickedTab}/>
     </ContentContainer>
   );
