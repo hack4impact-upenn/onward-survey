@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {ReactElement, useState} from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../api/core/auth';
 import PropTypes from 'prop-types';
+
 
 const TabsContainer = styled.div`
     padding-bottom: 25px;
@@ -18,10 +19,12 @@ const Tab = styled.li`
 
 
 type Props = {
-    tabName: string
-  }
+    children: ReactElement[]
+}
+
 const SurveyTabs: React.FC<Props> = (props) => {
     const [selectedTab, setSelectedTab] = useState(0);
+    
     return(
         
         <TabsContainer className="tabs is-large">
