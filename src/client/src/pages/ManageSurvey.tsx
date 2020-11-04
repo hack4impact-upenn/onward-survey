@@ -39,7 +39,7 @@ const Tab = styled.li`
 
 const GetTab = (props: any) => {
   const tabName = props.tabName;
-  if (tabName.equals("Survey Results"))
+  if (tabName==="Survey Results")
   {
     return <ViewResultsTab></ViewResultsTab>;
   }
@@ -50,7 +50,7 @@ const GetTab = (props: any) => {
 }
 
 const ManageSurvey  = ()=> {
-  let clickedTab = "Manage Results";
+  let clickedTab = "Manage Survey";
 
   return (
     <ContentContainer>
@@ -67,6 +67,8 @@ const ManageSurvey  = ()=> {
                   <a
                   onClick =  {() => {
                       clickedTab = "View Results";
+                      console.log("clicked");
+                      console.log("Clicked tab: " + clickedTab);
                   }}>
                     View Results
                   </a>
@@ -75,6 +77,8 @@ const ManageSurvey  = ()=> {
                   <a
                     onClick =  {() => {
                       clickedTab = "Manage Survey";
+                      console.log("clicked");
+                      console.log("Clicked tab: " + clickedTab);
                     }}>
                     Manage Survey
                   </a>

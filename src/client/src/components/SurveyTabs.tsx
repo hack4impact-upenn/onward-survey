@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../api/core/auth';
+import PropTypes from 'prop-types';
 
 const TabsContainer = styled.div`
     padding-bottom: 25px;
@@ -16,20 +17,33 @@ const Tab = styled.li`
 `;
 
 
-interface Props {}
+type Props = {
+    tabName: string
+  }
 const SurveyTabs: React.FC<Props> = (props) => {
+    const [selectedTab, setSelectedTab] = useState(0);
     return(
+        
         <TabsContainer className="tabs is-large">
             <ul>
                 <Tab>
-                    <a
-                    onClick =  {() => {
-                        
-                    }}>
-                        View Results
-                    </a>
+                  <a
+                  onClick =  {() => {
+                      props.tabName = "View Results";
+                      //console.log("Clicked tab: " + clickedTab);
+                  }}>
+                    View Results
+                  </a>
                 </Tab>
-                <Tab className="is-active"><a>Manage Survey</a></Tab>
+                <Tab className="is-active">
+                  <a
+                    onClick =  {() => {
+                      props.tabName = "Manage Survey";
+                      //console.log("Clicked tab: " + clickedTab);
+                    }}>
+                    Manage Survey
+                  </a>
+                </Tab>
             </ul>
         </TabsContainer>
     )
