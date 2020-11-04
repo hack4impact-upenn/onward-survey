@@ -15,12 +15,20 @@ const Tab = styled.li`
     color: #00AADE;
 `;
 
+
 interface Props {}
 const SurveyTabs: React.FC<Props> = (props) => {
     return(
         <TabsContainer className="tabs is-large">
             <ul>
-                <Tab><a>View Results</a></Tab>
+                <Tab>
+                    <a
+                    onClick =  {() => {
+                        
+                    }}>
+                        View Results
+                    </a>
+                </Tab>
                 <Tab className="is-active"><a>Manage Survey</a></Tab>
             </ul>
         </TabsContainer>

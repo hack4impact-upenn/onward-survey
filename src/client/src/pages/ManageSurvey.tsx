@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import styled from 'styled-components';
 import AddEmailField from '../components/AddEmailField';
 import ManageSurveyTable from '../components/Table';
-import SurveyTabs from '../components/ToggleTabs';
+//import SurveyTabs from '../components/SurveyTabs';
 import ManageSurveyTab from '../components/ManageSurveyTab';
+import ViewResultsTab from '../components/ViewResultsTab';
 import '../styles/manage_survey.css';
 
 const ContentContainer = styled.div`
@@ -24,8 +25,32 @@ const WelcomeText = styled.h1`
   width: 315px;
 `;
 
-const ManageSurvey = () => {
-  const [tab, setTab] = useState("");
+const TabsContainer = styled.div`
+    padding-bottom: 25px;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 18px;
+`;
+
+const Tab = styled.li`
+    font-size: 16px;
+    color: #00AADE;
+`;
+
+const GetTab = (props: any) => {
+  const tabName = props.tabName;
+  if (tabName.equals("Survey Results"))
+  {
+    return <ViewResultsTab></ViewResultsTab>;
+  }
+  else
+  {
+    return <ManageSurveyTab></ManageSurveyTab>;
+  }
+}
+
+const ManageSurvey  = ()=> {
+  let clickedTab = "Manage Results";
 
   return (
     <ContentContainer>
@@ -36,10 +61,27 @@ const ManageSurvey = () => {
           </WelcomeText>
         </div>
       </div>
-      <SurveyTabs>
-        //implement tab switching
-      </SurveyTabs>
-      
+      <TabsContainer className="tabs is-large">
+            <ul>
+                <Tab>
+                  <a
+                  onClick =  {() => {
+                      clickedTab = "View Results";
+                  }}>
+                    View Results
+                  </a>
+                </Tab>
+                <Tab className="is-active">
+                  <a
+                    onClick =  {() => {
+                      clickedTab = "Manage Survey";
+                    }}>
+                    Manage Survey
+                  </a>
+                </Tab>
+            </ul>
+        </TabsContainer>
+    <GetTab tabName = {clickedTab}/>
     </ContentContainer>
   );
 };

@@ -5,7 +5,7 @@ import auth from '../api/core/auth';
 import checkmark from '../assets/checkmark.png';
 import AddEmailField from '../components/AddEmailField';
 import ManageSurveyTable from '../components/Table';
-import SurveyTabs from '../components/ToggleTabs';
+//import SurveyTabs from '../SurveyTabs';
 import '../styles/manage_survey.css';
 
 const SurveyButtonGroup = styled.form`
