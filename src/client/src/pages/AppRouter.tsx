@@ -10,7 +10,7 @@ import NextSteps from './survey/NextSteps';
 import AppContainer from '../components/AppContainer';
 import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, useParams } from 'react-router-dom';
 import ManageSurvey from './ManageSurvey';
 
 const AppRouter = () => {
@@ -32,19 +32,19 @@ const AppRouter = () => {
           <PublicRoute
             exact
             loginRedirect={false}
-            path="/survey/welcome"
+            path="/survey/:employerId/:employeeId/welcome"
             component={SurveyWelcome}
           />
           <PublicRoute
             exact
             loginRedirect={false}
-            path="/survey/questions"
+            path="/survey/:employerId/:employeeId/questions"
             component={SurveyQuestions}
           />
           <PublicRoute
             exact
             loginRedirect={false}
-            path="/survey/nextsteps"
+            path="/survey/:employerId/:employeeId/nextsteps"
             component={NextSteps}
           />
           <PublicRoute exact={false} loginRedirect path="/" component={Main} />
