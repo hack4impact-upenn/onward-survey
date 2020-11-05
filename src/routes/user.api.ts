@@ -1,9 +1,10 @@
 import express from 'express';
 import { hash, compare } from 'bcrypt';
 import shortid from 'shortid';
+import sgMail from "@sendgrid/mail";
 import { Types } from 'mongoose';
 import { User, IUser } from '../models/user.model';
-import { Employee, IEmployee } from '../models/employee.model';
+import { Employee } from '../models/employee.model';
 import auth from '../middleware/auth';
 import errorHandler from './error';
 import {
@@ -11,9 +12,11 @@ import {
   generateRefreshToken,
   validateRefreshToken,
 } from './user.util';
-import { AnyNaptrRecord } from 'dns';
 
 const router = express.Router();
+
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY || "");
 
 const saltRounds = 10;
 
@@ -116,22 +119,44 @@ router.post("/sendSurveyUrl", auth, async (req, res) => {
   const employer = await User.findById(userId).populate("employees")
   const surveyUrl = employer?.surveyUrl
   const employees : any = employer?.employees
-  //const newIDs = surveyIDs?.map((id) => surveyUrl?.concat(id));
+
   employees?.forEach((employee: any) => {
     const newId = surveyUrl?.concat(employee.surveyId);
     const {email} = employee;
-    console.log(email);
+    const {firstName} = employee;
+    const {lastName} = employee;
+
+    const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${newId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`
+    const msg = {
+      to: email,
+      from: 'admin@hack4impact.org',
+      subject: 'Inivitation to fill out Survey',
+      text: `Fill the survey`,
+      html: html,
+    };
+    sgMail
+  .send(msg)
+  .then(() => {
+    console.log("Message sent succesfully!")
+  }, error => {
+    console.error(error);
+
+    if (error.response) {
+      console.error(error.response.body)
+    }
+  });
  })
+ return res.status(200).json({ success: true });
 })
 
-router.post("/sendIndividualUrl", auth, async (req, res) => {
-  const {userId} = req;
-  const employeeId = req.body
-  const employer = await User.findById(userId)
-  const surveyUrl = employer?.surveyUrl
-  const newIDs = surveyUrl?.concat(employeeId)
+//router.post("/sendIndividualUrl", auth, async (req, res) => {
+  //const {userId} = req;
+  //const employeeId = req.body
+  //const employer = await User.findById(userId)
+  //const surveyUrl = employer?.surveyUrl
+  //const newIDs = surveyUrl?.concat(employeeId)
   //send twilio email
-})
+//})
 
 // get me
 // protected route
