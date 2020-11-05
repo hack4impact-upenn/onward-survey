@@ -18,4 +18,13 @@ declare interface IAPIResponse {
   success: boolean;
 }
 
+declare interface ISurveyAnswers {
+  [questionNumber: number]: string;
+}
+
+declare interface ISurveyResponse {
+  surveyId: string;
+  responses: Object[];
+}
+
 declare module 'react-bulma-components';

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const ContentContainer = styled.div`
   margin: 10vh auto;
@@ -16,8 +16,15 @@ const Button = styled.button`
   margin: 0px 20px 10px auto;
 `;
 
+interface ParamTypes {
+  employerId: string;
+  employeeId: string;
+}
+
 const Welcome = () => {
     const history = useHistory();
+    const { employerId, employeeId } = useParams<ParamTypes>();
+
 
     return (
       <ContentContainer>
@@ -45,7 +52,7 @@ const Welcome = () => {
                 </Button>
                 <Button
                   className="button is-primary"
-                  onClick={() => history.push("/survey/questions")}
+                  onClick={() => history.push('/survey/'+employerId+'/'+employeeId+'/questions')}
                 >
                   Get Started
                 </Button>
