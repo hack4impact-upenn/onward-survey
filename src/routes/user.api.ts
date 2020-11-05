@@ -3,7 +3,7 @@ import { hash, compare } from 'bcrypt';
 import shortid from 'shortid';
 import { Types } from 'mongoose';
 import { User, IUser } from '../models/user.model';
-import { Employee } from '../models/employee.model';
+import { Employee, IEmployee } from '../models/employee.model';
 import auth from '../middleware/auth';
 import errorHandler from './error';
 import {
@@ -11,6 +11,7 @@ import {
   generateRefreshToken,
   validateRefreshToken,
 } from './user.util';
+import { AnyNaptrRecord } from 'dns';
 
 const router = express.Router();
 
@@ -112,13 +113,15 @@ router.post('/refreshToken', (req, res) => {
 
 router.post("/sendSurveyUrl", auth, async (req, res) => {
   const {userId} = req;
-  const employer = await User.findById(userId)
+  const employer = await User.findById(userId).populate("employees")
   const surveyUrl = employer?.surveyUrl
-  const surveyIDs = employer?.surveyIDs
-  const newIDs = surveyIDs?.map((id) => surveyUrl?.concat(id));
-  newIDs?.forEach((id) => {
-    //send twilio email
-  })
+  const employees : any = employer?.employees
+  //const newIDs = surveyIDs?.map((id) => surveyUrl?.concat(id));
+  employees?.forEach((employee: any) => {
+    const newId = surveyUrl?.concat(employee.surveyId);
+    const {email} = employee;
+    console.log(email);
+ })
 })
 
 router.post("/sendIndividualUrl", auth, async (req, res) => {
@@ -168,7 +171,8 @@ router.post('/create/employee', auth, async (req, res) => {
     await newEmployee.save();
     await User.updateOne(
       { _id: userId },
-      { $push: { employees: newEmployee.id } }
+      { $push: { employees: newEmployee.id } },
+      { $push: { surveyIds : surveyId } }
     );
   } catch (err) {
     console.log(err);
