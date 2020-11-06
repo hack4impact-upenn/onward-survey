@@ -12,6 +12,7 @@ import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
 import { BrowserRouter as Router, Switch, useParams } from 'react-router-dom';
 import ManageSurvey from './ManageSurvey';
+import Expired from './survey/Expired';
 
 const AppRouter = () => {
   return (
@@ -46,6 +47,12 @@ const AppRouter = () => {
             loginRedirect={false}
             path="/survey/:employerId/:employeeId/nextsteps"
             component={NextSteps}
+          />
+          <PublicRoute
+            exact
+            loginRedirect={false}
+            path="/survey/expired"
+            component={Expired}
           />
           <PublicRoute exact={false} loginRedirect path="/" component={Main} />
         </Switch>
