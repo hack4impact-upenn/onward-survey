@@ -1,6 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useHistory, useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import { fetchSurveyStatus } from '../../api/employeeResponseApi';
+import { fetchMe } from '../../api/userApi';
+
 
 const ContentContainer = styled.div`
   margin: 10vh auto;
@@ -16,26 +20,43 @@ const Button = styled.button`
   margin: 0px 20px 10px auto;
 `;
 
+interface MySurveyLinkResponse extends IAPIResponse {
+  data: {
+    _id: string;
+    employer: string;
+    completed: boolean;
+  };
+}
+
+interface MyProfileResponse extends IAPIResponse {
+  data: {
+    _id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+}
+
 interface ParamTypes {
-  employerId: string;
-  employeeId: string;
+  surveyId: string;
 }
 
 const Welcome = () => {
     const history = useHistory();
-    const { employerId, employeeId } = useParams<ParamTypes>();
-
-
-    return (
-      <ContentContainer>
-        <div className="columns is-mobile is-centered is-vcentered">
-          <div className="column is-one-third">
-            <img src="../../images/standing-3@2x.png" alt="Standing Person"/>
-            </div>
-            <div className="column has-text-left is-one-third">
-              <h1 className="title is-3"> Onward Financial Survey </h1>
+    const { surveyId } = useParams<ParamTypes>();
+    const surveyCompletedQuery = useQuery(
+      ['fetchSurveyStatus', { surveyId: surveyId }],
+      fetchSurveyStatus
+    );
+  
+    const SurveyIntro = (res: MySurveyLinkResponse) => {
+      const { data: myProfile } = res;
+      if (myProfile.completed) {
+        return (
+          <div className="column has-text-left is-one-third">
+            <h1 className="title is-3"> Onward Financial Survey </h1>
               <p>
-                Your employer, <b>Employer Name</b>, has requested that you fill out this anonymous survey to learn
+                Your employer, <b>{myProfile.employer}</b>, has requested that you fill out this anonymous survey to learn
                 more about the company's financial status.
               </p>
               <br />
@@ -52,12 +73,34 @@ const Welcome = () => {
                 </Button>
                 <Button
                   className="button is-primary"
-                  onClick={() => history.push('/survey/'+employerId+'/'+employeeId+'/questions')}
+                  onClick={() => history.push('/survey/'+myProfile.employer+'/'+myProfile._id+'/questions')}
                 >
                   Get Started
                 </Button>
               </ButtonGroup>
           </div>
+        );
+      } else {
+        return (
+          <div className="column has-text-left is-one-third">
+            <h1 className="title is-3"> Onward Financial Survey </h1>
+              <p>
+                Survey is expired.
+              </p>
+          </div>
+        );
+      }
+    };
+
+    return (
+      <ContentContainer>
+        <div className="columns is-mobile is-centered is-vcentered">
+          <div className="column is-one-third">
+            <img src="../../images/standing-3@2x.png" alt="Standing Person"/>
+          </div>
+          {surveyCompletedQuery.isLoading && <div>Loading...</div>}
+          {surveyCompletedQuery.data && SurveyIntro(surveyCompletedQuery.data as any)}
+          {surveyCompletedQuery.error && <div>{surveyCompletedQuery.error.message}</div>}
         </div>
       </ContentContainer>
 

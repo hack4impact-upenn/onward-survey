@@ -9,14 +9,23 @@ const router = express.Router();
 // get whether the employee has completed the survey
 // should be simple
 router.get('/completed', (req, res) => {
-  const { _id }  = req.body;
+  const { surveyId } = req.body;
+  return Employee.findOne( {"surveyId": surveyId})
+    .select("_id employer completed")
+    .then((employee) => {
+      if (!employee) return errorHandler(res, 'Employee does not exist.');
+      return res.status(200).json({ success: true, data: employee });
+    })
+    .catch((err) => errorHandler(res, err.message));
+
+  /*const { _id }  = req.body;
   return Employee.findById(_id)
     .select("firstName lastName completed _id")
     .then((employee) => {
       if (!employee) return errorHandler(res, 'Employee does not exist.');
       return res.status(200).json({ success: true, data: employee });
     })
-    .catch((err) => errorHandler(res, err.message));
+    .catch((err) => errorHandler(res, err.message));*/
 });
 
 // submit survey response

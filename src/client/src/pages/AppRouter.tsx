@@ -33,7 +33,7 @@ const AppRouter = () => {
           <PublicRoute
             exact
             loginRedirect={false}
-            path="/survey/:employerId/:employeeId/welcome"
+            path="/survey/:surveyId/welcome"
             component={SurveyWelcome}
           />
           <PublicRoute
