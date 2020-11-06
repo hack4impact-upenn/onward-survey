@@ -12,7 +12,6 @@ import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
 import { BrowserRouter as Router, Switch, useParams } from 'react-router-dom';
 import ManageSurvey from './ManageSurvey';
-import Expired from './survey/Expired';
 
 const AppRouter = () => {
   return (
@@ -30,21 +29,23 @@ const AppRouter = () => {
             path="/dashboard-old"
             component={Dashboard}
           />
-          <PrivateRoute
-            exact path="/survey/:employerId/:employeeId/welcome"
+          <PublicRoute
+            exact
+            loginRedirect={false}
+            path="/survey/:employerId/:employeeId/welcome"
             component={SurveyWelcome}
           />
-          <PrivateRoute
-            exact path="/survey/:employerId/:employeeId/questions"
+          <PublicRoute
+            exact
+            loginRedirect={false}
+            path="/survey/:employerId/:employeeId/questions"
             component={SurveyQuestions}
           />
-          <PrivateRoute
-            exact path="/survey/:employerId/:employeeId/nextsteps"
+          <PublicRoute
+            exact
+            loginRedirect={false}
+            path="/survey/:employerId/:employeeId/nextsteps"
             component={NextSteps}
-          />
-          <PrivateRoute
-            exact path="/survey/expired"
-            component={Expired}
           />
           <PublicRoute exact={false} loginRedirect path="/" component={Main} />
         </Switch>
