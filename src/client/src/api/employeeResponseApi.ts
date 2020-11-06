@@ -1,6 +1,6 @@
 import secureAxios from './core/apiClient';
 
-const submit = ({ surveyId, responses} : ISurveyResponse) => {
+const submit = ( {employeeId, responses}: ISurveyResponse) => {
   return new Promise((resolve, reject) => {
     secureAxios({
       url: '/api/employees/survey',
@@ -10,7 +10,7 @@ const submit = ({ surveyId, responses} : ISurveyResponse) => {
         'Content-Type': 'application/json',
       },
       data: JSON.stringify({
-        surveyId,
+        employeeId,
         responses,
       }),
     })
@@ -21,5 +21,25 @@ const submit = ({ surveyId, responses} : ISurveyResponse) => {
   });
 };
 
+const fetchSurveyId = (employeeId: string) => {
+  return new Promise((resolve, reject) => {
+    secureAxios({
+      url: '/api/employees/me/surveyId',
+      method: 'GET',
+      timeout: 0,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify({
+        employeeId,
+      }),
+    })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err: Error) => reject(err));
+  });
+};
 
-export { submit };
+
+export { submit, fetchSurveyId };

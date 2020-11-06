@@ -1,12 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useHistory, useParams } from 'react-router-dom';
-import { useQuery } from 'react-query';
 import { submit } from '../../api/employeeResponseApi';
 import { useMutation } from 'react-query';
-import { Formik, FormikProps, Form, Field, ErrorMessage, FieldArray } from 'formik';
-import auth from '../../api/core/auth';
-import { fetchMe } from '../../api/userApi';
+import { Formik, Form } from 'formik';
 import SurveyQuestionTextbox from '../../components/SurveyQuestionTextbox';
 
 const ContentContainer = styled.div`
@@ -24,22 +21,11 @@ interface ParamTypes {
     employeeId: string;
 }
 
-interface MyProfileResponse extends IAPIResponse {
+interface MySurveyId extends IAPIResponse {
     data: {
-      _id: string;
-      email: string;
-      firstName: string;
-      lastName: string;
       surveyId: string;
     };
   }
-
-var responses = [
-    '',
-    '',
-    0
-];
-
 
 const initialValues = {
     1: '',
@@ -53,19 +39,6 @@ const SurveyQuestions = () => {
     const [submitResponseMutate] = useMutation(submit);
     const { employerId, employeeId } = useParams<ParamTypes>();
 
-    const profileQuery = useQuery(
-        ['fetchMe', { accessToken: auth.getAccessToken() }],
-        fetchMe,
-        {
-          refetchOnWindowFocus: false,
-        }
-      );
-
-    const getSurveyID = (res: MyProfileResponse) => {
-        const { data: myProfile } = res;
-        return myProfile.surveyId;
-    }
-
     const convertToArrayOfQuestions = (values: ISurveyAnswers) => {
         var responses = [];
         const numQuestions = Object.keys(values).length;
@@ -78,12 +51,12 @@ const SurveyQuestions = () => {
     }
 
     const handleSubmit = async (values: ISurveyAnswers) => {
-        var surveyID = getSurveyID(profileQuery.data as any);
         var responses = convertToArrayOfQuestions(values);
+
         const employeeResponse: ISurveyResponse = {
-            surveyId: surveyID,
-            responses: responses,
-        };
+            employeeId: employeeId,
+            responses: responses
+        }
         try {
             await submitResponseMutate(employeeResponse);
             alert('Success');

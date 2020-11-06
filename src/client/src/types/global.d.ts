@@ -23,7 +23,7 @@ declare interface ISurveyAnswers {
 }
 
 declare interface ISurveyResponse {
-  surveyId: string;
+  employeeId: string;
   responses: Object[];
 }
 
