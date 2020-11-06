@@ -21,12 +21,6 @@ interface ParamTypes {
     employeeId: string;
 }
 
-interface MySurveyId extends IAPIResponse {
-    data: {
-      surveyId: string;
-    };
-  }
-
 const initialValues = {
     1: '',
     2: '',
