@@ -70,16 +70,9 @@ jobs:
         working-directory: ./src
         run: yarn install --frozen-lockfile
 
-      - name: Get changed files
-        id: get_changed_files
-        uses: dorner/file-changes-action@v1.2.0
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          plaintext: true
-
       - name: Run ESLint
         # Get all changed files, filter to only .js, .ts, .tsx, and lint them
-        run: yarn ci-lint `echo ${{ steps.get_changed_files.outputs.files }} | tr " " "\n" | grep ".js$\|.ts$\|.tsx" | tr "\n" " "`
+        run: yarn lint
 
       - name: Compile TypeScript
         working-directory: ./src
