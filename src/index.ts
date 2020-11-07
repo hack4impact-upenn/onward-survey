@@ -49,5 +49,6 @@ io.on('connection', (soc) => {
 });
 
 app.set('socketio', io);
-
 app.use(expressStatusMonitor({ websocket: io }));
+
+export default app;

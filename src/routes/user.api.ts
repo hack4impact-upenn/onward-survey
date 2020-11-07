@@ -14,7 +14,6 @@ import {
 } from './user.util';
 
 const router = express.Router();
-
 const saltRounds = 10;
 
 // create new user
