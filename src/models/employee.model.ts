@@ -22,7 +22,7 @@ const EmployeeSchema = new Schema({
   employerName: { type: String, required: true },
   employerSurveyId: { type: String, required: true },
   surveyId: { type: String, required: true },
-  completed: { type: Boolean, required: true },
+  completed: { type: Boolean, required: false, default: false },
 });
 
 const Employee = mongoose.model<IEmployee>('Employee', EmployeeSchema);
