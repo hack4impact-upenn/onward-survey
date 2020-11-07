@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/:surveyId/completed', (req, res) => {
   const { surveyId } = req.params;
   return Employee.findOne({ surveyId })
-    .select('_id employer completed')
+    .select('_id employer employerName completed')
     .then((employee) => {
       if (!employee)
         return errorHandler(
