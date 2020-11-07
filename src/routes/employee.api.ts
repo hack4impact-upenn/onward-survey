@@ -1,7 +1,6 @@
 import express from 'express';
 import { Employee } from '../models/employee.model';
 import errorHandler from './error';
-import { User } from '../models/user.model';
 import { EmployeeResponse } from '../models/employee_response.model';
 
 const router = express.Router();
@@ -11,7 +10,7 @@ const router = express.Router();
 router.get('/:surveyId/completed', (req, res) => {
   const surveyId  = req.params.surveyId;
   return Employee.findOne( {"surveyId": surveyId})
-    .select("_id employer completed")
+    .select("_id employerName completed")
     .then((employee) => {
       if (!employee) return errorHandler(res, 'Employee with survey ID ' + req.body.surveyId + ' does not exist.');
       return res.status(200).json({ success: true, data: employee });

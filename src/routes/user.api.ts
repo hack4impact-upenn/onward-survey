@@ -22,6 +22,7 @@ router.post('/signup', async (req, res) => {
   const { lastName } = req.body;
   const { email } = req.body;
   const { password } = req.body;
+  const { institutionName } = req.body;
 
   if (await User.findOne({ email })) {
     return errorHandler(res, 'User already exists.');
@@ -38,7 +39,8 @@ router.post('/signup', async (req, res) => {
     const newUser = new User({
       firstName,
       lastName,
-      email,
+      email, 
+      institutionName,
       password: hashedPassword,
       surveyUrl: url,
     });
@@ -139,6 +141,7 @@ router.post('/create/employee', auth, async (req, res) => {
   newEmployee.lastName = lastName;
   newEmployee.email = email;
   newEmployee.employer = new Types.ObjectId(userId!);
+  newEmployee.employerName = user.institutionName;
   const surveyId = shortid.generate();
   newEmployee.surveyId = surveyId;
   newEmployee.completed = false;

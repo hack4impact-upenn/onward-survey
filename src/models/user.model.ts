@@ -11,6 +11,7 @@ interface IUser extends mongoose.Document {
   refreshToken: string;
   surveyUrl: string;
   surveyIDs: string[];
+  institutionName: string;
   employees: mongoose.Types.ObjectId[];
 }
 
@@ -22,6 +23,7 @@ const UserSchema = new Schema({
   refreshToken: { type: String, required: false },
   surveyIDs: { type: [String], required: false, default: [] },
   surveyUrl: { type: String, required: false },
+  institutionName: { type: String, required: true },
   employees: [
     {
       type: mongoose.Schema.Types.ObjectId,
