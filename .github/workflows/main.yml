@@ -74,6 +74,10 @@ jobs:
         # Get all changed files, filter to only .js, .ts, .tsx, and lint them
         run: yarn lint
 
+      - name: Run tests
+        working-directory: ./src
+        run: yarn test
+
       - name: Compile TypeScript
         working-directory: ./src
         run: yarn build
