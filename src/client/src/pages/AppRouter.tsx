@@ -1,17 +1,18 @@
 import React from 'react';
-import Main from './Main';
-import Signup from './Signup';
-import Login from './Login';
-import Dashboard from './Dashboard';
-import Profile from './Profile';
-import SurveyQuestions from './survey/SurveyQuestions';
-import SurveyWelcome from './survey/Welcome';
-import NextSteps from './survey/NextSteps';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import AppContainer from '../components/AppContainer';
 import PrivateRoute from '../components/PrivateRoute';
 import PublicRoute from '../components/PublicRoute';
-import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import Login from './authflow/Login';
+import Signup from './authflow/Signup';
+import Dashboard from './Dashboard';
+import Main from './Main';
 import ManageSurvey from './ManageSurvey';
+import Profile from './Profile';
+import Expired from './survey/Expired';
+import NextSteps from './survey/NextSteps';
+import SurveyQuestions from './survey/SurveyQuestions';
+import SurveyWelcome from './survey/Welcome';
 
 const AppRouter = () => {
   return (
@@ -32,20 +33,26 @@ const AppRouter = () => {
           <PublicRoute
             exact
             loginRedirect={false}
-            path="/survey/welcome"
+            path="/survey/:surveyId/welcome"
             component={SurveyWelcome}
           />
           <PublicRoute
             exact
             loginRedirect={false}
-            path="/survey/questions"
+            path="/survey/:employerId/:employeeId/questions"
             component={SurveyQuestions}
           />
           <PublicRoute
             exact
             loginRedirect={false}
-            path="/survey/nextsteps"
+            path="/survey/:employerId/:employeeId/nextsteps"
             component={NextSteps}
+          />
+          <PublicRoute
+            exact
+            loginRedirect={false}
+            path="/survey/expired"
+            component={Expired}
           />
           <PublicRoute exact={false} loginRedirect path="/" component={Main} />
         </Switch>

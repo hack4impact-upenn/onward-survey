@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
-import auth from '../api/core/auth';
+import auth from '../utils/auth';
 import { fetchMe } from '../api/userApi';
 import Sidebar from '../components/Sidebar';
 

@@ -1,4 +1,4 @@
-import secureAxios from './core/apiClient';
+import secureAxios from '../utils/apiClient';
 
 const signup = ({ firstName, lastName, email, password }: IUserSignup) => {
   return new Promise((resolve, reject) => {
