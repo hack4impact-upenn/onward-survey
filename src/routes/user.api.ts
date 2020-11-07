@@ -1,7 +1,6 @@
 import express from 'express';
 import { hash, compare } from 'bcrypt';
 import shortid from 'shortid';
-import sgMail from "@sendgrid/mail";
 import { Types } from 'mongoose';
 import { User, IUser } from '../models/user.model';
 import { Employee } from '../models/employee.model';
@@ -11,12 +10,13 @@ import {
   generateAccessToken,
   generateRefreshToken,
   validateRefreshToken,
+  sendMessage
 } from './user.util';
 
 const router = express.Router();
 
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY || "");
+
 
 const saltRounds = 10;
 
@@ -116,47 +116,42 @@ router.post('/refreshToken', (req, res) => {
 
 router.post("/sendSurveyUrl", auth, async (req, res) => {
   const {userId} = req;
-  const employer = await User.findById(userId).populate("employees")
-  const surveyUrl = employer?.surveyUrl
-  const employees : any = employer?.employees
-
-  employees?.forEach((employee: any) => {
-    const newId = surveyUrl?.concat(employee.surveyId);
-    const {email} = employee;
-    const {firstName} = employee;
-    const {lastName} = employee;
-
-    const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${newId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`
-    const msg = {
-      to: email,
-      from: 'admin@hack4impact.org',
-      subject: 'Inivitation to fill out Survey',
-      text: `Fill the survey`,
-      html: html,
-    };
-    sgMail
-  .send(msg)
-  .then(() => {
-    console.log("Message sent succesfully!")
-  }, error => {
-    console.error(error);
-
-    if (error.response) {
-      console.error(error.response.body)
-    }
-  });
- })
- return res.status(200).json({ success: true });
+  try {
+    // get employer
+    const employer = await User.findById(userId).populate("employees")
+    const surveyUrl = employer?.surveyUrl
+    const employees : any = employer?.employees
+    //loop through employees to send emails to each
+    employees?.forEach((employee: any) => {
+      const newId = surveyUrl?.concat(employee.surveyId);
+      const {email, firstName, lastName} = employee;
+      const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${newId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`
+      sendMessage('admin@hack4impact.org', email, 'Inivitation to fill out Survey', html);
+   })
+   return res.status(200).json({ success: true }); 
+  } catch (error) {
+    errorHandler(res, error.message);
+  }
 })
 
-//router.post("/sendIndividualUrl", auth, async (req, res) => {
-  //const {userId} = req;
-  //const employeeId = req.body
-  //const employer = await User.findById(userId)
-  //const surveyUrl = employer?.surveyUrl
-  //const newIDs = surveyUrl?.concat(employeeId)
-  //send twilio email
-//})
+router.post("/sendIndividualUrl", auth, async (req, res) => {
+  const {userId} = req;
+  const {employeeId} = req.body
+  try {
+    const employer = await User.findById(userId)
+  const surveyUrl = employer?.surveyUrl
+  const employee: any = await Employee.findById(employeeId)
+  const {email, firstName, lastName} = employee;
+  const newId = surveyUrl?.concat(employee.surveyId); 
+  const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${newId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`
+  sendMessage('admin@hack4impact.org', email, 'Inivitation to fill out Survey', html);
+  return res.status(200).json({ success: true }); 
+} catch (error) {
+  errorHandler(res, error.message);
+  }
+  
+  
+})
 
 // get me
 // protected route

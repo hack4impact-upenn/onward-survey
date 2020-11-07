@@ -2,6 +2,31 @@ import { sign, verify } from 'jsonwebtoken';
 import * as _ from 'lodash';
 import { User, IUser } from '../models/user.model';
 import { JWT_SECRET } from '../utils/config';
+import sgMail from "@sendgrid/mail";
+sgMail.setApiKey(process.env.SENDGRID_API_KEY || "");
+
+
+//abstracted sendMessage fuction that takes in sender email, outgoing email, subject, and body of the email
+const sendMessage = (from: string, to:string, subject:string, html:string ) => {
+  const msg = {
+    to,
+    from,
+    subject,
+    text: html,
+    html
+  };
+  sgMail
+  .send(msg)
+  .then(() => {
+    console.log("Message sent succesfully!")
+  }, error => {
+    console.error(error);
+
+    if (error.response) {
+      console.error(error.response.body)
+    }
+  });
+}
 
 class AuthError extends Error {
   code: string;
@@ -49,4 +74,4 @@ const validateRefreshToken = (refreshToken: string): Promise<any> =>
     });
   });
 
-export { generateAccessToken, generateRefreshToken, validateRefreshToken };
+export { generateAccessToken, generateRefreshToken, validateRefreshToken, sendMessage };
