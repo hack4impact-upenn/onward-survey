@@ -35,15 +35,12 @@ router.post('/signup', async (req, res) => {
       return errorHandler(res, err.message);
     }
 
-    const url = shortid.generate();
-
     const newUser = new User({
       firstName,
       lastName,
-      email, 
+      email,
       institutionName,
       password: hashedPassword,
-      surveyUrl: url,
     });
 
     return newUser
