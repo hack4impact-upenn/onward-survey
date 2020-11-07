@@ -23,7 +23,7 @@ const Button = styled.button`
 interface MySurveyLinkResponse extends IAPIResponse {
   data: {
     _id: string;
-    employer: string;
+    employerName: string;
     completed: boolean;
   };
 }
@@ -61,7 +61,7 @@ const Welcome = () => {
           <div className="column has-text-left is-one-third">
             <h1 className="title is-3"> Onward Financial Survey </h1>
               <p>
-                Your employer, <b>{myProfile.employer}</b>, has requested that you fill out this anonymous survey to learn
+                Your employer, <b>{myProfile.employerName}</b>, has requested that you fill out this anonymous survey to learn
                 more about the company's financial status.
               </p>
               <br />
@@ -78,7 +78,7 @@ const Welcome = () => {
                 </Button>
                 <Button
                   className="button is-primary"
-                  onClick={() => history.push('/survey/'+myProfile.employer+'/'+myProfile._id+'/questions')}
+                  onClick={() => history.push('/survey/'+myProfile.employerName+'/'+myProfile._id+'/questions')}
                 >
                   Get Started
                 </Button>
