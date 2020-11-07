@@ -9,6 +9,7 @@ const router = express.Router();
 // should be simple
 router.get('/:surveyId/completed', (req, res) => {
   const { surveyId } = req.params;
+
   return Employee.findOne({ surveyId })
     .select('_id employer employerName completed')
     .then((employee) => {
@@ -17,6 +18,7 @@ router.get('/:surveyId/completed', (req, res) => {
           res,
           `Employee with survey ID ${req.body.surveyId} does not exist.`
         );
+
       return res.status(200).json({ success: true, data: employee });
     })
     .catch((err) => errorHandler(res, err.message));
@@ -26,45 +28,45 @@ router.get('/:surveyId/completed', (req, res) => {
 // change employee completed survey to true
 router.post('/survey', async (req, res) => {
   const { employeeId, responses } = req.body;
-  Employee.findById(employeeId)
-    .select('surveyId')
-    .then(async (employee) => {
-      if (!employee) return errorHandler(res, 'Employee does not exist.');
+        Employee.findById(employeeId)
+          .select('surveyId')
+          .then(async (employee) => {
+            if (!employee) return errorHandler(res, 'Employee does not exist.');
 
-      const { surveyId } = employee;
-      const newEmployeeResponse = new EmployeeResponse({
-        surveyId,
-        responses,
-      });
+            const { surveyId } = employee;
+            const newEmployeeResponse = new EmployeeResponse({
+              surveyId,
+              responses,
+            });
 
-      // update employee completed survey to true
-      try {
-        await newEmployeeResponse.save();
-        await Employee.updateOne(
-          { _id: employeeId },
-          { $set: { completed: true } }
-        );
-      } catch (err) {
-        console.log(err);
-        return errorHandler(res, err);
-      }
-      return res.status(200).json({ message: 'success' });
-    })
-    .catch((err) => errorHandler(res, err.message));
+            // update employee completed survey to true
+            try {
+              await newEmployeeResponse.save();
+              await Employee.updateOne(
+                { _id: employeeId },
+                { $set: { completed: true } }
+              );
+            } catch (err) {
+              console.log(err);
+              return errorHandler(res, err);
+            }
+            return res.status(200).json({ message: 'success' });
+          })
+          .catch((err) => errorHandler(res, err.message));
 });
 
 // get surveyId from user
 router.get('/me/surveyId', (req, res) => {
-  const { employeeId } = req.body;
+                            const { employeeId } = req.body;
 
-  return Employee.findById(employeeId)
-    .select('surveyId')
-    .then((employee) => {
-      if (!employee) return errorHandler(res, 'Employee does not exist.');
+                            return Employee.findById(employeeId)
+                              .select('surveyId')
+                              .then((employee) => {
+                                if (!employee) return errorHandler(res, 'Employee does not exist.');
 
-      return res.status(200).json({ success: true, data: employee });
-    })
-    .catch((err) => errorHandler(res, err.message));
+                                return res.status(200).json({ success: true, data: employee });
+                              })
+                              .catch((err) => errorHandler(res, err.message));
 });
 
 export default router;
