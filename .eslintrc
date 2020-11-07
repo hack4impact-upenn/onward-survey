@@ -4,7 +4,9 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "extends": ["airbnb-typescript", "prettier"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint"],
+  "ignorePatterns": ["build/**"],
   "rules": {
     "no-console": "off",
     "max-len": "off",

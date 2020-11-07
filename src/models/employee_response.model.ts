@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 interface IEmployeeResponse extends mongoose.Document {
   surveyId: string;
-  responses: object[];
+  responses: any[];
 }
 
 const EmployeeResponseSchema = new Schema({

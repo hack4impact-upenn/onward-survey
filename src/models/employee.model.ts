@@ -10,7 +10,7 @@ interface IEmployee extends mongoose.Document {
   surveyId: string;
   employerSurveyId: string;
   employer: mongoose.Types.ObjectId;
-  employerName: String;
+  employerName: string;
   completed: boolean;
 }
 
