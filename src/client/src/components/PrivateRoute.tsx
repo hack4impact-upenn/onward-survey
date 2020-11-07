@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import auth from '../api/core/auth';
+import auth from '../utils/auth';
 
 const PrivateRoute: React.FC<{
   component: React.FC;

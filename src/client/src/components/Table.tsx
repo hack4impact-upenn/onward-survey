@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import auth from '../api/core/auth';
+import auth from '../utils/auth';
 
 const TableContainer = styled.div`
   margin: 10vh auto;

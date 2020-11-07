@@ -1,4 +1,4 @@
-import { login } from '../userApi';
+import { login } from '../api/userApi';
 import { AxiosError } from 'axios';
 
 interface LoginParams {

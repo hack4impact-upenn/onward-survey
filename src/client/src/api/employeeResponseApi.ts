@@ -1,4 +1,4 @@
-import secureAxios from './core/apiClient';
+import secureAxios from '../utils/apiClient';
 
 /* submit response for survey */
 const submit = ({ employeeId, responses }: ISurveyResponse) => {
