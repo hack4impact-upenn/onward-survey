@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Formik, Field, Form, FieldAttributes } from 'formik';
-import { signup } from '../api/userApi';
+import { signup } from '../../api/userApi';
 import { useMutation } from 'react-query';
 import { useHistory } from 'react-router-dom';
 
@@ -85,6 +85,14 @@ const Signup = () => {
               className="input"
               type="email"
               placeholder="Email"
+            />
+          </FieldWrapper>
+          <FieldWrapper icon="fa-lock">
+            <Field
+              name="company"
+              className="input"
+              type="text"
+              placeholder="Company Name"
             />
           </FieldWrapper>
           <FieldWrapper icon="fa-lock">
