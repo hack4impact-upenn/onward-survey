@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import auth from '../api/core/auth';
 
-import logo from '../assets/logo-full.png';
 import '../styles/navbar.css';
 
 const NavbarContainer = styled.div`
@@ -98,7 +97,7 @@ const Navbar = () => {
       <NavbarItem>
         <a href="/" className="title is-6">
           <Logo>
-            <img src={logo} alt="Onward Financial"></img>
+            <img src="/images/logo-full.png" alt="Onward Financial"></img>
           </Logo>
         </a>
       </NavbarItem>
