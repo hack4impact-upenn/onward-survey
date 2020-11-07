@@ -44,14 +44,19 @@ interface ParamTypes {
 const Welcome = () => {
     const history = useHistory();
     const { surveyId } = useParams<ParamTypes>();
+    console.log(surveyId);
     const surveyCompletedQuery = useQuery(
-      ['fetchSurveyStatus', { surveyId: surveyId }],
-      fetchSurveyStatus
+      ["fetchSurveyStatus", surveyId ],
+      fetchSurveyStatus,
+      {
+        retry: 1,
+        refetchOnWindowFocus: false,
+      }
     );
-  
+
     const SurveyIntro = (res: MySurveyLinkResponse) => {
       const { data: myProfile } = res;
-      if (myProfile.completed) {
+      if (!myProfile.completed) {
         return (
           <div className="column has-text-left is-one-third">
             <h1 className="title is-3"> Onward Financial Survey </h1>
@@ -100,7 +105,7 @@ const Welcome = () => {
           </div>
           {surveyCompletedQuery.isLoading && <div>Loading...</div>}
           {surveyCompletedQuery.data && SurveyIntro(surveyCompletedQuery.data as any)}
-          {surveyCompletedQuery.error && <div>{surveyCompletedQuery.error.message}</div>}
+          {surveyCompletedQuery.error && <div>!!!{surveyCompletedQuery.error.message}</div>}
         </div>
       </ContentContainer>
 

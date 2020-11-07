@@ -21,28 +21,20 @@ const submit = ( {employeeId, responses}: ISurveyResponse) => {
   });
 };
 
-const fetchSurveyStatus = (key: string, { surveyId }: { surveyId: string }) => {
+const fetchSurveyStatus = (key: string, surveyId: string) => {
   return new Promise((resolve, reject) => {
     secureAxios({
-      url: '/api/employees/completed',
+      url: '/api/employees/'+surveyId+'/completed',
       method: 'GET',
       timeout: 0,
       headers: {
         'Content-Type': 'application/json',
-      },
-      data: JSON.stringify({
-        surveyId
-      }),
+      }
     })
       .then((res) => {
         resolve(res.data);
       })
-      .catch(err => {
-        if (err.response) {
-          // client received an error response (5xx, 4xx)
-          reject(err);
-        }
-      })
+      .catch((err: Error) => reject(err));
   });
 };
 
