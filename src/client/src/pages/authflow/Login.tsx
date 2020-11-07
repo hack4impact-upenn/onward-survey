@@ -2,7 +2,7 @@ import { Field, FieldAttributes, Form, Formik } from 'formik';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import auth from '../../api/core/auth';
+import auth from '../../utils/auth';
 
 const FormContainer = styled.div`
   text-align: center;

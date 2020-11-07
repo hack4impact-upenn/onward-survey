@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import auth from '../api/core/auth';
+import auth from '../utils/auth';
 
 import '../styles/navbar.css';
 
