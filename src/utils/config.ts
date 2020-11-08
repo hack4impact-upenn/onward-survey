@@ -8,6 +8,12 @@ switch (process.env.NODE_ENV) {
       path: resolve(__dirname, '../../.env.development'),
     });
     break;
+  case 'test':
+    console.log("Environment is 'test'");
+    configDotenv({
+      path: resolve(__dirname, '../../.env.development'),
+    });
+    break;
   case 'production':
     console.log("Environment is 'production'");
     break;
