@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
   case 'test':
     console.log("Environment is 'test'");
     configDotenv({
-      path: resolve(__dirname, '../../.env.development'),
+      path: resolve(__dirname, '../../.env.test'),
     });
     break;
   case 'production':
@@ -22,11 +22,12 @@ switch (process.env.NODE_ENV) {
 }
 
 const NODE_ENV = process.env.NODE_ENV;
-const ATLAS_URI = process.env.ATLAS_URI || '';
-const JWT_SECRET = process.env.JWT_SECRET || '';
+const ATLAS_URI =
+  process.env.ATLAS_URI || 'mongodb://localhost:27017/myproject';
+const JWT_SECRET = process.env.JWT_SECRET || 'my-placeholder-string';
 
 // sendgrid configs
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || '';
-const SENDGRID_EMAIL = 'hello@email.com';
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || 'my-placeholder-key';
+const SENDGRID_EMAIL = 'example@email.com';
 
 export { ATLAS_URI, JWT_SECRET, SENDGRID_API_KEY, SENDGRID_EMAIL, NODE_ENV };
