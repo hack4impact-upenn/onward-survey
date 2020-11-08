@@ -12,6 +12,7 @@
     "max-len": "off",
     "no-unused-vars": "warn",
     "indent": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-non-null-assertion": "off"
   }
 }
