@@ -8,6 +8,7 @@ mongoose.Promise = global.Promise;
 // mongoose.set('debug', process.env.DEBUG !== 'production');
 
 const opts = {
+  useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
   keepAlive: true,
@@ -36,20 +37,20 @@ class MongoConnection {
         const mongoUrl = await this._mongoServer.getUri();
         await mongoose.connect(mongoUrl, opts);
       } else {
-        console.log('Connecting to MongoDB');
+        console.log('Connecting to MongoDB...');
         mongoose.connect(ATLAS_URI, opts);
       }
 
       mongoose.connection.on('connected', () => {
-        console.log('Mongo: Connected');
+        console.log('MongoDB: Connected ✅');
       });
 
       mongoose.connection.on('disconnected', () => {
-        console.log('Mongo: Disconnected');
+        console.log('MongoDB: Disconnected 🛑');
       });
 
       mongoose.connection.on('error', (err) => {
-        console.log(`Mongo:  ${String(err)}`);
+        console.log(`MongoDB:  ${String(err)}`);
         if (err.name === 'MongoNetworkError') {
           setTimeout(function () {
             mongoose.connect(ATLAS_URI, opts);
