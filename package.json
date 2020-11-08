@@ -12,8 +12,16 @@
     "client": "cd src/client && yarn start",
     "start": "ts-node ./src/index.ts",
     "build": "tsc",
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --config jest.config.ts",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
     "heroku-postbuild": "cd src/client && yarn install && yarn build"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "verbose": false,
+    "modulePathIgnorePatterns": [
+      "<rootDir>/src/client"
+    ]
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
