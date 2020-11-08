@@ -1,16 +1,18 @@
 import createServer from './utils/createServer';
 import socket from 'socket.io';
 import expressStatusMonitor from 'express-status-monitor';
-import connectToDB from './utils/connectToDB';
+import db from './utils/database';
 import './utils/config';
 
 const main = async () => {
-  await connectToDB();
+  // listen for termination
+  process.on('SIGTERM', () => process.exit());
+  await db.open();
 
   const app = createServer();
   const server = app.listen(app.get('port'), () => {
     console.log(`Listening on port ${app.get('port')} 🚀`);
-    console.log('  Press Command C to stop\n');
+    console.log('  Press Control-C to stop\n');
   });
 
   const io = socket(server);

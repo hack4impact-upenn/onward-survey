@@ -22,12 +22,12 @@ const validateEmail = (email: string): boolean => {
   return emailRegexp.test(email);
 };
 
-const sendEmail = (email: Email) => {
+const sendEmail = (email: Email): void => {
   if (!validateEmail(email.to)) throw new Error('Email validation failed.');
   sgMail.send(email);
 };
 
-const sendDynamicEmail = (email: DynamicEmail) => {
+const sendDynamicEmail = (email: DynamicEmail): void => {
   if (!validateEmail(email.to)) throw new Error('Email validation failed.');
 
   const msg = {
