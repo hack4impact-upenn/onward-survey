@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../api/core/auth';
 import { TextInput } from 'react-native';
+import secureAxios from '../api/core/apiClient';
 
 const AddEmailGroup = styled.div`
     padding-bottom: 34px;
@@ -23,7 +24,21 @@ class AddEmail extends React.Component<{}, {emailInput: string}> {
 
     handleClick() {
         // make post request
-        alert('Your input value is ' + this.state.emailInput);
+        secureAxios({
+            url: '/api/users/create/employee',
+            method: 'POST',
+            timeout: 1000,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                firstName: 'firstName',
+                lastName: 'lastName',
+                email: this.state.emailInput,
+            })
+        })
+            .then((res) => console.log("data received"))
+            .catch((err: Error) => console.log(err));
     }
 
     render() {
