@@ -55,34 +55,29 @@ router.post('/login', async (req, res) => {
   const { email } = req.body;
   const { password } = req.body;
 
-  User.findOne({ email }).then((user):
-    | Response
-    | Promise<boolean>
-    | boolean
-    | PromiseLike<boolean> => {
-    // user does not exist
-    if (!user) return errorHandler(res, 'User email or password is incorrect.');
+  const user = await User.findOne({ email });
+  // user does not exist
+  if (!user) return errorHandler(res, 'User email or password is incorrect.');
 
-    return compare(password, user.password, (err, result) => {
-      if (err) return errorHandler(res, err.message);
+  return compare(password, user.password, (err, result) => {
+    if (err) return errorHandler(res, err.message);
 
-      if (result) {
-        // password matched
-        const accessToken = generateAccessToken(user);
-        const refreshToken = generateRefreshToken(user);
+    if (result) {
+      // password matched
+      const accessToken = generateAccessToken(user);
+      const refreshToken = generateRefreshToken(user);
 
-        return Promise.all([accessToken, refreshToken]).then((tokens) =>
-          res.status(200).json({
-            success: true,
-            accessToken: tokens[0],
-            refreshToken: tokens[1],
-          })
-        );
-      }
+      return Promise.all([accessToken, refreshToken]).then((tokens) =>
+        res.status(200).json({
+          success: true,
+          accessToken: tokens[0],
+          refreshToken: tokens[1],
+        })
+      );
+    }
 
-      // wrong password
-      return errorHandler(res, 'User email or password is incorrect.');
-    });
+    // wrong password
+    return errorHandler(res, 'User email or password is incorrect.');
   });
 });
 

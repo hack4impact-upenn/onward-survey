@@ -10,7 +10,7 @@
     "dev": "concurrently \"yarn server\" \"yarn client\"",
     "server": "ts-node-dev --respawn src/index.ts",
     "client": "cd src/client && yarn start",
-    "start": "ts-node ./src/index.ts",
+    "start": "ts-node src/index.ts",
     "build": "tsc",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
     "heroku-postbuild": "cd src/client && yarn install && yarn build"
