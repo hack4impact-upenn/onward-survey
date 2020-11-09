@@ -3,7 +3,8 @@ import { hash, compare } from 'bcrypt';
 import shortid from 'shortid';
 import { Types } from 'mongoose';
 import { User, IUser } from '../models/user.model';
-import { Employee } from '../models/employee.model';
+import { Employee, IEmployee } from '../models/employee.model';
+import { SENDGRID_EMAIL } from '../utils/config';
 import auth from '../middleware/auth';
 import errorHandler from './error';
 import {
@@ -16,7 +17,7 @@ import {
 const router = express.Router();
 const saltRounds = 10;
 
-// create new user
+/* account signup endpoint */
 router.post('/signup', async (req, res) => {
   const { firstName } = req.body;
   const { lastName } = req.body;
@@ -49,7 +50,7 @@ router.post('/signup', async (req, res) => {
   });
 });
 
-// login user
+/* acccount login endpoint */
 router.post('/login', async (req, res) => {
   const { email } = req.body;
   const { password } = req.body;
@@ -85,7 +86,7 @@ router.post('/login', async (req, res) => {
   });
 });
 
-// refresh token
+/* account jwt token refresh */
 router.post('/refreshToken', (req, res) => {
   const { refreshToken } = req.body;
 
@@ -109,55 +110,66 @@ router.post('/refreshToken', (req, res) => {
     });
 });
 
+/* loop through list of employees and send unique invite email */
 router.post('/sendSurveyUrl', auth, async (req, res) => {
   const { userId } = req;
   try {
     // get employer
     const employer = await User.findById(userId).populate('employees');
-    const surveyUrl = employer?.surveyUrl;
-    const employees: any = employer?.employees;
+    if (!employer) return errorHandler(res, 'User does not exist.');
+    const employees = employer.employees;
+    if (!employees)
+      return errorHandler(res, 'User does not have any employees.');
+
     //loop through employees to send emails to each
-    employees?.forEach((employee: any) => {
-      const newId = surveyUrl?.concat(employee.surveyId);
-      const { email, firstName, lastName } = employee;
-      const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${newId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`;
-      sendMessage(
-        'admin@hack4impact.org',
-        email,
-        'Inivitation to fill out Survey',
-        html
-      );
+    employees.forEach(async (employeeId) => {
+      const employee = await Employee.findById(employeeId);
+      if (!employee) return;
+      const { email, firstName, lastName, surveyId } = employee;
+      const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${surveyId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`;
+
+      sendMessage({
+        from: SENDGRID_EMAIL,
+        to: email,
+        subject: 'Inivitation to fill out Survey',
+        html,
+      });
     });
+
     return res.status(200).json({ success: true });
   } catch (error) {
     errorHandler(res, error.message);
   }
 });
 
+/* resending indiviudal survey url based on employee id */
 router.post('/sendIndividualUrl', auth, async (req, res) => {
   const { userId } = req;
   const { employeeId } = req.body;
+
+  const employer = await User.findById(userId);
+  if (!employer) return errorHandler(res, 'User does not exist.');
+  const employee = await Employee.findById(employeeId);
+  if (!employee) return errorHandler(res, 'Employee does not exist.');
+
   try {
-    const employer = await User.findById(userId);
-    const surveyUrl = employer?.surveyUrl;
-    const employee: any = await Employee.findById(employeeId);
-    const { email, firstName, lastName } = employee;
-    const newId = surveyUrl?.concat(employee.surveyId);
-    const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${newId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`;
-    sendMessage(
-      'admin@hack4impact.org',
-      email,
-      'Inivitation to fill out Survey',
-      html
-    );
+    const { email, firstName, lastName, surveyId } = employee;
+    const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${surveyId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`;
+
+    sendMessage({
+      from: SENDGRID_EMAIL,
+      to: email,
+      subject: 'Inivitation to fill out Survey',
+      html,
+    });
+
     return res.status(200).json({ success: true });
   } catch (error) {
     errorHandler(res, error.message);
   }
 });
 
-// get me
-// protected route
+/* user fetch self info endpoint */
 router.get('/me', auth, (req, res) => {
   const { userId } = req;
 
@@ -171,12 +183,10 @@ router.get('/me', auth, (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
-// creating employees
+/* user add new employee endpoint */
 router.post('/create/employee', auth, async (req, res) => {
   const { firstName, lastName, email } = req.body;
-  // getting employee id from auth
   const { userId } = req;
-  // Check if user (or employer) exists based on user id, if not return error
   const user = await User.findById(userId);
   if (!user) return errorHandler(res, 'User does not exist.');
   // create new employee
@@ -184,14 +194,13 @@ router.post('/create/employee', auth, async (req, res) => {
   newEmployee.firstName = firstName;
   newEmployee.lastName = lastName;
   newEmployee.email = email;
-  newEmployee.employer = new Types.ObjectId(userId!);
+  newEmployee.employer = new Types.ObjectId(userId);
   newEmployee.employerName = user.institutionName;
   const surveyId = shortid.generate();
   newEmployee.surveyId = surveyId;
   newEmployee.completed = false;
 
   try {
-    // save new employee
     await newEmployee.save();
     await User.updateOne(
       { _id: userId },
@@ -205,15 +214,15 @@ router.post('/create/employee', auth, async (req, res) => {
   return res.status(200).json({ message: 'success' });
 });
 
-// TESTING ROUTES BELOW
-// get all users
+/* TESTING ENDPOINTS BELOW (DELETE IN PRODUCTION) */
+/* fetch all users in database */
 router.post('/', (_, res) => {
   User.find({})
     .then((result) => res.status(200).json({ success: true, result }))
     .catch((e) => errorHandler(res, e));
 });
 
-// delete all users
+/* delete all users in database */
 router.delete('/', (_, res) => {
   User.deleteMany({})
     .then(() => res.status(200).json({ success: true }))
