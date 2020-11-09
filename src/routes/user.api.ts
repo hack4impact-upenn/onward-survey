@@ -30,6 +30,24 @@ router.post('/signup', async (req, res) => {
   }
 
   // hash + salt password
+  return hash(password, saltRounds, (err, hashedPassword) => {
+    if (err) {
+      return errorHandler(res, err.message);
+    }
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      institutionName,
+      password: hashedPassword,
+    });
+
+    return newUser
+      .save()
+      .then(() => res.status(200).json({ success: true }))
+      .catch((e) => errorHandler(res, e.message));
+  });
 });
 
 /* acccount login endpoint */
