@@ -6,9 +6,9 @@ import { EmployeeResponse } from '../models/employee_response.model';
 const router = express.Router();
 
 // get whether the employee has completed the survey
-// should be simple
 router.get('/:surveyId/completed', (req, res) => {
   const { surveyId } = req.params;
+
   return Employee.findOne({ surveyId })
     .select('_id employer employerName completed')
     .then((employee) => {
@@ -17,6 +17,7 @@ router.get('/:surveyId/completed', (req, res) => {
           res,
           `Employee with survey ID ${req.body.surveyId} does not exist.`
         );
+
       return res.status(200).json({ success: true, data: employee });
     })
     .catch((err) => errorHandler(res, err.message));
