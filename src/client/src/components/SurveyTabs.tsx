@@ -44,20 +44,19 @@ class SurveyTabs extends React.Component<{}, {tabClicked: number}> {
         this.state = {tabClicked : 2};
     }
     
-    clickTab1(){
+    clickTab1() {
         this.setState({
             tabClicked: 1
         });
     }
 
-    clickTab2(){
+    clickTab2() {
         this.setState({
             tabClicked: 2
         });
     }
 
-    render(){
-        
+    render() {
         return(
             <ContentContainer>
                 <div className="columns">
@@ -69,7 +68,7 @@ class SurveyTabs extends React.Component<{}, {tabClicked: number}> {
                 </div>
                 <TabsContainer className="tabs is-large">
                     <ul>
-                        <Tab>
+                        <Tab className={this.state.tabClicked == 1 ? 'is-active' : ''}>
                         <a
                         onClick =  {() => {
                             this.clickTab1();
@@ -77,7 +76,7 @@ class SurveyTabs extends React.Component<{}, {tabClicked: number}> {
                             View Results
                         </a>
                         </Tab>
-                        <Tab className="is-active">
+                        <Tab className={ this.state.tabClicked == 2 ? 'is-active' : '' }>
                         <a
                             onClick =  {() => {
                             this.clickTab2();
