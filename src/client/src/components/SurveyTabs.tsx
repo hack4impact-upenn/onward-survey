@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../api/core/auth';
 import PropTypes from 'prop-types';
+import { thru } from 'lodash';
 
 
 const TabsContainer = styled.div`
@@ -22,34 +23,53 @@ type Props = {
     children: ReactElement[]
 }
 
-const SurveyTabs: React.FC<Props> = (props) => {
-    const [selectedTab, setSelectedTab] = useState(0);
+class SurveyTabs extends React.Component {
+
+    constructor(props:any){
+        super(props);
+        this.state = {tabClicked : 2};
+    }
     
-    return(
+    clickTab1(){
+        this.setState({
+            tabClicked: 1
+        });
+    }
+
+    clickTab2(){
+        this.setState({
+            tabClicked: 2
+        });
+    }
+
+    render(){
         
-        <TabsContainer className="tabs is-large">
-            <ul>
-                <Tab>
-                  <a
-                  onClick =  {() => {
-                      props.tabName = "View Results";
-                      //console.log("Clicked tab: " + clickedTab);
-                  }}>
-                    View Results
-                  </a>
-                </Tab>
-                <Tab className="is-active">
-                  <a
+        return(
+            
+            <TabsContainer className="tabs is-large">
+                <ul>
+                    <Tab>
+                    <a
                     onClick =  {() => {
-                      props.tabName = "Manage Survey";
-                      //console.log("Clicked tab: " + clickedTab);
+                        this.clickTab1();
                     }}>
-                    Manage Survey
-                  </a>
-                </Tab>
-            </ul>
-        </TabsContainer>
-    )
+                        View Results
+                    </a>
+                    </Tab>
+                    <Tab className="is-active">
+                    <a
+                        onClick =  {() => {
+                        this.clickTab2();
+                        }}>
+                        Manage Survey
+                    </a>
+                    </Tab>
+                </ul>
+            </TabsContainer>
+
+          
+        )
+    }
 }
 
 export default SurveyTabs;

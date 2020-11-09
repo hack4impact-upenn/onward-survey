@@ -48,8 +48,8 @@ const GetTab = (props: any) => {
     return <ManageSurveyTab></ManageSurveyTab>;
   }
 }
-
-const ManageSurvey  = ()=> {
+interface Props {}
+const ManageSurvey: React.FC<Props> = (props) => {
   let clickedTab = "Manage Survey";
 
   return (
@@ -67,7 +67,6 @@ const ManageSurvey  = ()=> {
                   <a
                   onClick =  {() => {
                       clickedTab = "View Results";
-                      console.log("clicked");
                       console.log("Clicked tab: " + clickedTab);
                   }}>
                     View Results
