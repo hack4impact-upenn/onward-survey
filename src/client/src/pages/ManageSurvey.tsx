@@ -6,6 +6,7 @@ import ManageSurveyTable from '../components/Table';
 import ManageSurveyTab from '../components/ManageSurveyTab';
 import ViewResultsTab from '../components/ViewResultsTab';
 import '../styles/manage_survey.css';
+import SurveyTabs from "../components/SurveyTabs";
 
 const ContentContainer = styled.div`
   text-align: center;
@@ -39,7 +40,7 @@ const Tab = styled.li`
 
 const GetTab = (props: any) => {
   const tabName = props.tabName;
-  if (tabName==="Survey Results")
+  if (tabName === "Survey Results")
   {
     return <ViewResultsTab></ViewResultsTab>;
   }
@@ -53,38 +54,7 @@ const ManageSurvey: React.FC<Props> = (props) => {
   let clickedTab = "Manage Survey";
 
   return (
-    <ContentContainer>
-      <div className="columns">
-        <div className="column is-two-fifths">
-          <WelcomeText className="title has-text-left">
-            Welcome Back, <EmployerName>Employer Name</EmployerName>!
-          </WelcomeText>
-        </div>
-      </div>
-      <TabsContainer className="tabs is-large">
-            <ul>
-                <Tab>
-                  <a
-                  onClick =  {() => {
-                      clickedTab = "View Results";
-                      console.log("Clicked tab: " + clickedTab);
-                  }}>
-                    View Results
-                  </a>
-                </Tab>
-                <Tab className="is-active">
-                  <a
-                    onClick =  {() => {
-                      clickedTab = "Manage Survey";
-                      console.log("Clicked tab: " + clickedTab);
-                    }}>
-                    Manage Survey
-                  </a>
-                </Tab>
-            </ul>
-        </TabsContainer>
-    <GetTab tabName = {clickedTab}/>
-    </ContentContainer>
+    <SurveyTabs></SurveyTabs>
   );
 };
 
