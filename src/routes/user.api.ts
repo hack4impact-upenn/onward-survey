@@ -1,17 +1,17 @@
+import { compare, hash } from 'bcrypt';
 import express from 'express';
-import { hash, compare } from 'bcrypt';
-import shortid from 'shortid';
 import { Types } from 'mongoose';
-import { User, IUser } from '../models/user.model';
-import { Employee, IEmployee } from '../models/employee.model';
-import { SENDGRID_EMAIL } from '../utils/config';
+import shortid from 'shortid';
 import auth from '../middleware/auth';
+import { Employee } from '../models/employee.model';
+import { IUser, User } from '../models/user.model';
+import { SENDGRID_EMAIL } from '../utils/config';
 import errorHandler from './error';
 import {
   generateAccessToken,
   generateRefreshToken,
-  validateRefreshToken,
   sendMessage,
+  validateRefreshToken,
 } from './user.util';
 
 const router = express.Router();
