@@ -23,11 +23,11 @@ class AddEmail extends React.Component<{}, {emailInput: string}> {
     }
 
     handleClick() {
-        // make post request
-        secureAxios({
-            url: '/api/users/create/employee',
+        return new Promise((resolve, reject) => {
+            secureAxios({
+            url: '/api/employees/create/employee',
             method: 'POST',
-            timeout: 1000,
+            timeout: 0,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -35,10 +35,11 @@ class AddEmail extends React.Component<{}, {emailInput: string}> {
                 firstName: 'firstName',
                 lastName: 'lastName',
                 email: this.state.emailInput,
+            }),
             })
-        })
-            .then((res) => console.log("data received"))
-            .catch((err: Error) => console.log(err));
+                .then(() => resolve())
+                .catch((err: Error) => reject(err));
+        }); 
     }
 
     render() {
