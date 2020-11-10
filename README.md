@@ -1,10 +1,13 @@
-# TS-Boilerplate
+# Onward Financial Wellness Survey
 
-![demo](docs/images/demo.png 'Demo')
+### **Team**
 
-Dead simple monorepo boilerplate web project designed to take you from Git Cloning to Heroku Deployment in less 5 minutes. 🚀🤩
+- PM / TL: Daniel Tian, Grace Jiang
+- Software Developers: Abhishek Pandya, Daniel Barra, Eric Chen, Ivan Esmeral, Mohamed Abaker, Silvi Kabra
 
-It is built using the TypeScript, React, Express, Mongoose, MongoDB stack. If you want to checkout an example project based on TS-Boilerplate, check out [TS-Canvas](https://github.com/orang-utan/ts-canvas).
+### **Product Overview**
+
+The financial survey is a tool for both registered employers and visitors to learn more about their employee’s financial habits. A current employer can request for the financial survey to be sent to his/her employees, and employees can fill out the survey with anonymized information. The aggregated data report will be sent back to the employer.
 
 ## Features
 
