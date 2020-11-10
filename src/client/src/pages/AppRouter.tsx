@@ -19,6 +19,7 @@ const AppRouter = () => {
     <Router>
       <AppContainer>
         <Switch>
+          {/* falsy loginRedirect prevents a public route from redirecting to dashboard once loggedin */}
           <PublicRoute exact loginRedirect path="/" component={Main} />
           <PublicRoute exact loginRedirect path="/signup" component={Signup} />
           <PublicRoute exact loginRedirect path="/login" component={Login} />
