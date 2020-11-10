@@ -183,7 +183,9 @@ router.post('/create/employee', auth, async (req, res) => {
   const { firstName, lastName, email } = req.body;
   const { userId } = req;
   const user = await User.findById(userId);
+  const surveyId = shortid.generate();
   if (!user) return errorHandler(res, 'User does not exist.');
+
   // create new employee
   const newEmployee = new Employee();
   newEmployee.firstName = firstName;
@@ -191,7 +193,6 @@ router.post('/create/employee', auth, async (req, res) => {
   newEmployee.email = email;
   newEmployee.employer = new Types.ObjectId(userId);
   newEmployee.employerName = user.institutionName;
-  const surveyId = shortid.generate();
   newEmployee.surveyId = surveyId;
   newEmployee.completed = false;
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import auth from '../utils/auth';
 
 const TabsContainer = styled.div`
   padding-bottom: 25px;
