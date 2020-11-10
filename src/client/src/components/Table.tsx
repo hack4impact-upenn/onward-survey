@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import auth from '../api/core/auth';
-import checkmark from '../assets/checkmark.png';
+import auth from '../utils/auth';
 
 const TableContainer = styled.div`
   margin: 10vh auto;
@@ -141,7 +140,7 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
           <tr key={entry._id}>
             <td id="checkmark">
               {entry.status ? (
-                <img src={checkmark} alt="checkmark"></img>
+                <img src="/images/checkmark.png" alt="checkmark"></img>
               ) : (
                 <p></p>
               )}

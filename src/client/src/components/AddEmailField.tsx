@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import secureAxios from '../api/core/apiClient';
-import auth from '../api/core/auth';
+import secureAxios from '../utils/apiClient';
+import auth from '../utils/auth';
 
 const AddEmailGroup = styled.div`
   padding-bottom: 34px;
@@ -35,7 +35,7 @@ class AddEmail extends React.Component<{}, { emailInput: string }> {
       }),
     })
       .then((res) => alert('email added!'))
-      .catch((err: Error) => console.log(err));
+      .catch((err: Error) => alert(err.message));
   }
 
   render() {

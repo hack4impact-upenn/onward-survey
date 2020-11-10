@@ -1,9 +1,5 @@
-import React, {ReactElement, useState} from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
-import auth from '../api/core/auth';
-import PropTypes from 'prop-types';
-import { thru } from 'lodash';
 import ManageSurveyTab from '../components/ManageSurveyTab';
 import ViewResultsTab from '../components/ViewResultsTab';
 
@@ -26,79 +22,75 @@ const WelcomeText = styled.h1`
 `;
 
 const TabsContainer = styled.div`
-    padding-bottom: 25px;
-    font-family: 'Montserrat';
-    font-weight: 600;
-    font-size: 18px;
+  padding-bottom: 25px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 18px;
 `;
 
 const Tab = styled.li`
-    font-size: 16px;
-    color: #00AADE;
+  font-size: 16px;
+  color: #00aade;
 `;
 
-class SurveyTabs extends React.Component<{}, {tabClicked: number}> {
+class SurveyTabs extends React.Component<{}, { tabClicked: number }> {
+  constructor(props: any) {
+    super(props);
+    this.state = { tabClicked: 2 };
+  }
 
-    constructor(props:any){
-        super(props);
-        this.state = {tabClicked : 2};
-    }
-    
-    clickTab1() {
-        this.setState({
-            tabClicked: 1
-        });
-    }
+  clickTab1() {
+    this.setState({
+      tabClicked: 1,
+    });
+  }
 
-    clickTab2() {
-        this.setState({
-            tabClicked: 2
-        });
-    }
+  clickTab2() {
+    this.setState({
+      tabClicked: 2,
+    });
+  }
 
-    render() {
-        return(
-            <ContentContainer>
-                <div className="columns">
-                    <div className="column is-two-fifths">
-                    <WelcomeText className="title has-text-left">
-                        Welcome Back, <EmployerName>Employer Name</EmployerName>!
-                    </WelcomeText>
-                    </div>
-                </div>
-                <TabsContainer className="tabs is-large">
-                    <ul>
-                        <Tab className={this.state.tabClicked == 1 ? 'is-active' : ''}>
-                        <a
-                        onClick =  {() => {
-                            this.clickTab1();
-                        }}>
-                            View Results
-                        </a>
-                        </Tab>
-                        <Tab className={ this.state.tabClicked == 2 ? 'is-active' : '' }>
-                        <a
-                            onClick =  {() => {
-                            this.clickTab2();
-                            }}>
-                            Manage Survey
-                        </a>
-                        </Tab>
-                    </ul>
-                </TabsContainer>
-                <div>
-                    {(this.state.tabClicked == 1) && (
-                        <ViewResultsTab></ViewResultsTab>
-                    )}
+  render() {
+    return (
+      <ContentContainer>
+        <div className="columns">
+          <div className="column is-two-fifths">
+            <WelcomeText className="title has-text-left">
+              Welcome Back, <EmployerName>Employer Name</EmployerName>!
+            </WelcomeText>
+          </div>
+        </div>
+        <TabsContainer className="tabs is-large">
+          <ul>
+            <Tab className={this.state.tabClicked == 1 ? 'is-active' : ''}>
+              <a
+                onClick={() => {
+                  this.clickTab1();
+                }}
+              >
+                View Results
+              </a>
+            </Tab>
+            <Tab className={this.state.tabClicked == 2 ? 'is-active' : ''}>
+              <a
+                onClick={() => {
+                  this.clickTab2();
+                }}
+              >
+                Manage Survey
+              </a>
+            </Tab>
+          </ul>
+        </TabsContainer>
+        <div>
+          {this.state.tabClicked == 1 && <ViewResultsTab></ViewResultsTab>}
 
-                    {(this.state.tabClicked == 2) && (
-                        <ManageSurveyTab></ManageSurveyTab>
-                    )}
-                </div>
-            </ContentContainer>
-        )
-    }
+          {this.state.tabClicked == 2 && <ManageSurveyTab></ManageSurveyTab>}
+        </div>
+      </ContentContainer>
+    );
+  }
 }
 
 export default SurveyTabs;
-   

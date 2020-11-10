@@ -1,8 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import auth from '../api/core/auth';
-import checkmark from '../assets/checkmark.png';
 import AddEmailField from '../components/AddEmailField';
 import ManageSurveyTable from '../components/Table';
 //import SurveyTabs from '../SurveyTabs';
@@ -38,5 +35,3 @@ const ManageSurveyTab: React.FC<Props> = (props) => {
 };
 
 export default ManageSurveyTab;
-
-
