@@ -148,9 +148,11 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
   );
   const TableBody = (res: IEmployeeS) => {
     const { data: employees } = res;
+    console.log(employees);
+    const employeesList : any = employees;
     return (
-      <div>
-        {employees.employees.map((entry) => (
+      <>
+        {employeesList.map((entry:any) => (
           <tr key={entry._id}>
             <td id="checkmark">
               {true ? (
@@ -163,11 +165,9 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
             {getResendElement(entry.status)}
           </tr>
         ))}
-      </div>
+      </>
     );
   };
-
-  const employeeList = employeeQuery.data;
   return (
     <Table>
       <thead>
