@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import auth from '../utils/auth';
+import { fetchEmployees } from '../api/userApi';
+import { useQuery } from 'react-query';
 
 const TableContainer = styled.div`
   margin: 10vh auto;
@@ -80,38 +82,38 @@ const Table = styled.table`
   }
 `;
 
-const data = [
-  {
-    _id: 1,
-    status: true,
-    email: 'daniel.tian@hack4impact.org',
-  },
-  {
-    _id: 2,
-    status: false,
-    email: 'grace.jiang@hack4impact.org',
-  },
-  {
-    _id: 3,
-    status: true,
-    email: 'hello.world@gmail.com',
-  },
-  {
-    _id: 4,
-    status: true,
-    email: 'abhishekanderic@hack4impact.org',
-  },
-  {
-    _id: 5,
-    status: true,
-    email: 'daniel.tian@hack4impact.org',
-  },
-  {
-    _id: 6,
-    status: false,
-    email: 'grace.jiang@hack4impact.org',
-  },
-];
+// const data = [
+//   {
+//     _id: 1,
+//     status: true,
+//     email: 'daniel.tian@hack4impact.org',
+//   },
+//   {
+//     _id: 2,
+//     status: false,
+//     email: 'grace.jiang@hack4impact.org',
+//   },
+//   {
+//     _id: 3,
+//     status: true,
+//     email: 'hello.world@gmail.com',
+//   },
+//   {
+//     _id: 4,
+//     status: true,
+//     email: 'abhishekanderic@hack4impact.org',
+//   },
+//   {
+//     _id: 5,
+//     status: true,
+//     email: 'daniel.tian@hack4impact.org',
+//   },
+//   {
+//     _id: 6,
+//     status: false,
+//     email: 'grace.jiang@hack4impact.org',
+//   },
+// ];
 
 function getResendElement(status: boolean) {
   return (
@@ -126,6 +128,15 @@ function getResendElement(status: boolean) {
 
 interface Props {}
 const ManageSurveyTable: React.FC<Props> = (props) => {
+  const employeeQuery = useQuery(
+    ['fetchEmployees', { accessToken: auth.getAccessToken() }],
+    fetchEmployees,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const employeeList = employeeQuery.data;
   return (
     <Table>
       <thead>
@@ -136,7 +147,7 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
         </tr>
       </thead>
       <tbody>
-        {data.map((entry) => (
+        {employeeList.map((entry) => (
           <tr key={entry._id}>
             <td id="checkmark">
               {entry.status ? (
@@ -148,7 +159,7 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
             <td id="email">{entry.email}</td>
             {getResendElement(entry.status)}
           </tr>
-        ))}
+        ))} 
       </tbody>
     </Table>
   );
