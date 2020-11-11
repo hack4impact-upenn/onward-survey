@@ -12,6 +12,8 @@ interface IUser extends mongoose.Document {
   surveyIDs: string[];
   institutionName: string;
   employees: mongoose.Types.ObjectId[];
+  thresholdMet: boolean;
+  numCompleted: number;
 }
 
 // TODO: need to change registration sheet to add institution name
@@ -35,6 +37,8 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
+  thresholdMet: {type: Boolean, required: false, default: false},
+  numCompleted: {type: Number, required: false, default: 0}
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);
