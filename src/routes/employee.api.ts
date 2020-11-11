@@ -53,16 +53,20 @@ router.post('/survey', async (req, res) => {
           .then(async (employer) => {
             if (!employer) return errorHandler(res, 'Employer does not exist.');
             // arbitrary threshold of 75% chosen
-            if (!(employer.thresholdMet.valueOf()) && (Number(employer.numCompleted + 1) / Number(employer.employees.length)) >= 0.01) {
+            if (
+              !employer.thresholdMet.valueOf() &&
+              Number(employer.numCompleted + 1) /
+                Number(employer.employees.length) >=
+                0.01
+            ) {
               // email employer and update threshold met to true
               console.log(employer.thresholdMet.valueOf());
               employer.thresholdMet = true;
-              console.log("DUMMY: Emailing employer");
+              console.log('DUMMY: Emailing employer');
             }
             employer.numCompleted = employer.numCompleted + 1;
             employer.save();
-          })
-        
+          });
       } catch (err) {
         console.log(err);
         return errorHandler(res, err);

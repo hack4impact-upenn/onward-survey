@@ -37,8 +37,8 @@ const UserSchema = new Schema({
       default: [],
     },
   ],
-  thresholdMet: {type: Boolean, required: false, default: false},
-  numCompleted: {type: Number, required: false, default: 0}
+  thresholdMet: { type: Boolean, required: false, default: false },
+  numCompleted: { type: Number, required: false, default: 0 },
 });
 
 const User = mongoose.model<IUser>('User', UserSchema);
