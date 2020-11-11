@@ -3,7 +3,7 @@ import express from 'express';
 import { Types } from 'mongoose';
 import shortid from 'shortid';
 import auth from '../middleware/auth';
-import { Employee } from '../models/employee.model';
+import { IEmployee, Employee } from '../models/employee.model';
 import { IUser, User } from '../models/user.model';
 import { SENDGRID_EMAIL } from '../utils/config';
 import errorHandler from './error';
@@ -208,6 +208,22 @@ router.post('/create/employee', auth, async (req, res) => {
     return errorHandler(res, err);
   }
   return res.status(200).json({ message: 'success' });
+});
+
+/* user fetch employee emails */
+router.get('/emails', auth, (req, res) => {
+  const { userId } = req;
+
+  return User.findById(userId)
+    .populate('employees')
+    .then((user) => {
+      if (!user) return errorHandler(res, 'User does not exist.');
+
+      // const emails = user.employees.map(employee => employee.email)
+      console.log(user.employees)
+      return res.status(200).json({ success: true, data: user });
+    })
+    .catch((err) => errorHandler(res, err.message));
 });
 
 /* TESTING ENDPOINTS BELOW (DELETE IN PRODUCTION) */
