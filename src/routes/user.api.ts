@@ -211,17 +211,15 @@ router.post('/create/employee', auth, async (req, res) => {
 });
 
 /* user fetch employee emails */
-router.get('/emails', auth, (req, res) => {
+router.get('/email', auth, (req, res) => {
   const { userId } = req;
-
   return User.findById(userId)
     .populate('employees')
     .then((user) => {
       if (!user) return errorHandler(res, 'User does not exist.');
-
-      // const emails = user.employees.map(employee => employee.email)
-      console.log(user.employees)
-      return res.status(200).json({ success: true, data: user });
+      const employees = user.employees
+      //const emails = user.employees.map(employee => employee.email);
+      return res.status(200).json({ success: true, data: employees });
     })
     .catch((err) => errorHandler(res, err.message));
 });
