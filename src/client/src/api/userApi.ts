@@ -60,7 +60,10 @@ const fetchMe = (key: string, { accessToken }: { accessToken: string }) => {
   });
 };
 
-const fetchEmployees = (key: string, { accessToken }: { accessToken: string }) => {
+const fetchEmployees = (
+  key: string,
+  { accessToken }: { accessToken: string }
+) => {
   return new Promise((resolve, reject) => {
     secureAxios({
       url: '/api/users/emails',

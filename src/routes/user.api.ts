@@ -217,7 +217,7 @@ router.get('/email', auth, (req, res) => {
     .populate('employees')
     .then((user) => {
       if (!user) return errorHandler(res, 'User does not exist.');
-      const employees = user.employees
+      const employees = user.employees;
       //const emails = user.employees.map(employee => employee.email);
       return res.status(200).json({ success: true, data: employees });
     })
