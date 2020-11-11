@@ -149,10 +149,10 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
   const TableBody = (res: IEmployeeS) => {
     const { data: employees } = res;
     console.log(employees);
-    const employeesList : any = employees;
+    const employeesList: any = employees;
     return (
       <>
-        {employeesList.map((entry:any) => (
+        {employeesList.map((entry: any) => (
           <tr key={entry._id}>
             <td id="checkmark">
               {true ? (
