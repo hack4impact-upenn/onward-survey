@@ -129,18 +129,16 @@ function getResendElement(status: boolean) {
 interface IEmployee {
   _id: string;
   email: string;
-  status:boolean;
+  status: boolean;
 }
-;
 interface IEmployeeS extends IAPIResponse {
   data: {
-  employees : IEmployee[]
-}}
+    employees: IEmployee[];
+  };
+}
 
-interface Props {} 
+interface Props {}
 const ManageSurveyTable: React.FC<Props> = (props) => {
-
-
   const employeeQuery = useQuery(
     ['fetchEmployees', { accessToken: auth.getAccessToken() }],
     fetchEmployees,
@@ -149,25 +147,25 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
     }
   );
   const TableBody = (res: IEmployeeS) => {
-    const {data: employees} = res;
+    const { data: employees } = res;
     return (
       <div>
         {employees.employees.map((entry) => (
-        <tr key={entry._id}>
-          <td id="checkmark">
-            {true ? (
-              <img src="/images/checkmark.png" alt="checkmark"></img>
-            ) : (
-              <p></p>
-            )}
-          </td>
-          <td id="email">{entry.email}</td>
-          {getResendElement(entry.status)}
-        </tr>
-      ))} 
+          <tr key={entry._id}>
+            <td id="checkmark">
+              {true ? (
+                <img src="/images/checkmark.png" alt="checkmark"></img>
+              ) : (
+                <p></p>
+              )}
+            </td>
+            <td id="email">{entry.email}</td>
+            {getResendElement(entry.status)}
+          </tr>
+        ))}
       </div>
-    )
-  }
+    );
+  };
 
   const employeeList = employeeQuery.data;
   return (
@@ -180,8 +178,8 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
         </tr>
       </thead>
       <tbody>
-      {employeeQuery.isLoading && <div>Loading...</div>}
-      {employeeQuery.data && TableBody(employeeQuery.data as any)}
+        {employeeQuery.isLoading && <div>Loading...</div>}
+        {employeeQuery.data && TableBody(employeeQuery.data as any)}
       </tbody>
     </Table>
   );

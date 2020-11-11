@@ -211,7 +211,7 @@ router.post('/create/employee', auth, async (req, res) => {
 });
 
 /* user fetch employee emails */
-router.get('/email', auth, (req, res) => {
+router.get('/emails', auth, (req, res) => {
   const { userId } = req;
   return User.findById(userId)
     .populate('employees')
