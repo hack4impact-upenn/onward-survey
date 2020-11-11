@@ -1,3 +1,3 @@
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = process.env.REACT_APP_API_URL || '';
 
 export { ENDPOINT };

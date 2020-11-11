@@ -82,39 +82,6 @@ const Table = styled.table`
   }
 `;
 
-// const data = [
-//   {
-//     _id: 1,
-//     status: true,
-//     email: 'daniel.tian@hack4impact.org',
-//   },
-//   {
-//     _id: 2,
-//     status: false,
-//     email: 'grace.jiang@hack4impact.org',
-//   },
-//   {
-//     _id: 3,
-//     status: true,
-//     email: 'hello.world@gmail.com',
-//   },
-//   {
-//     _id: 4,
-//     status: true,
-//     email: 'abhishekanderic@hack4impact.org',
-//   },
-//   {
-//     _id: 5,
-//     status: true,
-//     email: 'daniel.tian@hack4impact.org',
-//   },
-//   {
-//     _id: 6,
-//     status: false,
-//     email: 'grace.jiang@hack4impact.org',
-//   },
-// ];
-
 function getResendElement(status: boolean) {
   return (
     <td
@@ -148,14 +115,13 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
   );
   const TableBody = (res: IEmployeeS) => {
     const { data: employees } = res;
-    console.log(employees);
     const employeesList: any = employees;
     return (
       <>
         {employeesList.map((entry: any) => (
           <tr key={entry._id}>
             <td id="checkmark">
-              {true ? (
+              {entry.status ? (
                 <img src="/images/checkmark.png" alt="checkmark"></img>
               ) : (
                 <p></p>

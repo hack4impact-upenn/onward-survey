@@ -75,7 +75,6 @@ const fetchEmployees = (
       },
     })
       .then((res) => {
-        console.log('this is working');
         resolve(res.data);
       })
       .catch((err: Error) => reject(err));
