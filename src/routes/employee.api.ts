@@ -2,6 +2,8 @@ import express from 'express';
 import { Employee } from '../models/employee.model';
 import errorHandler from './error';
 import { EmployeeResponse } from '../models/employee_response.model';
+import { User } from '../models/user.model';
+import { isValidObjectId } from 'mongoose';
 
 const router = express.Router();
 
@@ -28,11 +30,11 @@ router.get('/:surveyId/completed', (req, res) => {
 router.post('/survey', async (req, res) => {
   const { employeeId, responses } = req.body;
   Employee.findById(employeeId)
-    .select('surveyId')
+    .select('surveyId employer')
     .then(async (employee) => {
       if (!employee) return errorHandler(res, 'Employee does not exist.');
 
-      const { surveyId } = employee;
+      const { surveyId, employer } = employee;
       const newEmployeeResponse = new EmployeeResponse({
         surveyId,
         responses,
@@ -45,6 +47,26 @@ router.post('/survey', async (req, res) => {
           { _id: employeeId },
           { $set: { completed: true } }
         );
+        // Find employer, increment number completed, check if number completed >= threshold
+        await User.findById(employer)
+          .select('numCompleted thresholdMet employees')
+          .then(async (employer) => {
+            if (!employer) return errorHandler(res, 'Employer does not exist.');
+            // arbitrary threshold of 75% chosen
+            if (
+              !employer.thresholdMet.valueOf() &&
+              Number(employer.numCompleted + 1) /
+                Number(employer.employees.length) >=
+                0.01
+            ) {
+              // email employer and update threshold met to true
+              console.log(employer.thresholdMet.valueOf());
+              employer.thresholdMet = true;
+              console.log('DUMMY: Emailing employer');
+            }
+            employer.numCompleted = employer.numCompleted + 1;
+            employer.save();
+          });
       } catch (err) {
         console.log(err);
         return errorHandler(res, err);
