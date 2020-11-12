@@ -180,34 +180,37 @@ router.get('/me', auth, (req, res) => {
 
 /* user add new employee endpoint */
 router.post('/create/employee', auth, async (req, res) => {
-  const { firstName, lastName, email } = req.body;
-  const { userId } = req;
-  const user = await User.findById(userId);
-  const surveyId = shortid.generate();
-  if (!user) return errorHandler(res, 'User does not exist.');
+  req.body.forEach(async (employee:any) => {
+    const { firstName, lastName, email } = employee;
+    const { userId } = req;
+    const user = await User.findById(userId);
+    const surveyId = shortid.generate();
+    if (!user) return errorHandler(res, 'User does not exist.');
 
-  // create new employee
-  const newEmployee = new Employee();
-  newEmployee.firstName = firstName;
-  newEmployee.lastName = lastName;
-  newEmployee.email = email;
-  newEmployee.employer = new Types.ObjectId(userId);
-  newEmployee.employerName = user.institutionName;
-  newEmployee.surveyId = surveyId;
-  newEmployee.completed = false;
+    // create new employee
+    const newEmployee = new Employee();
+    newEmployee.firstName = firstName;
+    newEmployee.lastName = lastName;
+    newEmployee.email = email;
+    newEmployee.employer = new Types.ObjectId(userId);
+    newEmployee.employerName = user.institutionName;
+    newEmployee.surveyId = surveyId;
+    newEmployee.completed = false;
 
-  try {
-    await newEmployee.save();
-    await User.updateOne(
-      { _id: userId },
-      { $push: { employees: newEmployee.id } },
-      { $push: { surveyIds: surveyId } }
-    );
-  } catch (err) {
-    console.log(err);
-    return errorHandler(res, err);
-  }
-  return res.status(200).json({ message: 'success' });
+    try {
+      await newEmployee.save();
+      await User.updateOne(
+        { _id: userId },
+        { $push: { employees: newEmployee.id } },
+        { $push: { surveyIds: surveyId } }
+      );
+    } catch (err) {
+      console.log(err);
+      return errorHandler(res, err);
+    }
+    return res.status(200).json({ message: 'success' });
+    });
+  
 });
 
 /* TESTING ENDPOINTS BELOW (DELETE IN PRODUCTION) */

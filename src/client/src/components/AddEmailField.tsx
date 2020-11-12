@@ -20,6 +20,8 @@ class AddEmail extends React.Component<{}, { emailInput: string }> {
   }
 
   handleClick() {
+    const employees = this.state.emailInput.split(', ').map(
+        element =>  {return{firstName:'firstName', lastName: 'lastName', email: element}})
     secureAxios({
       url: '/api/users/create/employee',
       method: 'POST',
@@ -28,11 +30,9 @@ class AddEmail extends React.Component<{}, { emailInput: string }> {
         Authorization: `Bearer ${auth.getAccessToken()}`,
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify({
-        firstName: 'firstName',
-        lastName: 'lastName',
-        email: this.state.emailInput,
-      }),
+      data: JSON.stringify(
+        employees
+      ),
     })
       .then((res) => alert('email added!'))
       .catch((err: Error) => alert(err.message));
@@ -45,13 +45,13 @@ class AddEmail extends React.Component<{}, { emailInput: string }> {
           <input
             className="input"
             type="text"
-            placeholder="Enter In Email"
+            placeholder="Enter in Emails, separated by commas (eg: john@doe.com, jane@doe.com)"
             onChange={(e) => this.handleChange(e)}
           />
         </p>
         <p className="control">
           <a className="button is-info" onClick={() => this.handleClick()}>
-            Add Email
+            Add Email(s)
           </a>
         </p>
       </AddEmailGroup>
