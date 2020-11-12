@@ -60,4 +60,25 @@ const fetchMe = (key: string, { accessToken }: { accessToken: string }) => {
   });
 };
 
-export { signup, login, fetchMe };
+const fetchEmployees = (
+  key: string,
+  { accessToken }: { accessToken: string }
+) => {
+  return new Promise((resolve, reject) => {
+    secureAxios({
+      url: '/api/users/emails',
+      method: 'GET',
+      timeout: 0,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err: Error) => reject(err));
+  });
+};
+
+export { signup, login, fetchMe, fetchEmployees };
