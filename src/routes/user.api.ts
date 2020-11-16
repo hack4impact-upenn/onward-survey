@@ -180,7 +180,7 @@ router.get('/me', auth, (req, res) => {
 
 /* user add new employee endpoint */
 router.post('/create/employee', auth, async (req, res) => {
-  req.body.forEach(async (employee:any) => {
+  req.body.forEach(async (employee: any) => {
     const { firstName, lastName, email } = employee;
     const { userId } = req;
     const user = await User.findById(userId);
@@ -209,8 +209,7 @@ router.post('/create/employee', auth, async (req, res) => {
       return errorHandler(res, err);
     }
     return res.status(200).json({ message: 'success' });
-    });
-  
+  });
 });
 
 /* user fetch employee emails */
