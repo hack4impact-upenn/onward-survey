@@ -164,6 +164,17 @@ router.post('/sendIndividualUrl', auth, async (req, res) => {
   }
 });
 
+
+/* Upload CSV*/
+router.post('/uploadCSV', auth, async (req, res) => {
+  const { userId } = req;
+  console.log(req.body);
+  res.send("success")
+  
+
+});
+
+
 /* user fetch self info endpoint */
 router.get('/me', auth, (req, res) => {
   const { userId } = req;
