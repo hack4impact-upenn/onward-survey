@@ -14,14 +14,13 @@ interface Props {}
 const UploadCSV: React.FC<Props> = (props) => {
   const [file, setFile] = useState<any>({ name: 'No File Selected' });
   const handleChange = (event: any) => {
-    console.log(event.target.files[0]);
     setFile(event.target.files[0]);
   };
 
   const handleUpload = () => {
-   const data = new FormData()
-   data.append('file[]', file)
-   console.log(data)
+    const data = new FormData();
+    data.append('file', file);
+    console.log(data);
     secureAxios({
       url: '/api/users/uploadCSV',
       method: 'POST',
@@ -48,7 +47,7 @@ const UploadCSV: React.FC<Props> = (props) => {
             <input
               className="file-input"
               type="file"
-              name="resume"
+              name="file"
               onChange={handleChange}
             />
             <span className="file-cta">
@@ -60,7 +59,7 @@ const UploadCSV: React.FC<Props> = (props) => {
             <span className="file-name">{file.name}</span>
           </label>
         </div>
-        <button className="button is-primary flex-Item" onClick={handleUpload}>
+        <button disabled = {!(file.type === "text/csv")} className="button is-primary flex-Item" onClick={handleUpload}>
           Upload
         </button>
       </InputWrapper>
