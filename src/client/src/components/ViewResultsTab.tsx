@@ -3,8 +3,7 @@ import auth from '../utils/auth';
 import { fetchData } from '../api/userApi';
 import { useQuery } from 'react-query';
 import ReactDOM from 'react-dom';
-import { VictoryBar, VictoryChart, VictoryAxis,
-        VictoryTheme } from 'victory';
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
 
 interface Props {}
 
