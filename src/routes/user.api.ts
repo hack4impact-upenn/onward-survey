@@ -233,7 +233,7 @@ router.get('/emails', auth, (req, res) => {
 router.get('/data', auth, async (req, res) => {
   const { userId } = req;
   return User.findById(userId)
-    .populate('surveyIDs')
+    .select('surveyIDs _id')
     .then(async (user) => {
       if (!user) return errorHandler(res, 'User does not exist.');
       const ids = user.surveyIDs;
