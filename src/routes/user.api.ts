@@ -4,6 +4,7 @@ import { Types } from 'mongoose';
 import shortid from 'shortid';
 import auth from '../middleware/auth';
 import { IEmployee, Employee } from '../models/employee.model';
+import { IEmployeeResponse, EmployeeResponse } from '../models/employee_response.model';
 import { IUser, User } from '../models/user.model';
 import { SENDGRID_EMAIL } from '../utils/config';
 import errorHandler from './error';
@@ -180,7 +181,7 @@ router.get('/me', auth, (req, res) => {
 
 /* user add new employee endpoint */
 router.post('/create/employee', auth, async (req, res) => {
-  req.body.forEach(async (employee:any) => {
+  req.body.forEach(async (employee: any) => {
     const { firstName, lastName, email } = employee;
     const { userId } = req;
     const user = await User.findById(userId);
@@ -209,8 +210,7 @@ router.post('/create/employee', auth, async (req, res) => {
       return errorHandler(res, err);
     }
     return res.status(200).json({ message: 'success' });
-    });
-  
+  });
 });
 
 /* user fetch employee emails */
@@ -226,6 +226,23 @@ router.get('/emails', auth, (req, res) => {
     })
     .catch((err) => errorHandler(res, err.message));
 });
+
+
+router.get('/data', auth, async (req, res) => {
+  const { userId } = req;
+  return User.findById(userId)
+    .populate('surveyIDs')
+    .then(async(user) => {
+      if (!user) return errorHandler(res, 'User does not exist.');
+      const ids = user.surveyIDs;
+      
+      const results = await EmployeeResponse.find( { surveyId: { $in:  ids } });
+ 
+      return res.status(200).json({ success: true, data: results });
+    })
+    .catch((err) => errorHandler(res, err.message));
+});
+
 
 /* TESTING ENDPOINTS BELOW (DELETE IN PRODUCTION) */
 /* fetch all users in database */
