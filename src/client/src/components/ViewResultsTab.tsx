@@ -15,15 +15,15 @@ const employeeQuery = useQuery(
   }
 );
 
-const map1 = new Map();
-const map2 = new Map();
-const map3 = new Map();
-const map4 = new Map();
-const map5 = new Map();
-const map6 = new Map();
+const map1 = new Map<String,number>([['1',0],[ '2',0],['3',0],[ '4',0],['5',0],[ '6',0],['7',0],[ '8',0],['9',0],[ '10',0]]);
+const map2 = new Map<String,number>([['A',0],[ 'B',0],['C',0],[ 'D',0],['E',0]]);
+const map3 = new Map<String,number>([['A',0],[ 'B',0],['C',0],[ 'D',0],['E',0],[ 'F',0],['G',0],[ 'H',0],['I',0]]);
+const map4 = new Map<String,number>([['A',0],[ 'B',0],['C',0],[ 'D',0],['E',0],[ 'F',0],['G',0]]);
+const map5 = new Map<String,number>([['A',0],[ 'B',0],['C',0],[ 'D',0],['E',0],[ 'F',0],['G',0]]);
+const map6 = new Map<String,number>([['A',0],[ 'B',0],['C',0],[ 'D',0],['E',0]]);
 
 const survey: String[][] = [[], [], [], [], [], []];
-const counters: Map<String, number>[] = [map1, map2, map3, map4, map5, map6];
+const counters: Map<number, Map<String,number>> = new Map([[1,map1],[2, map2],[3, map3],[4, map4],[5, map5],[6, map6]]);
 const finalData: Object[][] = [[], [], [], [], [], []];
 
 const organizeArray = (results: any) => {
@@ -48,31 +48,73 @@ const partitionIntoMaps = () => {
   for (var i = 0; i < survey.length; i++) {
     const numberedArray = survey[i];
     for (var j = 0; j < survey.length; j++) {
-      let prevCount = counters[i].get(numberedArray[j]);
-      if (!prevCount) {
-        prevCount = 0;
+      if (counters.has(j))
+      {
+        let surveyMap = counters.get(j) ?? new Map()
+        const surveyMapAnswer = surveyMap.get(numberedArray[j])??-1
+        surveyMap.set(numberedArray[j],surveyMapAnswer+1)
       }
-      counters[i].set(numberedArray[j], prevCount + 1);
     }
   }
 };
 
-// const mapsToArrays = () => {
-//   for (var i = 0; i < finalData.length; i++)
-//   {
-//     for (let [key, value] of counters[i])
-//     {
-//       const response =
-//       const obj =
-//     }
-//   }
-// };
+const mapsToArrays = () => {
+  for (var i = 0; i < finalData.length; i++)
+  {
+    const surveyMap : Map<String,number> = counters.get(i) ?? new Map<String,number>()
+    surveyMap.forEach( (value, key) => {
+        var jsonObject:any = {}; 
+        jsonObject.x = key;
+        jsonObject.y = value;
+        finalData[i].push(jsonObject)
+      }
+    )
+  }
+};
+
+const createFinalData = (results:any) => {
+  organizeArray(results);
+  partitionIntoMaps();
+  mapsToArrays();
+  return (finalData);
+}
+
+const MyTable = (res : Object[][]) => {
+  const data = res;
+  return (
+      <VictoryChart
+        // domainPadding will add space to each side of VictoryBar to
+        // prevent it from overlapping the axis
+        domainPadding={20}
+      >
+      <VictoryAxis
+        // tickValues specifies both the number of ticks and where
+        // they are placed on the axis
+        tickValues={[1, 2, 3, 4]}
+        tickFormat={["1", "2", "3", "Quarter 4"]}
+      />
+      {/* <VictoryAxis
+        dependentAxis
+        // tickFormat specifies how ticks should be displayed
+        tickFormat={(x) => (`$${x / 1000}k`)}
+      /> */}
+      <VictoryBar
+        data={data}
+        x="Answers"
+        y="Number of responses"
+      />
+      </VictoryChart>
+
+  );
+};
+
+      
 
 const ViewResultsPage: React.FC<Props> = (props) => {
   return (
     <div>
       {employeeQuery.isLoading && <div>Loading...</div>}
-      {employeeQuery.data && TableBody(employeeQuery.data as any)}
+      {employeeQuery.data && MyTable(createFinalData(employeeQuery.data as any))}
     </div>
   );
 };
