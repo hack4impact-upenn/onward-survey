@@ -22,10 +22,10 @@ interface ParamTypes {
 }
 
 const initialValues = {
-  1: [],
-  2: [],
-  3: [],
-  4: [],
+  1: '',
+  2: '',
+  3: '',
+  4: '',
 };
 
 const SurveyQuestions = () => {

@@ -15,12 +15,12 @@ const employeeQuery = useQuery(
   }
 );
 
-const map1 = new Map()
-const map2 = new Map()
-const map3 = new Map()
-const map4 = new Map()
-const map5 = new Map()
-const map6 = new Map()
+const map1 = new Map();
+const map2 = new Map();
+const map3 = new Map();
+const map4 = new Map();
+const map5 = new Map();
+const map6 = new Map();
 
 const survey: String[][] = [[], [], [], [], [], []];
 const counters: Map<String, number>[] = [map1, map2, map3, map4, map5, map6];
@@ -57,14 +57,13 @@ const partitionIntoMaps = () => {
   }
 };
 
-
 // const mapsToArrays = () => {
 //   for (var i = 0; i < finalData.length; i++)
 //   {
 //     for (let [key, value] of counters[i])
 //     {
-//       const response = 
-//       const obj = 
+//       const response =
+//       const obj =
 //     }
 //   }
 // };
