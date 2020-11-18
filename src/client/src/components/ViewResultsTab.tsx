@@ -58,16 +58,16 @@ const partitionIntoMaps = () => {
 };
 
 
-const mapsToArrays = () => {
-  for (var i = 0; i < finalData.length; i++)
-  {
-    for (let [key, value] of counters[i])
-    {
-      const response = 
-      const obj = 
-    }
-  }
-};
+// const mapsToArrays = () => {
+//   for (var i = 0; i < finalData.length; i++)
+//   {
+//     for (let [key, value] of counters[i])
+//     {
+//       const response = 
+//       const obj = 
+//     }
+//   }
+// };
 
 const ViewResultsPage: React.FC<Props> = (props) => {
   return (
