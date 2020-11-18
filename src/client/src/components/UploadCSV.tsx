@@ -18,9 +18,9 @@ const UploadCSV: React.FC<Props> = (props) => {
   };
 
   const handleUpload = () => {
+    // we append the file to form data
     const data = new FormData();
     data.append('file', file);
-    console.log(data);
     secureAxios({
       url: '/api/users/uploadCSV',
       method: 'POST',
@@ -54,11 +54,12 @@ const UploadCSV: React.FC<Props> = (props) => {
               <span className="file-icon">
                 <i className="fas fa-upload"></i>
               </span>
-              <span className="file-label">Choose a file…</span>
+              <span className="file-label">Choose a file.</span>
             </span>
             <span className="file-name">{file.name}</span>
           </label>
         </div>
+        {/* Front end does not allow upload unless it is a csv file. */}
         <button disabled = {!(file.type === "text/csv")} className="button is-primary flex-Item" onClick={handleUpload}>
           Upload
         </button>
