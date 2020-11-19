@@ -1,15 +1,15 @@
 import { compare, hash } from 'bcrypt';
+import csv from 'csv-parser';
 import express from 'express';
+import fs from 'fs';
 import { Types } from 'mongoose';
+import multer from 'multer';
 import shortid from 'shortid';
 import auth from '../middleware/auth';
-import { IEmployee, Employee } from '../models/employee.model';
+import { Employee } from '../models/employee.model';
 import { IUser, User } from '../models/user.model';
 import { SENDGRID_EMAIL } from '../utils/config';
 import errorHandler from './error';
-import multer from "multer";
-import csv from 'csv-parser';
-import fs from 'fs';
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -19,10 +19,8 @@ import {
 
 const router = express.Router();
 const saltRounds = 10;
-
- // use multer to handle uploaded files
-var upload = multer({ dest: 'uploads/' })
-
+// use multer to handle uploaded files
+const upload = multer({ dest: 'uploads/' });
 
 /* account signup endpoint */
 router.post('/signup', async (req, res) => {
@@ -173,28 +171,31 @@ router.post('/sendIndividualUrl', auth, async (req, res) => {
 
 /* Upload CSV*/
 router.post('/uploadCSV', upload.single('file'), auth, async (req, res) => {
-  const results:any = [];
+  const results: any = [];
   const { userId } = req;
   const user = await User.findById(userId);
-  
+
   // If the file is somehow a csv (frontend shouldn't allow this), then it will fail.
-  if (! (req.file.mimetype === "text/csv") ) {return res.status(400).json({success: false});}
-  
-fs.createReadStream(req.file.path)
-  // It will read the 1st column of the CSV as Name, the 2nd column as Email.
-  .pipe(csv(['Name', "Email"]))
-  .on('data', (data) => results.push(data))
-  .on('end', () => {
-    // we create a new employee object from the csv data
-    // NOTE: many of these are placeholders right now (unspecified behavior)
-    const employees = results.forEach ( async (employee: any) => {
-      const surveyId = shortid.generate();
-       const newEmployee = new Employee ();
+  if (!(req.file.mimetype === 'text/csv')) {
+    return res.status(400).json({ success: false });
+  }
+
+  fs.createReadStream(req.file.path)
+    // It will read the 1st column of the CSV as Name, the 2nd column as Email.
+    .pipe(csv(['Name', 'Email']))
+    .on('data', (data) => results.push(data))
+    .on('end', () => {
+      // we create a new employee object from the csv data
+      // NOTE: many of these are placeholders right now (unspecified behavior)
+      const employees = results.forEach(async (employee: any) => {
+        const surveyId = shortid.generate();
+        const newEmployee = new Employee();
         newEmployee.firstName = employee.Name;
-         newEmployee.lastName = "placeholder";
-         newEmployee.email = employee.Email;
+        newEmployee.lastName = 'placeholder';
+        newEmployee.email = employee.Email;
         newEmployee.employer = new Types.ObjectId(userId);
-        if (user?.institutionName) newEmployee.employerName = user.institutionName;
+        if (user?.institutionName)
+          newEmployee.employerName = user.institutionName;
         newEmployee.surveyId = surveyId;
         newEmployee.completed = false;
         try {
@@ -209,15 +210,13 @@ fs.createReadStream(req.file.path)
           console.log(err);
           return errorHandler(res, err);
         }
-    })
-    // We are deleting the file that was uploaded from the server.
-    fs.unlink(req.file.path, (err)=>{
-      if (err) console.error(err);
-    })
-    return res.status(200).json({ success: true });
-  });
-  
-  
+      });
+      // We are deleting the file that was uploaded from the server.
+      fs.unlink(req.file.path, (err) => {
+        if (err) console.error(err);
+      });
+      return res.status(200).json({ success: true });
+    });
 });
 /* user fetch self info endpoint */
 router.get('/me', auth, (req, res) => {
