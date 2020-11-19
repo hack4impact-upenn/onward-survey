@@ -11,6 +11,7 @@ const opts = {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
   keepAlive: true,
   keepAliveInitialDelay: 300000,
   serverSelectionTimeoutMS: 5000,
