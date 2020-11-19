@@ -4,6 +4,7 @@ import { fetchData } from '../api/userApi';
 import { useQuery } from 'react-query';
 import ReactDOM from 'react-dom';
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
+import VictoryGraph from '../components/VictoryGraph';
 
 interface Props {}
 
@@ -83,10 +84,21 @@ const counters: Map<number, Map<String, number>> = new Map([
 ]);
 const finalData: Object[][] = [[], [], [], [], [], []];
 
+interface MyDataResponse {
+  _v: number;
+  _id: string;
+  responses: ISurveyAnswers[];
+  surveyId: string;
+}
+
+interface MyData extends IAPIResponse { 
+  data: MyDataResponse[];
+};
+
+
 const organizeArray = (results: any) => {
   for (var i = 0; i < results.length; i++) {
     const result = results[i];
-
     if (result.responses instanceof Array) {
       for (var j = 0; j < result.responses.length; j++) {
         const answerObject = result.responses[j];
@@ -105,8 +117,8 @@ const partitionIntoMaps = () => {
   for (var i = 0; i < survey.length; i++) {
     const numberedArray = survey[i];
     for (var j = 0; j < survey.length; j++) {
-      if (counters.has(j)) {
-        let surveyMap = counters.get(j) ?? new Map();
+      if (counters.has(i+1)) {
+        let surveyMap = counters.get(i+1) ?? new Map();
         const surveyMapAnswer = surveyMap.get(numberedArray[j]) ?? -1;
         surveyMap.set(numberedArray[j], surveyMapAnswer + 1);
       }
@@ -117,7 +129,7 @@ const partitionIntoMaps = () => {
 const mapsToArrays = () => {
   for (var i = 0; i < finalData.length; i++) {
     const surveyMap: Map<String, number> =
-      counters.get(i) ?? new Map<String, number>();
+      counters.get(i+1) ?? new Map<String, number>();
     surveyMap.forEach((value, key) => {
       var jsonObject: any = {};
       jsonObject.x = key;
@@ -134,29 +146,20 @@ const createFinalData = (results: any) => {
   return finalData;
 };
 
-const MyTable = (res: Object[]) => {
-  const data = createFinalData(res);
+const MyTable = (res: MyData) => {
+  const { data: myData } = res;
+  console.log(myData);
+  const data = createFinalData(myData);
   console.log(data);
-  //const data = res;
   return (
-    <VictoryChart
-      // domainPadding will add space to each side of VictoryBar to
-      // prevent it from overlapping the axis
-      domainPadding={20}
-    >
-      <VictoryAxis
-        // tickValues specifies both the number of ticks and where
-        // they are placed on the axis
-        tickValues={[1, 2, 3, 4]}
-        tickFormat={['1', '2', '3', '4']}
-      />
-      {/* <VictoryAxis
-        dependentAxis
-        // tickFormat specifies how ticks should be displayed
-        tickFormat={(x) => (`$${x / 1000}k`)}
-      /> */}
-      <VictoryBar data={data[0]} x="Answers" y="Number of responses" />
-    </VictoryChart>
+    <div>
+      <VictoryGraph question={1} keys={Array.from(map1.keys())} data={data[0]} />
+      <VictoryGraph question={2} keys={Array.from(map2.keys())} data={data[1]} />
+      <VictoryGraph question={3} keys={Array.from(map3.keys())} data={data[2]} />
+      <VictoryGraph question={4} keys={Array.from(map4.keys())} data={data[3]} />
+      <VictoryGraph question={5} keys={Array.from(map5.keys())} data={data[4]} />
+      <VictoryGraph question={6} keys={Array.from(map6.keys())} data={data[5]} />
+    </div>
   );
 };
 
