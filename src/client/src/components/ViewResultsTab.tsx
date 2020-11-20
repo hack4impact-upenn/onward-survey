@@ -5,13 +5,14 @@ import { useQuery } from 'react-query';
 import ReactDOM from 'react-dom';
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
 import VictoryGraph from '../components/VictoryGraph';
-import SwiperCore, { Navigation, Pagination } from 'swiper';
+import SwiperCore, { Navigation, Pagination} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 
 SwiperCore.use([Navigation, Pagination]);
+
 
 interface Props {}
 
@@ -142,15 +143,13 @@ const ViewResultsPage = () => {
       const surveyMap: Map<string, number> =
         counters.get(i + 1) ?? new Map<string, number>();
       surveyMap.forEach((value, key) => {
-        var jsonObject: GraphData = { x: '', y: 0 };
+        var jsonObject: GraphData = {x: "", y: 0};
         jsonObject.x = key;
         jsonObject.y = value;
         finalData[i].push(jsonObject);
       });
-
-      // Function to sort data: looks really bad sorted though
-      //finalData[i].sort((a, b) => (a.y < b.y ? 1 : -1));
-    }
+      finalData[i].sort((a, b) => (a.y < b.y) ? 1 : -1);
+    };
   };
 
   const createFinalData = (results: any) => {
@@ -166,10 +165,7 @@ const ViewResultsPage = () => {
     const data = createFinalData(myData);
     console.log(data);
     return (
-      <Swiper
-        id="main"
-        navigation
-        pagination
+      <Swiper id='main' navigation pagination
         spaceBetween={50}
         slidesPerView={1}
         onSlideChange={() => console.log('slide change')}
@@ -177,55 +173,43 @@ const ViewResultsPage = () => {
       >
         <SwiperSlide>
           <VictoryGraph
-            question={1}
-            keys={data[0].map((elem) => {
-              return elem.x;
-            })}
-            data={data[0]}
+          question={1}
+          keys={data[0].map( (elem) => { return elem.x} )}
+          data={data[0]}
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
-            question={2}
-            keys={data[1].map((elem) => {
-              return elem.x;
-            })}
-            data={data[1]}
+          question={2}
+          keys={data[1].map( (elem) => { return elem.x} )}
+          data={data[1]}
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
             question={3}
-            keys={data[2].map((elem) => {
-              return elem.x;
-            })}
+            keys={data[2].map( (elem) => { return elem.x} )}
             data={data[2]}
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
             question={4}
-            keys={data[3].map((elem) => {
-              return elem.x;
-            })}
+            keys={data[3].map( (elem) => { return elem.x} )}
             data={data[3]}
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
             question={5}
-            keys={data[4].map((elem) => {
-              return elem.x;
-            })}
+            keys={data[4].map( (elem) => { return elem.x} )}
             data={data[4]}
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
             question={6}
-            keys={data[5].map((elem) => {
-              return elem.x;
-            })}
+            keys={data[5].map( (elem) => { return elem.x} )}
             data={data[5]}
           />
         </SwiperSlide>
