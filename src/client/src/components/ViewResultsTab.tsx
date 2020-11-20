@@ -192,18 +192,22 @@ const ViewResultsPage = () => {
         <SwiperSlide>
           <VictoryGraph
             question={1}
-            description={<p> <br/>
-              Median: {median(arrayWithQ1)} | 
-              Mean: {mean(arrayWithQ1).toFixed(3)} | 
-              Standard Deviation: {std(arrayWithQ1).toFixed(3)}
-            </p>}
+            description={
+              <p>
+                {' '}
+                <br />
+                Median: {median(arrayWithQ1)} | Mean:{' '}
+                {mean(arrayWithQ1).toFixed(3)} | Standard Deviation:{' '}
+                {std(arrayWithQ1).toFixed(3)}
+              </p>
+            }
             keys={data[0].map((elem) => {
               return elem.x;
             })}
             data={data[0]}
           />
         </SwiperSlide>
-        
+
         <SwiperSlide>
           <VictoryGraph
             question={2}
