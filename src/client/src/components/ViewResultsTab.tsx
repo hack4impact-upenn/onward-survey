@@ -4,6 +4,15 @@ import { fetchData } from '../api/userApi';
 import { useQuery } from 'react-query';
 import ReactDOM from 'react-dom';
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
+import VictoryGraph from '../components/VictoryGraph';
+import SwiperCore, { Navigation, Pagination} from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/swiper.scss';
+import 'swiper/components/navigation/navigation.scss';
+import 'swiper/components/pagination/pagination.scss';
+
+SwiperCore.use([Navigation, Pagination]);
+
 
 interface Props {}
 
@@ -16,7 +25,7 @@ const ViewResultsPage = () => {
     }
   );
 
-  const map1 = new Map<String, number>([
+  const map1 = new Map<string, number>([
     ['1', 0],
     ['2', 0],
     ['3', 0],
@@ -28,14 +37,14 @@ const ViewResultsPage = () => {
     ['9', 0],
     ['10', 0],
   ]);
-  const map2 = new Map<String, number>([
+  const map2 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
     ['D', 0],
     ['E', 0],
   ]);
-  const map3 = new Map<String, number>([
+  const map3 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
@@ -46,7 +55,7 @@ const ViewResultsPage = () => {
     ['H', 0],
     ['I', 0],
   ]);
-  const map4 = new Map<String, number>([
+  const map4 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
@@ -55,7 +64,7 @@ const ViewResultsPage = () => {
     ['F', 0],
     ['G', 0],
   ]);
-  const map5 = new Map<String, number>([
+  const map5 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
@@ -64,7 +73,7 @@ const ViewResultsPage = () => {
     ['F', 0],
     ['G', 0],
   ]);
-  const map6 = new Map<String, number>([
+  const map6 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
@@ -72,8 +81,8 @@ const ViewResultsPage = () => {
     ['E', 0],
   ]);
 
-  const survey: String[][] = [[], [], [], [], [], []];
-  const counters: Map<number, Map<String, number>> = new Map([
+  const survey: string[][] = [[], [], [], [], [], []];
+  const counters: Map<number, Map<string, number>> = new Map([
     [1, map1],
     [2, map2],
     [3, map3],
@@ -81,12 +90,27 @@ const ViewResultsPage = () => {
     [5, map5],
     [6, map6],
   ]);
-  const finalData: Object[][] = [[], [], [], [], [], []];
+  const finalData: GraphData[][] = [[], [], [], [], [], []];
+
+  interface MyDataResponse {
+    _v: number;
+    _id: string;
+    responses: ISurveyAnswers[];
+    surveyId: string;
+  }
+
+  interface MyData extends IAPIResponse {
+    data: MyDataResponse[];
+  }
+
+  interface GraphData {
+    x: string;
+    y: number;
+  }
 
   const organizeArray = (results: any) => {
     for (var i = 0; i < results.length; i++) {
       const result = results[i];
-
       if (result.responses instanceof Array) {
         for (var j = 0; j < result.responses.length; j++) {
           const answerObject = result.responses[j];
@@ -105,8 +129,8 @@ const ViewResultsPage = () => {
     for (var i = 0; i < survey.length; i++) {
       const numberedArray = survey[i];
       for (var j = 0; j < survey.length; j++) {
-        if (counters.has(j)) {
-          let surveyMap = counters.get(j) ?? new Map();
+        if (counters.has(i + 1)) {
+          let surveyMap = counters.get(i + 1) ?? new Map();
           const surveyMapAnswer = surveyMap.get(numberedArray[j]) ?? -1;
           surveyMap.set(numberedArray[j], surveyMapAnswer + 1);
         }
@@ -116,15 +140,16 @@ const ViewResultsPage = () => {
 
   const mapsToArrays = () => {
     for (var i = 0; i < finalData.length; i++) {
-      const surveyMap: Map<String, number> =
-        counters.get(i) ?? new Map<String, number>();
+      const surveyMap: Map<string, number> =
+        counters.get(i + 1) ?? new Map<string, number>();
       surveyMap.forEach((value, key) => {
-        var jsonObject: any = {};
+        var jsonObject: GraphData = {x: "", y: 0};
         jsonObject.x = key;
         jsonObject.y = value;
         finalData[i].push(jsonObject);
       });
-    }
+      finalData[i].sort((a, b) => (a.y < b.y) ? 1 : -1);
+    };
   };
 
   const createFinalData = (results: any) => {
@@ -134,29 +159,61 @@ const ViewResultsPage = () => {
     return finalData;
   };
 
-  const MyTable = (res: Object[]) => {
-    const data = createFinalData(res);
+  const MyTable = (res: MyData) => {
+    const { data: myData } = res;
+    console.log(myData);
+    const data = createFinalData(myData);
     console.log(data);
-    //const data = res;
     return (
-      <VictoryChart
-        // domainPadding will add space to each side of VictoryBar to
-        // prevent it from overlapping the axis
-        domainPadding={20}
+      <Swiper id='main' navigation pagination
+        spaceBetween={50}
+        slidesPerView={1}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
       >
-        <VictoryAxis
-          // tickValues specifies both the number of ticks and where
-          // they are placed on the axis
-          tickValues={[1, 2, 3, 4]}
-          tickFormat={['1', '2', '3', '4']}
-        />
-        {/* <VictoryAxis
-        dependentAxis
-        // tickFormat specifies how ticks should be displayed
-        tickFormat={(x) => (`$${x / 1000}k`)}
-      /> */}
-        <VictoryBar data={data[0]} x="Answers" y="Number of responses" />
-      </VictoryChart>
+        <SwiperSlide>
+          <VictoryGraph
+          question={1}
+          keys={data[0].map( (elem) => { return elem.x} )}
+          data={data[0]}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <VictoryGraph
+          question={2}
+          keys={data[1].map( (elem) => { return elem.x} )}
+          data={data[1]}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <VictoryGraph
+            question={3}
+            keys={data[2].map( (elem) => { return elem.x} )}
+            data={data[2]}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <VictoryGraph
+            question={4}
+            keys={data[3].map( (elem) => { return elem.x} )}
+            data={data[3]}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <VictoryGraph
+            question={5}
+            keys={data[4].map( (elem) => { return elem.x} )}
+            data={data[4]}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <VictoryGraph
+            question={6}
+            keys={data[5].map( (elem) => { return elem.x} )}
+            data={data[5]}
+          />
+        </SwiperSlide>
+      </Swiper>
     );
   };
 
