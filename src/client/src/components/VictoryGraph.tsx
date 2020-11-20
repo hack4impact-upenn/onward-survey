@@ -5,9 +5,7 @@ const VictoryGraph = (props: any) => {
   return (
     <div>
       <br />
-      <p>
-        Question {props.question}
-      </p>
+      <p>Question {props.question}</p>
       <VictoryChart
         // domainPadding will add space to each side of VictoryBar to
         // prevent it from overlapping the axis
@@ -19,11 +17,13 @@ const VictoryGraph = (props: any) => {
           tickValues={Array.from(props.keys)}
           tickFormat={Array.from(props.keys)}
         />
-        { <VictoryAxis
-          dependentAxis
-          // tickFormat specifies how ticks should be displayed
-          tickFormat={(y) => (`${y}`)}
-        /> }
+        {
+          <VictoryAxis
+            dependentAxis
+            // tickFormat specifies how ticks should be displayed
+            tickFormat={(y) => `${y}`}
+          />
+        }
         <VictoryBar data={props.data} x="x" y="y" />
       </VictoryChart>
     </div>
