@@ -32,10 +32,10 @@ interface ParamTypes {
 }
 
 const Welcome = () => {
-  const history = useHistory();
+  const history: any = useHistory();
   const { surveyId } = useParams<ParamTypes>();
 
-  const surveyCompletedQuery = useQuery(
+  const surveyCompletedQuery : any = useQuery(
     ['fetchSurveyStatus', surveyId],
     fetchSurveyStatus,
     {
