@@ -4,8 +4,8 @@ import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
 const VictoryGraph = (props: any) => {
   return (
     <div>
-      <br />
-      <p>Question {props.question}</p>
+      <p>Question {props.question}</p> 
+      {props.description}
       <VictoryChart
         // domainPadding will add space to each side of VictoryBar to
         // prevent it from overlapping the axis

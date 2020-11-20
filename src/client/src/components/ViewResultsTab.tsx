@@ -148,7 +148,8 @@ const ViewResultsPage = () => {
         jsonObject.y = value;
         finalData[i].push(jsonObject);
       });
-      finalData[i].sort((a, b) => (a.y < b.y ? 1 : -1));
+      // Function to sort bar graphs (looks bad sorted)
+      // finalData[i].sort((a, b) => (a.y < b.y ? 1 : -1));
     }
   };
 
@@ -189,19 +190,20 @@ const ViewResultsPage = () => {
         onSwiper={(swiper: any) => console.log(swiper)}
       >
         <SwiperSlide>
-          <p>
-            Median: {median(arrayWithQ1)} <br />
-            Mean: {mean(arrayWithQ1)} <br />
-            Standard Deviation: {std(arrayWithQ1)} <br />
-          </p>
           <VictoryGraph
             question={1}
+            description={<p> <br/>
+              Median: {median(arrayWithQ1)} | 
+              Mean: {mean(arrayWithQ1).toFixed(3)} | 
+              Standard Deviation: {std(arrayWithQ1).toFixed(3)}
+            </p>}
             keys={data[0].map((elem) => {
               return elem.x;
             })}
             data={data[0]}
           />
         </SwiperSlide>
+        
         <SwiperSlide>
           <VictoryGraph
             question={2}
