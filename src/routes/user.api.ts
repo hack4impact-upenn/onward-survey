@@ -6,7 +6,11 @@ import { Types } from 'mongoose';
 import multer from 'multer';
 import shortid from 'shortid';
 import auth from '../middleware/auth';
-import { Employee } from '../models/employee.model';
+import { IEmployee, Employee } from '../models/employee.model';
+import {
+  IEmployeeResponse,
+  EmployeeResponse,
+} from '../models/employee_response.model';
 import { IUser, User } from '../models/user.model';
 import { SENDGRID_EMAIL } from '../utils/config';
 import errorHandler from './error';
@@ -256,7 +260,7 @@ router.post('/create/employee', auth, async (req, res) => {
       await User.updateOne(
         { _id: userId },
         { $push: { employees: newEmployee.id } },
-        { $push: { surveyIds: surveyId } }
+        { $push: { surveyIDs: surveyId } }
       );
     } catch (err) {
       console.log(err);
@@ -276,6 +280,21 @@ router.get('/emails', auth, (req, res) => {
       const employees = user.employees;
       //const emails = user.employees.map(employee => employee.email);
       return res.status(200).json({ success: true, data: employees });
+    })
+    .catch((err) => errorHandler(res, err.message));
+});
+
+router.get('/data', auth, async (req, res) => {
+  const { userId } = req;
+  return User.findById(userId)
+    .select('surveyIDs _id')
+    .then(async (user) => {
+      if (!user) return errorHandler(res, 'User does not exist.');
+      const ids = user.surveyIDs;
+
+      const results = await EmployeeResponse.find({ surveyId: { $in: ids } });
+
+      return res.status(200).json({ success: true, data: results });
     })
     .catch((err) => errorHandler(res, err.message));
 });
