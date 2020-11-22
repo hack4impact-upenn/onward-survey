@@ -60,7 +60,11 @@ const UploadCSV: React.FC<Props> = (props) => {
           </label>
         </div>
         {/* Front end does not allow upload unless it is a csv file. */}
-        <button disabled = {!(file.type === "text/csv")} className="button is-primary flex-Item" onClick={handleUpload}>
+        <button
+          disabled={!(file.type === 'text/csv')}
+          className="button is-primary flex-Item"
+          onClick={handleUpload}
+        >
           Upload
         </button>
       </InputWrapper>

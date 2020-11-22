@@ -6,11 +6,8 @@ import { Types } from 'mongoose';
 import multer from 'multer';
 import shortid from 'shortid';
 import auth from '../middleware/auth';
-import { IEmployee, Employee } from '../models/employee.model';
-import {
-  IEmployeeResponse,
-  EmployeeResponse,
-} from '../models/employee_response.model';
+import { Employee } from '../models/employee.model';
+import { EmployeeResponse } from '../models/employee_response.model';
 import { IUser, User } from '../models/user.model';
 import { SENDGRID_EMAIL } from '../utils/config';
 import errorHandler from './error';
