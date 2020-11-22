@@ -60,6 +60,24 @@ const fetchMe = (key: string, { accessToken }: { accessToken: string }) => {
   });
 };
 
+const fetchData = (key: string, { accessToken }: { accessToken: string }) => {
+  return new Promise((resolve, reject) => {
+    secureAxios({
+      url: '/api/users/data',
+      method: 'GET',
+      timeout: 0,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err: Error) => reject(err));
+  });
+};
+
 const fetchEmployees = (
   key: string,
   { accessToken }: { accessToken: string }
@@ -81,4 +99,4 @@ const fetchEmployees = (
   });
 };
 
-export { signup, login, fetchMe, fetchEmployees };
+export { signup, login, fetchMe, fetchData, fetchEmployees };

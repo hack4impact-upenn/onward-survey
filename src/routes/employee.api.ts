@@ -1,9 +1,8 @@
 import express from 'express';
 import { Employee } from '../models/employee.model';
-import errorHandler from './error';
 import { EmployeeResponse } from '../models/employee_response.model';
 import { User } from '../models/user.model';
-import { isValidObjectId } from 'mongoose';
+import errorHandler from './error';
 
 const router = express.Router();
 

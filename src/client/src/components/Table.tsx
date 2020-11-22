@@ -1,13 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import auth from '../utils/auth';
-import { fetchEmployees } from '../api/userApi';
 import { useQuery } from 'react-query';
-
-const TableContainer = styled.div`
-  margin: 10vh auto;
-`;
+import styled from 'styled-components';
+import { fetchEmployees } from '../api/userApi';
+import auth from '../utils/auth';
 
 const Table = styled.table`
   @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
@@ -104,8 +99,7 @@ interface IEmployeeS extends IAPIResponse {
   };
 }
 
-interface Props {}
-const ManageSurveyTable: React.FC<Props> = (props) => {
+const ManageSurveyTable: React.FC<any> = () => {
   const employeeQuery = useQuery(
     ['fetchEmployees', { accessToken: auth.getAccessToken() }],
     fetchEmployees,
@@ -134,20 +128,28 @@ const ManageSurveyTable: React.FC<Props> = (props) => {
       </>
     );
   };
+
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th id="status">Status</th>
-          <th id="email">Email</th>
-          <th id="resend">Resend Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {employeeQuery.isLoading && <div>Loading...</div>}
-        {employeeQuery.data && TableBody(employeeQuery.data as any)}
-      </tbody>
-    </Table>
+    <div>
+      {' '}
+      {employeeQuery.isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <Table>
+          <thead>
+            <tr>
+              <th id="status">Status</th>
+              <th id="email">Email</th>
+              <th id="resend">Resend Email</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {employeeQuery.data && TableBody(employeeQuery.data as any)}
+          </tbody>
+        </Table>
+      )}
+    </div>
   );
 };
 

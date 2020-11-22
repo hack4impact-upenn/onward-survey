@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AddEmailField from '../components/AddEmailField';
 import ManageSurveyTable from '../components/Table';
+import UploadCSV from '../components/UploadCSV';
 //import SurveyTabs from '../SurveyTabs';
 import '../styles/manage_survey.css';
 
@@ -24,6 +25,7 @@ const ManageSurveyTab: React.FC<Props> = (props) => {
   return (
     <div>
       <AddEmailField></AddEmailField>
+      <UploadCSV></UploadCSV>
       <ManageSurveyTable></ManageSurveyTable>
       <SurveyButtonGroup>
         <SendOutButton className="button is-primary is-pulled-right">
