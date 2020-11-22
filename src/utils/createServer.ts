@@ -5,12 +5,16 @@ import cors from 'cors';
 import userRouter from '../routes/user.api';
 import employeeRouter from '../routes/employee.api';
 
+
 const createServer = (): express.Express => {
   const app = express();
   app.set('port', process.env.PORT || 5000);
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(cors());
+
+  
+
 
   // API Routes
   app.use('/api/users', userRouter);
