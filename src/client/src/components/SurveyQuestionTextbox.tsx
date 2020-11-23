@@ -7,15 +7,11 @@ const SurveyQuestionTextbox = (props: any) => {
       <br />
       <p>
         {' '}
-        {props.name}. Lorem ipsum dolor sit amet, consectetur adipiscing elit?{' '}
+        {props.name} 
+        <strong>{props.question}</strong> 
+        {props.subtext && <><br/> &nbsp;&nbsp;&nbsp;&nbsp; {props.subtext}</> }
+        {' '}
       </p>
-      <br />
-      <Field
-        name={props.name}
-        className="input"
-        type="text"
-        placeholder="Type Response Here"
-      ></Field>
       <br />
     </div>
   );
