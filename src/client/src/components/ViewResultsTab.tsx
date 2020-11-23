@@ -1,16 +1,14 @@
+import { mean, median, std } from 'mathjs';
 import React from 'react';
-import auth from '../utils/auth';
-import { fetchData } from '../api/userApi';
 import { useQuery } from 'react-query';
-import ReactDOM from 'react-dom';
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme } from 'victory';
-import VictoryGraph from '../components/VictoryGraph';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
-import { mean, median, min, max, std } from 'mathjs';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { fetchData } from '../api/userApi';
+import VictoryGraph from '../components/VictoryGraph';
+import auth from '../utils/auth';
+import 'swiper/swiper.scss';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -186,8 +184,6 @@ const ViewResultsPage = () => {
         pagination
         spaceBetween={50}
         slidesPerView={1}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper: any) => console.log(swiper)}
       >
         <SwiperSlide>
           <VictoryGraph
