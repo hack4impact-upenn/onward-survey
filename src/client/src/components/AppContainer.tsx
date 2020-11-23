@@ -14,6 +14,7 @@ const FooterContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
+  z-index: 99;
 `;
 
 const AppContainer = ({ children }: { children: any }) => {

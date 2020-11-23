@@ -1,18 +1,19 @@
-import { Field } from 'formik';
 import React from 'react';
 
 const SurveyQuestionTextbox = (props: any) => {
   return (
-    <div>
-      <br />
-      <p>
+    <div
+      style={{
+        width: '60%',
+        textAlign: 'center',
+        padding: '20px 0px',
+      }}
+    >
+      <h4 className="title is-4">
         {' '}
-        {props.name} 
-        <strong>{props.question}</strong> 
-        {props.subtext && <><br/> &nbsp;&nbsp;&nbsp;&nbsp; {props.subtext}</> }
-        {' '}
-      </p>
-      <br />
+        {props.name} {props.question}
+      </h4>
+      {props.subtext} <br />
     </div>
   );
 };
