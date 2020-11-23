@@ -283,17 +283,19 @@ router.get('/emails', auth, (req, res) => {
 });
 
 //delete an employee
-router.delete('/delete/employee', async (req, res) =>{
+router.delete('/delete/employee', async (req, res) => {
   try {
     const employeeId = req.body._id;
-    const surveyId  = req.body.surveyId;
+    const surveyId = req.body.surveyId;
     const employer = req.body.employer;
     await User.updateOne(
       { _id: employer },
       { $pull: { employees: employeeId } },
       { $pull: { surveyIds: surveyId } }
-    )
-    await Employee.findByIdAndDelete(employeeId).then(() => res.status(200).json({ success: true}))
+    );
+    await Employee.findByIdAndDelete(employeeId).then(() =>
+      res.status(200).json({ success: true })
+    );
   } catch (error) {
     errorHandler(res, error.message);
   }

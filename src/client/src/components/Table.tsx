@@ -100,8 +100,8 @@ function getResendElement(status: boolean) {
 
 function getDeleteElement(entry: IEmployee, func: () => void) {
   return (
-    <td
-    id = "delete"  
+    <td 
+    id = "delete" 
     onClick = {() => handleDelete(entry, func)}
     >
       Delete Email
@@ -122,7 +122,7 @@ const handleDelete = (entry: IEmployee, func: () => void) => {
   })
     .then((res) => func())
     .catch((err: Error) => alert(err.message));
-}
+};
 
 interface IEmployee {
   _id: string;
@@ -157,7 +157,7 @@ const ManageSurveyTable: React.FC<any> = () => {
                 <p></p>
               )}
             </td>
-            <td id="email">{entry.email}</td>  
+            <td id="email">{entry.email}</td>
             {getDeleteElement(entry, employeeQuery.refetch)}
             {getResendElement(entry.status)}
           </tr>

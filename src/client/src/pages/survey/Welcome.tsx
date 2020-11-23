@@ -35,7 +35,7 @@ const Welcome = () => {
   const history: any = useHistory();
   const { surveyId } = useParams<ParamTypes>();
 
-  const surveyCompletedQuery : any = useQuery(
+  const surveyCompletedQuery: any = useQuery(
     ['fetchSurveyStatus', surveyId],
     fetchSurveyStatus,
     {

@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import secureAxios from '../utils/apiClient';
 import auth from '../utils/auth';
-import ManageSurveyTable from './Table'
 
 const AddEmailGroup = styled.div`
   padding-bottom: 34px;
