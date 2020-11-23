@@ -1,6 +1,12 @@
 import secureAxios from '../utils/apiClient';
 
-const signup = ({ firstName, lastName, email, company, password }: IUserSignup) => {
+const signup = ({
+  firstName,
+  lastName,
+  email,
+  company,
+  password,
+}: IUserSignup) => {
   return new Promise((resolve, reject) => {
     secureAxios({
       url: '/api/users/signup',

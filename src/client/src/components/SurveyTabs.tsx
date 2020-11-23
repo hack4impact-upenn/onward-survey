@@ -46,27 +46,22 @@ interface MyProfileResponse extends IAPIResponse {
   };
 }
 
-
 function MyEmployerName() {
   const query = useQuery(
     ['fetchMe', { accessToken: auth.getAccessToken() }],
     fetchMe,
     {
       refetchOnWindowFocus: false,
-    });
+    }
+  );
   if (query.data) {
     const { data: myProfile } = query as any;
     const profile: MyProfileResponse = myProfile;
-    return (
-      <span>{profile.data.firstName}</span>
-    );
+    return <span>{profile.data.firstName}</span>;
   } else {
-    return (
-      <span> </span>
-    );
+    return <span> </span>;
   }
 }
-
 
 class SurveyTabs extends React.Component<{}, { tabClicked: number }> {
   constructor(props: any) {
@@ -86,15 +81,17 @@ class SurveyTabs extends React.Component<{}, { tabClicked: number }> {
     });
   }
 
-
-
   render() {
     return (
       <ContentContainer>
         <div className="columns">
           <div className="column is-two-fifths">
             <WelcomeText className="title has-text-left">
-              Welcome Back, <EmployerName><MyEmployerName/></EmployerName>!
+              Welcome Back,{' '}
+              <EmployerName>
+                <MyEmployerName />
+              </EmployerName>
+              !
             </WelcomeText>
           </div>
         </div>
