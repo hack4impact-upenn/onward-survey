@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { fetchEmployees } from '../api/userApi';
 import auth from '../utils/auth';
 import secureAxios from '../utils/apiClient';
-import { useState } from 'react';
 
 const Table = styled.table`
   @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
@@ -99,32 +98,30 @@ function getResendElement(status: boolean) {
   );
 }
 
-function getDeleteElement(entry: IEmployee) {
+function getDeleteElement(entry: IEmployee, func: () => void) {
   return (
     <td
     id = "delete"  
-    onClick = {() => handleDelete(entry)}
+    onClick = {() => handleDelete(entry, func)}
     >
       Delete Email
     </td>
   );
 }
 
-const handleDelete = (entry: IEmployee) => {
+const handleDelete = (entry: IEmployee, func: () => void) => {
   secureAxios({
-    url: '/api/employees/delete/employee',
+    url: '/api/users/delete/employee',
     method: 'DELETE',
     timeout: 0,
     headers: {
       Authorization: `Bearer ${auth.getAccessToken()}`,
       'Content-Type': 'application/json',
-      
     },
     data: JSON.stringify(entry),
   })
-    .then((res) => alert('Email deleted!'))
+    .then((res) => func())
     .catch((err: Error) => alert(err.message));
-
 }
 
 interface IEmployee {
@@ -149,11 +146,6 @@ const ManageSurveyTable: React.FC<any> = () => {
   const TableBody = (res: IEmployeeS) => {
     const { data: employees } = res;
     const employeesList: any = employees;
-    // const [employeesList, setEmployeesList] = useState(employees.employees);
-    // const handleEmployeesListChange = (newList: any) => {
-    //   setEmployeesList(newList)
-    // }
-    // handleEmployeesListChange(employees);
     return (
       <>
         {employeesList.map((entry: any) => (
@@ -166,7 +158,7 @@ const ManageSurveyTable: React.FC<any> = () => {
               )}
             </td>
             <td id="email">{entry.email}</td>  
-            {getDeleteElement(entry._id)}
+            {getDeleteElement(entry, employeeQuery.refetch)}
             {getResendElement(entry.status)}
           </tr>
         ))}
@@ -193,72 +185,3 @@ const ManageSurveyTable: React.FC<any> = () => {
 };
 
 export default ManageSurveyTable;
-
-// class ManageSurveyTable extends React.Component<{}, { employees: IEmployee[] }> {
-//   constructor(props: any) {
-//     super(props);
-//     this.state = { employees: [] };
-//   }
-
-//    handleDelete = (entry: IEmployee) => {
-//     // secureAxios({
-//     //   url: '/api/users/delete/employee',
-//     //   method: 'DELETE',
-//     //   timeout: 0,
-//     //   headers: {
-//     //     Authorization: `Bearer ${auth.getAccessToken()}`,
-//     //     'Content-Type': 'application/json',
-//     //   },
-//     //   data: JSON.stringify(entry),
-//     // })
-//     //   .then((res) => alert('Email deleted!'))
-//     //   .catch((err: Error) => alert(err.message));
-//     this.setState({employees: this.state.employees.filter(employee => employee != entry)});
-//   }
-
-//   TableBody = ( 
-//       (
-//           <>
-//             {this.state.employees.map((entry: any) => (
-//               <tr key={entry._id}>
-//                 <td id="checkmark">
-//                   {entry.status ? (
-//                     <img src="/images/checkmark.png" alt="checkmark"></img>
-//                   ) : (
-//                     <p></p>
-//                   )}
-//                 </td>
-//                 <td id="email">{entry.email}</td>  
-//                 <td
-//                   id = "delete"  
-//                   onClick = {() => this.handleDelete(entry)}
-//                 >
-//                   Delete Email
-//                 </td>
-//                 {getResendElement(entry.status)}
-//               </tr>
-//             ))}
-//           </>
-//              ))
-
-//   render() {
-//   return (
-//     <Table>
-//       <thead>
-//         <tr>
-//           <th id="status">Status</th>
-//           <th id="email">Email</th>
-//           <th id="delete">Delete Email</th>
-//           <th id="resend">Resend Email</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         TableBody
-//       </tbody>
-//     </Table>
-//   );
-// };
-//   }
-
-
-// export default ManageSurveyTable;
