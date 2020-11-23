@@ -5,6 +5,7 @@ import fs from 'fs';
 import { Types } from 'mongoose';
 import multer from 'multer';
 import shortid from 'shortid';
+import { WatchDirectoryFlags } from 'typescript';
 import auth from '../middleware/auth';
 import { Employee } from '../models/employee.model';
 import { IUser, User } from '../models/user.model';
@@ -218,6 +219,7 @@ router.post('/uploadCSV', upload.single('file'), auth, async (req, res) => {
       return res.status(200).json({ success: true });
     });
 });
+
 /* user fetch self info endpoint */
 router.get('/me', auth, (req, res) => {
   const { userId } = req;

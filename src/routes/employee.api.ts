@@ -24,6 +24,17 @@ router.get('/:surveyId/completed', (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
+//delete an employee
+router.delete('/delete/employee', async (req, res) =>{
+  try {
+    const { employeeId } = req.body;
+    Employee.findByIdAndDelete(employeeId)
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    errorHandler(res, error.message);
+  }
+});
+
 // submit survey response
 // change employee completed survey to true
 router.post('/survey', async (req, res) => {
