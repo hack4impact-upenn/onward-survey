@@ -100,10 +100,7 @@ function getResendElement(status: boolean) {
 
 function getDeleteElement(entry: IEmployee, func: () => void) {
   return (
-    <td 
-    id = "delete" 
-    onClick = {() => handleDelete(entry, func)}
-    >
+    <td id="delete" onClick={() => handleDelete(entry, func)}>
       Delete Email
     </td>
   );
