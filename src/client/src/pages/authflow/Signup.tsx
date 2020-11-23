@@ -19,6 +19,7 @@ const initialValues = {
   firstName: '',
   lastName: '',
   email: '',
+  company: '',
   password: '',
 };
 

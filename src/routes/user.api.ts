@@ -28,8 +28,8 @@ router.post('/signup', async (req, res) => {
   const { firstName } = req.body;
   const { lastName } = req.body;
   const { email } = req.body;
+  const { company } = req.body;
   const { password } = req.body;
-  const { institutionName } = req.body;
 
   if (await User.findOne({ email })) {
     return errorHandler(res, 'User already exists.');
@@ -45,7 +45,7 @@ router.post('/signup', async (req, res) => {
       firstName,
       lastName,
       email,
-      institutionName,
+      company,
       password: hashedPassword,
     });
 
@@ -220,17 +220,17 @@ router.post('/uploadCSV', upload.single('file'), auth, async (req, res) => {
     });
 });
 /* user fetch self info endpoint */
-router.get('/me', auth, (req, res) => {
+router.get('/me', auth, async (req, res) => {
   const { userId } = req;
-
-  return User.findById(userId)
-    .select('firstName lastName email _id')
-    .then((user) => {
-      if (!user) return errorHandler(res, 'User does not exist.');
-
-      return res.status(200).json({ success: true, data: user });
-    })
-    .catch((err) => errorHandler(res, err.message));
+  try {
+    const user = await User.findById(userId)
+      .select('firstName lastName email company _id');
+    if (!user)
+      return errorHandler(res, 'User does not exist.');
+    return res.status(200).json({ success: true, data: user });
+  } catch (err) {
+    return errorHandler(res, err.message);
+  }
 });
 
 /* user add new employee endpoint */
