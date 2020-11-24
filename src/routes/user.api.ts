@@ -15,7 +15,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   sendMessage,
-  validateRefreshToken,
+  validateRefreshToken
 } from './user.util';
 
 const router = express.Router();
@@ -219,6 +219,7 @@ router.post('/uploadCSV', upload.single('file'), auth, async (req, res) => {
       return res.status(200).json({ success: true });
     });
 });
+
 /* user fetch self info endpoint */
 router.get('/me', auth, async (req, res) => {
   const { userId } = req;
@@ -281,6 +282,27 @@ router.get('/emails', auth, (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
+/* delete a single employee */
+router.delete('/delete/employee', async (req, res) => {
+  try {
+    const employeeId = req.body._id;
+    const surveyId = req.body.surveyId;
+    const employer = req.body.employer;
+    await User.updateOne(
+      { _id: employer },
+      { $pull: { employees: employeeId } },
+      { $pull: { surveyIds: surveyId } }
+    );
+    await Employee.findByIdAndDelete(employeeId).then(() =>
+      res.status(200).json({ success: true })
+    );
+  } catch (error) {
+    errorHandler(res, error.message);
+  }
+
+})
+
+/* retrieve survey data */
 router.get('/data', auth, async (req, res) => {
   const { userId } = req;
   return User.findById(userId)
