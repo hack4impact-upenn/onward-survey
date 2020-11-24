@@ -33,7 +33,7 @@ class AddEmail extends React.Component<{}, { emailInput: string }> {
       },
       data: JSON.stringify(employees),
     })
-      .then((res) => alert('email added!'))
+      .then((res) => window.location.reload(true))
       .catch((err: Error) => alert(err.message));
   }
 

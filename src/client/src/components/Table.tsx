@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { fetchEmployees } from '../api/userApi';
 import auth from '../utils/auth';
+import secureAxios from '../utils/apiClient';
 
 const Table = styled.table`
   @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
@@ -62,6 +63,15 @@ const Table = styled.table`
     padding-left: 60px;
   }
 
+  td#delete {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    color: #00aade;
+    padding-right: 5px;
+    cursor: pointer;
+  }
+
   td#resendtrue {
     font-style: normal;
     font-weight: 600;
@@ -87,6 +97,29 @@ function getResendElement(status: boolean) {
     </td>
   );
 }
+
+function getDeleteElement(entry: IEmployee, func: () => void) {
+  return (
+    <td id="delete" onClick={() => handleDelete(entry, func)}>
+      Delete Email
+    </td>
+  );
+}
+
+const handleDelete = (entry: IEmployee, func: () => void) => {
+  secureAxios({
+    url: '/api/users/delete/employee',
+    method: 'DELETE',
+    timeout: 0,
+    headers: {
+      Authorization: `Bearer ${auth.getAccessToken()}`,
+      'Content-Type': 'application/json',
+    },
+    data: JSON.stringify(entry),
+  })
+    .then(() => func())
+    .catch((err: Error) => alert(err.message));
+};
 
 interface IEmployee {
   _id: string;
@@ -122,6 +155,7 @@ const ManageSurveyTable: React.FC<any> = () => {
               )}
             </td>
             <td id="email">{entry.email}</td>
+            {getDeleteElement(entry, employeeQuery.refetch)}
             {getResendElement(entry.status)}
           </tr>
         ))}
@@ -131,7 +165,6 @@ const ManageSurveyTable: React.FC<any> = () => {
 
   return (
     <div>
-      {' '}
       {employeeQuery.isLoading ? (
         <div>Loading...</div>
       ) : (
@@ -140,10 +173,10 @@ const ManageSurveyTable: React.FC<any> = () => {
             <tr>
               <th id="status">Status</th>
               <th id="email">Email</th>
+              <th id="delete">Delete Email</th>
               <th id="resend">Resend Email</th>
             </tr>
           </thead>
-
           <tbody>
             {employeeQuery.data && TableBody(employeeQuery.data as any)}
           </tbody>
