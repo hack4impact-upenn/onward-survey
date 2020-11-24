@@ -117,7 +117,7 @@ const handleDelete = (entry: IEmployee, func: () => void) => {
     },
     data: JSON.stringify(entry),
   })
-    .then((res) => func())
+    .then(() => func())
     .catch((err: Error) => alert(err.message));
 };
 
