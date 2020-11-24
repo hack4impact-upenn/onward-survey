@@ -5,9 +5,9 @@ import fs from 'fs';
 import { Types } from 'mongoose';
 import multer from 'multer';
 import shortid from 'shortid';
-import { WatchDirectoryFlags } from 'typescript';
 import auth from '../middleware/auth';
 import { Employee } from '../models/employee.model';
+import { EmployeeResponse } from '../models/employee_response.model';
 import { IUser, User } from '../models/user.model';
 import { SENDGRID_EMAIL } from '../utils/config';
 import errorHandler from './error';
@@ -15,7 +15,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   sendMessage,
-  validateRefreshToken,
+  validateRefreshToken
 } from './user.util';
 
 const router = express.Router();
@@ -258,7 +258,7 @@ router.post('/create/employee', auth, async (req, res) => {
       await User.updateOne(
         { _id: userId },
         { $push: { employees: newEmployee.id } },
-        { $push: { surveyIds: surveyId } }
+        { $push: { surveyIDs: surveyId } }
       );
     } catch (err) {
       console.log(err);
@@ -282,7 +282,7 @@ router.get('/emails', auth, (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
-//delete an employee
+/* delete a single employee */
 router.delete('/delete/employee', async (req, res) => {
   try {
     const employeeId = req.body._id;
@@ -299,6 +299,23 @@ router.delete('/delete/employee', async (req, res) => {
   } catch (error) {
     errorHandler(res, error.message);
   }
+
+})
+
+/* retrieve survey data */
+router.get('/data', auth, async (req, res) => {
+  const { userId } = req;
+  return User.findById(userId)
+    .select('surveyIDs _id')
+    .then(async (user) => {
+      if (!user) return errorHandler(res, 'User does not exist.');
+      const ids = user.surveyIDs;
+
+      const results = await EmployeeResponse.find({ surveyId: { $in: ids } });
+
+      return res.status(200).json({ success: true, data: results });
+    })
+    .catch((err) => errorHandler(res, err.message));
 });
 
 /* TESTING ENDPOINTS BELOW (DELETE IN PRODUCTION) */

@@ -103,16 +103,6 @@ const Navbar = () => {
       </NavbarItem>
       <NavbarItem></NavbarItem>
       <NavbarItem>{loggedIn && <ProfileMenu></ProfileMenu>}</NavbarItem>
-      {/* <NavbarItem>
-        {loggedIn && (
-          <h1
-            className="title is-6"
-            onClick={() => auth.logout()}
-          >
-            Logout
-          </h1>
-        )}
-      </NavbarItem> */}
     </NavbarContainer>
   );
 };

@@ -164,20 +164,25 @@ const ManageSurveyTable: React.FC<any> = () => {
   };
 
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th id="status">Status</th>
-          <th id="email">Email</th>
-          <th id="delete">Delete Email</th>
-          <th id="resend">Resend Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        {employeeQuery.isLoading && <div>Loading...</div>}
-        {employeeQuery.data && TableBody(employeeQuery.data as any)}
-      </tbody>
-    </Table>
+    <div>
+      {employeeQuery.isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <Table>
+          <thead>
+            <tr>
+              <th id="status">Status</th>
+              <th id="email">Email</th>
+              <th id="delete">Delete Email</th>
+              <th id="resend">Resend Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employeeQuery.data && TableBody(employeeQuery.data as any)}
+          </tbody>
+        </Table>
+      )}
+    </div>
   );
 };
 
