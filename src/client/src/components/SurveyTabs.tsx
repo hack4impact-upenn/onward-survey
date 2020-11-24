@@ -1,4 +1,7 @@
 import React from 'react';
+import { useQuery } from 'react-query';
+import { fetchMe } from '../api/userApi';
+import auth from '../utils/auth';
 import styled from 'styled-components';
 import ManageSurveyTab from '../components/ManageSurveyTab';
 import ViewResultsTab from '../components/ViewResultsTab';
@@ -33,6 +36,33 @@ const Tab = styled.li`
   color: #00aade;
 `;
 
+interface MyProfileResponse extends IAPIResponse {
+  data: {
+    _id: string;
+    email: string;
+    company: string;
+    firstName: string;
+    lastName: string;
+  };
+}
+
+function MyEmployerName() {
+  const query = useQuery(
+    ['fetchMe', { accessToken: auth.getAccessToken() }],
+    fetchMe,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+  if (query.data) {
+    const { data: myProfile } = query as any;
+    const profile: MyProfileResponse = myProfile;
+    return <span>{profile.data.firstName}</span>;
+  } else {
+    return <span> </span>;
+  }
+}
+
 class SurveyTabs extends React.Component<{}, { tabClicked: number }> {
   constructor(props: any) {
     super(props);
@@ -57,7 +87,11 @@ class SurveyTabs extends React.Component<{}, { tabClicked: number }> {
         <div className="columns">
           <div className="column is-two-fifths">
             <WelcomeText className="title has-text-left">
-              Welcome Back, <EmployerName>Employer Name</EmployerName>!
+              Welcome Back,{' '}
+              <EmployerName>
+                <MyEmployerName />
+              </EmployerName>
+              !
             </WelcomeText>
           </div>
         </div>
