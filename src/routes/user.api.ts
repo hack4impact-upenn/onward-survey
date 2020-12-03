@@ -15,7 +15,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   sendMessage,
-  validateRefreshToken
+  validateRefreshToken,
 } from './user.util';
 
 const router = express.Router();
@@ -299,8 +299,7 @@ router.delete('/delete/employee', async (req, res) => {
   } catch (error) {
     errorHandler(res, error.message);
   }
-
-})
+});
 
 /* retrieve survey data */
 router.get('/data', auth, async (req, res) => {
