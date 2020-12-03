@@ -3,6 +3,9 @@ import { Employee } from '../models/employee.model';
 import { EmployeeResponse } from '../models/employee_response.model';
 import { User } from '../models/user.model';
 import errorHandler from './error';
+import { sendMessage } from './user.util';
+import { SENDGRID_EMAIL } from '../utils/config';
+import resultEmail from '../templates/resultsEmail';
 
 const router = express.Router();
 
@@ -48,7 +51,7 @@ router.post('/survey', async (req, res) => {
         );
         // Find employer, increment number completed, check if number completed >= threshold
         await User.findById(employer)
-          .select('numCompleted thresholdMet employees')
+          .select('numCompleted thresholdMet employees firstName lastName email')
           .then(async (employer) => {
             if (!employer) return errorHandler(res, 'Employer does not exist.');
             // arbitrary threshold of 75% chosen
@@ -58,10 +61,16 @@ router.post('/survey', async (req, res) => {
                 Number(employer.employees.length) >=
                 0.01
             ) {
-              // email employer and update threshold met to true
+              const name = employer.firstName + " " + employer.lastName;
+              const html:string = resultEmail(name);
+              sendMessage({
+                from: SENDGRID_EMAIL,
+                to: employer.email,
+                subject: 'Survey Results Are Ready!',
+                html,
+              });
               console.log(employer.thresholdMet.valueOf());
               employer.thresholdMet = true;
-              console.log('DUMMY: Emailing employer');
             }
             employer.numCompleted = employer.numCompleted + 1;
             employer.save();
