@@ -116,9 +116,9 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
   const { userId } = req;
   try {
     // get employer
-    const employer = await User.findById(userId).populate('employees');
-    if (!employer) return errorHandler(res, 'User does not exist.');
-    const employees = employer.employees;
+    const userEmployer = await User.findById(userId).populate('employees');
+    if (!userEmployer) return errorHandler(res, 'User does not exist.');
+    const employees = userEmployer.employees;
     if (!employees)
       return errorHandler(res, 'User does not have any employees.');
 
@@ -126,8 +126,18 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
     employees.forEach(async (employeeId) => {
       const employee = await Employee.findById(employeeId);
       if (!employee) return;
-      const { email, firstName, lastName, surveyId } = employee;
-      const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${surveyId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`;
+      const { email, firstName, lastName, employerName, employer, surveyId } = employee;
+      const html = 
+      `<p>Hi ${firstName} ${lastName}, 
+        <br/><br/> 
+          Your employer ${employerName} from ${employer} 
+          has requested for you to fill out this brief, 5-minute survey about your financial background. 
+          Your responses will be kept anonymous and will only be used in a general, company-wide, aggregate data analysis. 
+          Access your unique survey link here:<strong> ${surveyId} </strong>
+        <br/>
+        <br/>Best,<br/>
+        The Onward Financial Team
+      </p>`;
 
       sendMessage({
         from: SENDGRID_EMAIL,
