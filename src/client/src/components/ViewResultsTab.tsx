@@ -6,6 +6,8 @@ import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { fetchData } from '../api/userApi';
+import { fetchEmployees } from '../api/userApi';
+import { fetchMe } from '../api/userApi';
 import VictoryGraph from '../components/VictoryGraph';
 import auth from '../utils/auth';
 import 'swiper/swiper.scss';
@@ -18,6 +20,14 @@ const ViewResultsPage = () => {
   const employeeQuery = useQuery(
     ['fetchData', { accessToken: auth.getAccessToken() }],
     fetchData,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const meQuery = useQuery(
+    ['fetchMe', { accessToken: auth.getAccessToken() }],
+    fetchMe,
     {
       refetchOnWindowFocus: false,
     }
@@ -171,6 +181,20 @@ const ViewResultsPage = () => {
     return newArray;
   };
 
+  // const calculatePercentage = () => {
+  //   const employeeDataArray : any  = employeesQuery.data;
+  //   var numberEmployees = employeeDataArray.length;
+  //   console.log(numberEmployees);
+  // }
+
+  const Placeholder = () => {
+    return(
+      <p>
+        50% of your employees must complete the survey in order to see results.
+      </p>
+    )
+  }
+
   const MyTable = (res: MyData) => {
     const { data: myData } = res;
     console.log(myData);
@@ -252,11 +276,19 @@ const ViewResultsPage = () => {
       </Swiper>
     );
   };
-
+  const data : any = meQuery.data;
   return (
     <div>
-      {employeeQuery.isLoading && <div>Loading...</div>}
-      {employeeQuery.data && MyTable(employeeQuery.data as any)}
+      {
+        !data.thresholdMet?
+        (<> 
+        {employeeQuery.isLoading && <div>Loading...</div>}
+        
+        {Placeholder()}
+        </>) : ( <>
+        {employeeQuery.data && MyTable(employeeQuery.data as any)}
+        </>)
+      }
     </div>
   );
 };
