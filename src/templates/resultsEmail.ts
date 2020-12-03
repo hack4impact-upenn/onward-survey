@@ -1,5 +1,4 @@
-
-const resultEmail  = (employerName: String) => `
+const resultEmail = (employerName: String) => `
 <p>Hi <strong>${employerName}</strong>,</p>
 <br/>
 <p>Your employee financial wellness survey is ready!
@@ -7,6 +6,6 @@ const resultEmail  = (employerName: String) => `
  <p>Thank you!</p>
  <br/>
  <p>Best,</p>
- <p>The Onward Financial Team.</p>`
+ <p>The Onward Financial Team.</p>`;
 
- export default resultEmail;
+export default resultEmail;

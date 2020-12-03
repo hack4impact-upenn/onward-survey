@@ -6,8 +6,10 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 
 // import component or page units
-import Router from '../pages/AppRouter';
+import Main from '../pages/Main';
+import Dashboard from '../pages/Dashboard';
 
 it('renders without crashing', () => {
-  shallow(<Router />);
+  shallow(<Main />);
+  shallow(<Dashboard />);
 });

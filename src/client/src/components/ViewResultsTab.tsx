@@ -188,12 +188,12 @@ const ViewResultsPage = () => {
   // }
 
   const Placeholder = () => {
-    return(
+    return (
       <p>
         50% of your employees must complete the survey in order to see results.
       </p>
-    )
-  }
+    );
+  };
 
   const MyTable = (res: MyData) => {
     const { data: myData } = res;
@@ -276,19 +276,18 @@ const ViewResultsPage = () => {
       </Swiper>
     );
   };
-  const data : any = meQuery.data;
+  const data: any = meQuery.data;
   return (
     <div>
-      {
-        !data.thresholdMet?
-        (<> 
-        {employeeQuery.isLoading && <div>Loading...</div>}
-        
-        {Placeholder()}
-        </>) : ( <>
-        {employeeQuery.data && MyTable(employeeQuery.data as any)}
-        </>)
-      }
+      {!data.thresholdMet ? (
+        <>
+          {employeeQuery.isLoading && <div>Loading...</div>}
+
+          {Placeholder()}
+        </>
+      ) : (
+        <>{employeeQuery.data && MyTable(employeeQuery.data as any)}</>
+      )}
     </div>
   );
 };

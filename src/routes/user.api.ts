@@ -127,8 +127,7 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
       const employee = await Employee.findById(employeeId);
       if (!employee) return;
       const { email, employerName, employer, surveyId } = employee;
-      const html = 
-      `<p>Hi! 
+      const html = `<p>Hi! 
         <br/><br/> 
           Your employer ${employerName} from ${employer} 
           has requested for you to fill out this brief, 5-minute survey about your financial background. 

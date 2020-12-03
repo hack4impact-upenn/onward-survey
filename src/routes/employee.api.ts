@@ -51,7 +51,9 @@ router.post('/survey', async (req, res) => {
         );
         // Find employer, increment number completed, check if number completed >= threshold
         await User.findById(employer)
-          .select('numCompleted thresholdMet employees firstName lastName email')
+          .select(
+            'numCompleted thresholdMet employees firstName lastName email'
+          )
           .then(async (employer) => {
             if (!employer) return errorHandler(res, 'Employer does not exist.');
             // arbitrary threshold of 75% chosen
@@ -61,8 +63,8 @@ router.post('/survey', async (req, res) => {
                 Number(employer.employees.length) >=
                 0.01
             ) {
-              const name = employer.firstName + " " + employer.lastName;
-              const html:string = resultEmail(name);
+              const name = employer.firstName + ' ' + employer.lastName;
+              const html: string = resultEmail(name);
               sendMessage({
                 from: SENDGRID_EMAIL,
                 to: employer.email,
