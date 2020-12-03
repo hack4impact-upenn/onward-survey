@@ -15,7 +15,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
   sendMessage,
-  validateRefreshToken
+  validateRefreshToken,
 } from './user.util';
 
 const router = express.Router();
@@ -225,7 +225,7 @@ router.get('/me', auth, async (req, res) => {
   const { userId } = req;
   try {
     const user = await User.findById(userId).select(
-      'firstName lastName email company _id'
+      'firstName lastName email company _id thresholdMet'
     );
     if (!user) return errorHandler(res, 'User does not exist.');
     return res.status(200).json({ success: true, data: user });
@@ -299,8 +299,7 @@ router.delete('/delete/employee', async (req, res) => {
   } catch (error) {
     errorHandler(res, error.message);
   }
-
-})
+});
 
 /* retrieve survey data */
 router.get('/data', auth, async (req, res) => {
