@@ -5,6 +5,9 @@ import ManageSurveyTable from '../components/Table';
 import UploadCSV from '../components/UploadCSV';
 //import SurveyTabs from '../SurveyTabs';
 import '../styles/manage_survey.css';
+import secureAxios from '../utils/apiClient';
+import auth from '../utils/auth';
+import { fetchMe } from '../api/userApi';
 
 const SurveyButtonGroup = styled.form`
   margin-top: 40px;
@@ -20,6 +23,20 @@ const SendOutButton = styled.div`
   background: #00d898;
 `;
 
+const handleSendAll = () => {
+  secureAxios({
+    url: '/api/users/sendSurveyUrl',
+    method: 'POST',
+    timeout: 0,
+    headers: {
+      Authorization: `Bearer ${auth.getAccessToken()}`,
+      'Content-Type': 'application/json',
+    }
+  })
+    .then(() => alert("Surveys Sent!"))
+    .catch((err: Error) => alert(err.message));
+};
+
 interface Props {}
 const ManageSurveyTab: React.FC<Props> = (props) => {
   return (
@@ -28,7 +45,7 @@ const ManageSurveyTab: React.FC<Props> = (props) => {
       <UploadCSV></UploadCSV>
       <ManageSurveyTable></ManageSurveyTable>
       <SurveyButtonGroup>
-        <SendOutButton className="button is-primary is-pulled-right">
+        <SendOutButton className="button is-primary is-pulled-right" onClick={() => handleSendAll()} >
           Send Out Survey
         </SendOutButton>
       </SurveyButtonGroup>

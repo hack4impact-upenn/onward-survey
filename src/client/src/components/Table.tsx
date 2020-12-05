@@ -82,21 +82,42 @@ const Table = styled.table`
   }
 
   td#resendfalse {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    color: #D3D3D3;
     padding-right: 5px;
-    cursor: pointer;
+    cursor: default;
   }
 `;
 
-function getResendElement(status: boolean) {
+function getResendElement(entry: IEmployee) {
   return (
     <td
-      id={status ? 'resendfalse' : 'resendtrue'}
-      onClick={() => alert('Email resent!')}
+      id={entry.completed ? 'resendfalse' : 'resendtrue'}
+      onClick={() => handleResend(entry)}
     >
       Resend Email
     </td>
   );
 }
+
+const handleResend = (entry: IEmployee) => {
+  if(!entry.completed){
+    secureAxios({
+      url: '/api/users/sendIndividualUrl',
+      method: 'POST',
+      timeout: 0,
+      headers: {
+        Authorization: `Bearer ${auth.getAccessToken()}`,
+        'Content-Type': 'application/json',
+      },
+      data: JSON.stringify(entry),
+    })
+      .then(() => alert("Survey Resent!"))
+      .catch((err: Error) => alert(err.message));
+  }
+};
 
 function getDeleteElement(entry: IEmployee, func: () => void) {
   return (
@@ -124,7 +145,7 @@ const handleDelete = (entry: IEmployee, func: () => void) => {
 interface IEmployee {
   _id: string;
   email: string;
-  status: boolean;
+  completed: boolean;
 }
 interface IEmployeeS extends IAPIResponse {
   data: {
@@ -148,7 +169,7 @@ const ManageSurveyTable: React.FC<any> = () => {
         {employeesList.map((entry: any) => (
           <tr key={entry._id}>
             <td id="checkmark">
-              {entry.status ? (
+              {entry.completed ? (
                 <img src="/images/checkmark.png" alt="checkmark"></img>
               ) : (
                 <p></p>
@@ -156,7 +177,7 @@ const ManageSurveyTable: React.FC<any> = () => {
             </td>
             <td id="email">{entry.email}</td>
             {getDeleteElement(entry, employeeQuery.refetch)}
-            {getResendElement(entry.status)}
+            {getResendElement(entry)}
           </tr>
         ))}
       </>
