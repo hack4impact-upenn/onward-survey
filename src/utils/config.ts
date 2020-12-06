@@ -21,13 +21,24 @@ switch (process.env.NODE_ENV) {
     throw new Error(`'NODE_ENV' ${process.env.NODE_ENV} is not handled!`);
 }
 
+// project config
 const NODE_ENV = process.env.NODE_ENV;
 const ATLAS_URI =
   process.env.ATLAS_URI || 'mongodb://localhost:27017/myproject';
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:30000';
+
+// auth config
 const JWT_SECRET = process.env.JWT_SECRET || 'my-placeholder-string';
 
 // sendgrid configs
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || 'my-placeholder-key';
 const SENDGRID_EMAIL = process.env.SENDGRID_EMAIL || 'example@email.com';
 
-export { ATLAS_URI, JWT_SECRET, SENDGRID_API_KEY, SENDGRID_EMAIL, NODE_ENV };
+export {
+  ATLAS_URI,
+  JWT_SECRET,
+  SENDGRID_API_KEY,
+  SENDGRID_EMAIL,
+  NODE_ENV,
+  CLIENT_URL,
+};
