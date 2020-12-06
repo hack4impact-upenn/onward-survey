@@ -7,7 +7,6 @@ import UploadCSV from '../components/UploadCSV';
 import '../styles/manage_survey.css';
 import secureAxios from '../utils/apiClient';
 import auth from '../utils/auth';
-import { fetchMe } from '../api/userApi';
 
 const SurveyButtonGroup = styled.form`
   margin-top: 40px;
