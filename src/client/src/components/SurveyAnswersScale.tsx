@@ -1,6 +1,4 @@
-import { Field } from 'formik';
 import React from 'react';
-import label from 'styled-components';
 
 const SurveyAnswersScale = (props: any) => {
   return (

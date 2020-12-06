@@ -38,8 +38,7 @@ const ButtonContainer = styled.div`
 `;
 
 interface ParamTypes {
-  employerId: string;
-  employeeId: string;
+  surveyId: string;
 }
 
 const initialValues = {
@@ -52,7 +51,7 @@ const initialValues = {
 const SurveyQuestions = () => {
   const history = useHistory();
   const [submitResponseMutate] = useMutation(submit);
-  const { employerId, employeeId } = useParams<ParamTypes>();
+  const { surveyId } = useParams<ParamTypes>();
 
   const convertToArrayOfQuestions = (values: ISurveyAnswers) => {
     var responses = [];
@@ -69,13 +68,13 @@ const SurveyQuestions = () => {
     var responses = convertToArrayOfQuestions(values);
 
     const employeeResponse: ISurveyResponse = {
-      employeeId: employeeId,
+      surveyId: surveyId,
       responses: responses,
     };
     try {
       await submitResponseMutate(employeeResponse);
       alert('Success');
-      history.push('/survey/' + employerId + '/' + employeeId + '/nextsteps');
+      history.push(`/survey/${surveyId}/nextsteps`);
     } catch (error) {
       alert(`Error: ${error.response.data}`);
     }

@@ -64,7 +64,9 @@ class ProfileMenu extends React.Component<{}, { open: boolean }> {
         </div>
         <div className="dropdown-menu" id="dropdown-menu" role="menu">
           <div className="dropdown-content">
-            <strong className="dropdown-item">Profile</strong>
+            <a href="/profile">
+              <strong className="dropdown-item">Profile</strong>
+            </a>
             <hr className="dropdown-divider"></hr>
             <strong className="dropdown-item" onClick={() => auth.logout()}>
               Logout

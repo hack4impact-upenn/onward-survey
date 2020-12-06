@@ -1,7 +1,7 @@
 import secureAxios from '../utils/apiClient';
 
 /* submit response for survey */
-const submit = ({ employeeId, responses }: ISurveyResponse) => {
+const submit = ({ surveyId, responses }: ISurveyResponse) => {
   return new Promise((resolve, reject) => {
     secureAxios({
       url: '/api/employees/survey',
@@ -11,7 +11,7 @@ const submit = ({ employeeId, responses }: ISurveyResponse) => {
         'Content-Type': 'application/json',
       },
       data: JSON.stringify({
-        employeeId,
+        surveyId,
         responses,
       }),
     })

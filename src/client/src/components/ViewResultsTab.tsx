@@ -279,7 +279,7 @@ const ViewResultsPage = () => {
   const data: any = meQuery.data;
   return (
     <div>
-      {!data.thresholdMet ? (
+      {data.thresholdMet ? (
         <>
           {employeeQuery.isLoading && <div>Loading...</div>}
 

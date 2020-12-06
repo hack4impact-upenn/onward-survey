@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import auth from '../utils/auth';
+import auth from '../../utils/auth';
 
-const PrivateRoute: React.FC<{
+const PublicRoute: React.FC<{
   component: React.FC;
   path: string;
   exact: boolean;
@@ -10,9 +10,9 @@ const PrivateRoute: React.FC<{
   const condition = auth.isAuthenticated();
 
   return condition ? (
-    <Route path={props.path} exact={props.exact} component={props.component} />
+    <Redirect to="/dashboard" />
   ) : (
-    <Redirect to="/login" />
+    <Route path={props.path} exact={props.exact} component={props.component} />
   );
 };
-export default PrivateRoute;
+export default PublicRoute;
