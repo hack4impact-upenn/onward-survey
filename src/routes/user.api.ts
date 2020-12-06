@@ -17,6 +17,7 @@ import {
   sendMessage,
   validateRefreshToken,
 } from './user.util';
+import { surveyInvitation, surveyReminder } from '../templates';
 
 const router = express.Router();
 const saltRounds = 10;
@@ -128,22 +129,12 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
       if (!employee) return;
       if (employee.completed == false) {
         const { email, employerName, surveyId } = employee;
-        const html = `<p>Hi! 
-          <br/><br/> 
-            Your employer ${employerName}
-            has requested for you to fill out this brief, 5-minute survey about your financial background. 
-            Your responses will be kept anonymous and will only be used in a general, company-wide, aggregate data analysis. 
-            Access your unique survey link <a href="http://localhost:3000/survey/${surveyId}/welcome">here.</a>
-          <br/>
-          <br/>Best,<br/>
-          The Onward Financial Team
-        </p>`;
 
         sendMessage({
           from: SENDGRID_EMAIL,
           to: email,
           subject: 'Inivitation to fill out Survey',
-          html,
+          html: surveyInvitation(employerName, surveyId),
         });
       }
     });
@@ -165,15 +156,12 @@ router.post('/sendIndividualUrl', auth, async (req, res) => {
   if (!employee) return errorHandler(res, 'Employee does not exist.');
 
   try {
-    const { email, firstName, lastName, surveyId } = employee;
-    const html = `<p>Hello, <br/><br/> Please fill out your employee survey using <a href="http://localhost:3000/survey/${surveyId}/welcome">this unique survey link.</a> 
-    <br/><br/>Sincerely,<br/>The Onward Financial Team</p>`;
-
+    const { email, surveyId } = employee;
     sendMessage({
       from: SENDGRID_EMAIL,
       to: email,
       subject: 'Inivitation to fill out Survey',
-      html,
+      html: surveyReminder(surveyId),
     });
 
     return res.status(200).json({ success: true });
@@ -200,7 +188,7 @@ router.post('/uploadCSV', upload.single('file'), auth, async (req, res) => {
     .on('end', () => {
       // we create a new employee object from the csv data
       // NOTE: many of these are placeholders right now (unspecified behavior)
-      const employees = results.forEach(async (employee: any) => {
+      results.forEach(async (employee: any) => {
         const surveyId = shortid.generate();
         const newEmployee = new Employee();
         newEmployee.firstName = employee.Name;

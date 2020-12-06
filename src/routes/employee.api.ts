@@ -5,7 +5,7 @@ import { User } from '../models/user.model';
 import errorHandler from './error';
 import { sendMessage } from './user.util';
 import { SENDGRID_EMAIL } from '../utils/config';
-import resultEmail from '../templates/resultsEmail';
+import { resultEmail } from '../templates';
 
 const router = express.Router();
 

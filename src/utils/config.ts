@@ -5,13 +5,13 @@ switch (process.env.NODE_ENV) {
   case 'development':
     console.log("Environment is 'development'");
     configDotenv({
-      path: resolve(__dirname, '../../.env.development'),
+      path: resolve(__dirname, '../../config/.env.development'),
     });
     break;
   case 'test':
     console.log("Environment is 'test'");
     configDotenv({
-      path: resolve(__dirname, '../../.env.test'),
+      path: resolve(__dirname, '../../config/.env.test'),
     });
     break;
   case 'production':
