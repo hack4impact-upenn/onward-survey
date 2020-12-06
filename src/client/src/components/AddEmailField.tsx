@@ -20,9 +20,8 @@ class AddEmail extends React.Component<{}, { emailInput: string }> {
   }
 
   handleClick() {
-    const employees = this.state.emailInput.split(', ').map((element) => {
-      return { firstName: 'firstName', lastName: 'lastName', email: element };
-    });
+    const emails = this.state.emailInput.split(',').map((e) => e.trim());
+
     secureAxios({
       url: '/api/users/create/employee',
       method: 'POST',
@@ -31,7 +30,7 @@ class AddEmail extends React.Component<{}, { emailInput: string }> {
         Authorization: `Bearer ${auth.getAccessToken()}`,
         'Content-Type': 'application/json',
       },
-      data: JSON.stringify(employees),
+      data: JSON.stringify({ emails }),
     })
       .then((res) => window.location.reload(true))
       .catch((err: Error) => alert(err.message));

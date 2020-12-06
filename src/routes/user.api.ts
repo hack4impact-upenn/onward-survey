@@ -234,21 +234,19 @@ router.get('/me', auth, async (req, res) => {
 
 /* user add new employee endpoint */
 router.post('/create/employee', auth, async (req, res) => {
-  req.body.forEach(async (employee: any) => {
-    const { email } = employee;
-    const { userId } = req;
-    const user = await User.findById(userId);
-    const surveyId = shortid.generate();
-    if (!user) return errorHandler(res, 'User does not exist.');
+  const { emails } = req.body;
+  const { userId } = req;
+  const user = await User.findById(userId);
+  if (!user) return errorHandler(res, 'User does not exist.');
 
-    // create new employee
+  emails.forEach(async (email: string) => {
+    const surveyId = shortid.generate();
     const newEmployee = new Employee();
     newEmployee.email = email;
     newEmployee.employer = new Types.ObjectId(userId);
     newEmployee.employerName = user.institutionName;
     newEmployee.surveyId = surveyId;
     newEmployee.completed = false;
-
     try {
       await newEmployee.save();
       await User.updateOne(
@@ -257,7 +255,6 @@ router.post('/create/employee', auth, async (req, res) => {
         { $push: { surveyIDs: surveyId } }
       );
     } catch (err) {
-      console.log(err);
       return errorHandler(res, err);
     }
     return res.status(200).json({ message: 'success' });
