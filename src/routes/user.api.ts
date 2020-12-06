@@ -126,7 +126,7 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
     employees.forEach(async (employeeId) => {
       const employee = await Employee.findById(employeeId);
       if (!employee) return;
-      if (employee.completed == false){
+      if (employee.completed == false) {
         const { email, employerName, surveyId } = employee;
         const html = `<p>Hi! 
           <br/><br/> 
@@ -145,7 +145,7 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
           subject: 'Inivitation to fill out Survey',
           html,
         });
-      };
+      }
     });
 
     return res.status(200).json({ success: true });

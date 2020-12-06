@@ -85,7 +85,7 @@ const Table = styled.table`
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
-    color: #D3D3D3;
+    color: #d3d3d3;
     padding-right: 5px;
     cursor: default;
   }
@@ -103,7 +103,7 @@ function getResendElement(entry: IEmployee) {
 }
 
 const handleResend = (entry: IEmployee) => {
-  if(!entry.completed){
+  if (!entry.completed) {
     secureAxios({
       url: '/api/users/sendIndividualUrl',
       method: 'POST',
@@ -114,7 +114,7 @@ const handleResend = (entry: IEmployee) => {
       },
       data: JSON.stringify(entry),
     })
-      .then(() => alert("Survey Resent!"))
+      .then(() => alert('Survey Resent!'))
       .catch((err: Error) => alert(err.message));
   }
 };

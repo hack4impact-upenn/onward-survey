@@ -30,9 +30,9 @@ const handleSendAll = () => {
     headers: {
       Authorization: `Bearer ${auth.getAccessToken()}`,
       'Content-Type': 'application/json',
-    }
+    },
   })
-    .then(() => alert("Surveys Sent!"))
+    .then(() => alert('Surveys Sent!'))
     .catch((err: Error) => alert(err.message));
 };
 
@@ -44,7 +44,10 @@ const ManageSurveyTab: React.FC<Props> = (props) => {
       <UploadCSV></UploadCSV>
       <ManageSurveyTable></ManageSurveyTable>
       <SurveyButtonGroup>
-        <SendOutButton className="button is-primary is-pulled-right" onClick={() => handleSendAll()} >
+        <SendOutButton
+          className="button is-primary is-pulled-right"
+          onClick={() => handleSendAll()}
+        >
           Send Out Survey
         </SendOutButton>
       </SurveyButtonGroup>
