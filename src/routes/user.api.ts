@@ -111,7 +111,7 @@ router.post('/refreshToken', (req, res) => {
     });
 });
 
-/* loop through list of employees and send unique invite email */
+/* loop through list of employees and send unique invite email if employee has not completed survey*/
 router.post('/sendSurveyUrl', auth, async (req, res) => {
   const { userId } = req;
   try {
@@ -126,24 +126,26 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
     employees.forEach(async (employeeId) => {
       const employee = await Employee.findById(employeeId);
       if (!employee) return;
-      const { email, employerName, employer, surveyId } = employee;
-      const html = `<p>Hi! 
-        <br/><br/> 
-          Your employer ${employerName} from ${employer} 
-          has requested for you to fill out this brief, 5-minute survey about your financial background. 
-          Your responses will be kept anonymous and will only be used in a general, company-wide, aggregate data analysis. 
-          Access your unique survey link here:<strong> ${surveyId} </strong>
-        <br/>
-        <br/>Best,<br/>
-        The Onward Financial Team
-      </p>`;
+      if (employee.completed == false) {
+        const { email, employerName, surveyId } = employee;
+        const html = `<p>Hi! 
+          <br/><br/> 
+            Your employer ${employerName}
+            has requested for you to fill out this brief, 5-minute survey about your financial background. 
+            Your responses will be kept anonymous and will only be used in a general, company-wide, aggregate data analysis. 
+            Access your unique survey link <a href="http://localhost:3000/survey/${surveyId}/welcome">here.</a>
+          <br/>
+          <br/>Best,<br/>
+          The Onward Financial Team
+        </p>`;
 
-      sendMessage({
-        from: SENDGRID_EMAIL,
-        to: email,
-        subject: 'Inivitation to fill out Survey',
-        html,
-      });
+        sendMessage({
+          from: SENDGRID_EMAIL,
+          to: email,
+          subject: 'Inivitation to fill out Survey',
+          html,
+        });
+      }
     });
 
     return res.status(200).json({ success: true });
@@ -155,7 +157,7 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
 /* resending indiviudal survey url based on employee id */
 router.post('/sendIndividualUrl', auth, async (req, res) => {
   const { userId } = req;
-  const { employeeId } = req.body;
+  const employeeId = req.body._id;
 
   const employer = await User.findById(userId);
   if (!employer) return errorHandler(res, 'User does not exist.');
@@ -164,7 +166,8 @@ router.post('/sendIndividualUrl', auth, async (req, res) => {
 
   try {
     const { email, firstName, lastName, surveyId } = employee;
-    const html = `<p>Dear ${firstName} ${lastName}, <br/><br/> Please fill out your employee survey using this unique ID: <strong> ${surveyId} </strong><br/><br/>Sincerely,<br/>The Onward Financial Team</p>`;
+    const html = `<p>Hello, <br/><br/> Please fill out your employee survey using <a href="http://localhost:3000/survey/${surveyId}/welcome">this unique survey link.</a> 
+    <br/><br/>Sincerely,<br/>The Onward Financial Team</p>`;
 
     sendMessage({
       from: SENDGRID_EMAIL,
