@@ -191,8 +191,6 @@ router.post('/uploadCSV', upload.single('file'), auth, async (req, res) => {
       results.forEach(async (employee: any) => {
         const surveyId = shortid.generate();
         const newEmployee = new Employee();
-        newEmployee.firstName = employee.Name;
-        newEmployee.lastName = 'placeholder';
         newEmployee.email = employee.Email;
         newEmployee.employer = new Types.ObjectId(userId);
         if (user?.institutionName)
@@ -237,7 +235,7 @@ router.get('/me', auth, async (req, res) => {
 /* user add new employee endpoint */
 router.post('/create/employee', auth, async (req, res) => {
   req.body.forEach(async (employee: any) => {
-    const { firstName, lastName, email } = employee;
+    const { email } = employee;
     const { userId } = req;
     const user = await User.findById(userId);
     const surveyId = shortid.generate();
@@ -245,8 +243,6 @@ router.post('/create/employee', auth, async (req, res) => {
 
     // create new employee
     const newEmployee = new Employee();
-    newEmployee.firstName = firstName;
-    newEmployee.lastName = lastName;
     newEmployee.email = email;
     newEmployee.employer = new Types.ObjectId(userId);
     newEmployee.employerName = user.institutionName;

@@ -51,32 +51,29 @@ router.post('/survey', async (req, res) => {
         );
         // Find employer, increment number completed, check if number completed >= threshold
         await User.findById(employer)
-          .select(
-            'numCompleted thresholdMet employees firstName lastName email'
-          )
-          .then(async (employer) => {
-            if (!employer) return errorHandler(res, 'Employer does not exist.');
-            // arbitrary threshold of 75% chosen
-            if (
-              !employer.thresholdMet.valueOf() &&
-              Number(employer.numCompleted + 1) /
-                Number(employer.employees.length) >=
-                0.01
-            ) {
-              const name = employer.firstName + ' ' + employer.lastName;
-              const html: string = resultEmail(name);
-              sendMessage({
-                from: SENDGRID_EMAIL,
-                to: employer.email,
-                subject: 'Survey Results Are Ready!',
-                html,
-              });
-              console.log(employer.thresholdMet.valueOf());
-              employer.thresholdMet = true;
-            }
-            employer.numCompleted = employer.numCompleted + 1;
-            employer.save();
-          });
+        .then(async (employer) => {
+          if (!employer) return errorHandler(res, 'Employer does not exist.');
+          // arbitrary threshold of 75% chosen
+          if (
+            !employer.thresholdMet.valueOf() &&
+            Number(employer.numCompleted + 1) /
+              Number(employer.employees.length) >=
+              0.01
+          ) {
+            const name = employer.firstName + ' ' + employer.lastName;
+            const html: string = resultEmail(name);
+            sendMessage({
+              from: SENDGRID_EMAIL,
+              to: employer.email,
+              subject: 'Survey Results Are Ready!',
+              html,
+            });
+            console.log(employer.thresholdMet.valueOf());
+            employer.thresholdMet = true;
+          }
+          employer.numCompleted = employer.numCompleted + 1;
+          employer.save();
+        });
       } catch (err) {
         console.log(err);
         return errorHandler(res, err);
