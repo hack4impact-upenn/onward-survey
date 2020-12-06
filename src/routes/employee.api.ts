@@ -9,7 +9,7 @@ import { resultEmail } from '../templates';
 
 const router = express.Router();
 
-// get whether the employee has completed the survey
+/* get employee survey completion status */
 router.get('/:surveyId/completed', (req, res) => {
   const { surveyId } = req.params;
 
@@ -27,15 +27,13 @@ router.get('/:surveyId/completed', (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
-// submit survey response
-// change employee completed survey to true
+/* submit survey and change status to completed */
 router.post('/survey', async (req, res) => {
-  const { employeeId, responses } = req.body;
-  Employee.findById(employeeId)
+  const { surveyId, responses } = req.body;
+  Employee.findOne({ surveyId })
     .select('surveyId employer')
     .then(async (employee) => {
       if (!employee) return errorHandler(res, 'Employee does not exist.');
-
       const { surveyId, employer } = employee;
       const newEmployeeResponse = new EmployeeResponse({
         surveyId,
@@ -46,12 +44,11 @@ router.post('/survey', async (req, res) => {
       try {
         await newEmployeeResponse.save();
         await Employee.updateOne(
-          { _id: employeeId },
+          { _id: employee._id },
           { $set: { completed: true } }
         );
         // Find employer, increment number completed, check if number completed >= threshold
-        await User.findById(employer)
-        .then(async (employer) => {
+        await User.findById(employer).then(async (employer) => {
           if (!employer) return errorHandler(res, 'Employer does not exist.');
           // arbitrary threshold of 75% chosen
           if (
@@ -83,7 +80,7 @@ router.post('/survey', async (req, res) => {
     .catch((err) => errorHandler(res, err.message));
 });
 
-// get surveyId from user
+/* get employee survey id */
 router.get('/me/surveyId', (req, res) => {
   const { employeeId } = req.body;
 

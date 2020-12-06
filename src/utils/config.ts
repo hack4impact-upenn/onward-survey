@@ -28,6 +28,6 @@ const JWT_SECRET = process.env.JWT_SECRET || 'my-placeholder-string';
 
 // sendgrid configs
 const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || 'my-placeholder-key';
-const SENDGRID_EMAIL = 'example@email.com';
+const SENDGRID_EMAIL = process.env.SENDGRID_EMAIL || 'example@email.com';
 
 export { ATLAS_URI, JWT_SECRET, SENDGRID_API_KEY, SENDGRID_EMAIL, NODE_ENV };

@@ -70,11 +70,7 @@ const Welcome = () => {
             </Button>
             <Button
               className="button is-primary"
-              onClick={() =>
-                history.push(
-                  `/survey/${myProfile.employerName}/${myProfile._id}/questions`
-                )
-              }
+              onClick={() => history.push(`/survey/${surveyId}/questions`)}
             >
               Get Started
             </Button>

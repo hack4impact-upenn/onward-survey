@@ -24,7 +24,7 @@ declare interface ISurveyAnswers {
 }
 
 declare interface ISurveyResponse {
-  employeeId: string;
+  surveyId: string;
   responses: Object[];
 }
 
