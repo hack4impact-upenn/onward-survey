@@ -63,7 +63,6 @@ const ViewResultsPage = () => {
     ['Frequently - at least weekly', 0],
     ['Almost always - almost everyday, or every day', 0],
   ]);
-  
 
   // map of answer/count for question 3
   /*const map3 = new Map<string, number>([
@@ -110,7 +109,7 @@ const ViewResultsPage = () => {
     ['F', 0],
     ['G', 0],
   ]);*/
-   const map5 = new Map<string, number>([
+  const map5 = new Map<string, number>([
     ['A free savings account', 0],
     ['Short financial tips', 0],
     ['Articles about how to more effectively save', 0],
@@ -135,7 +134,6 @@ const ViewResultsPage = () => {
     ['Being able to retire/retire on time', 0],
     ['Other', 0],
   ]);
-
 
   const survey: string[][] = [[], [], [], [], [], []];
   const counters: Map<number, Map<string, number>> = new Map([
@@ -165,15 +163,14 @@ const ViewResultsPage = () => {
 
   var totalAnswers: number = 0;
 
-  const questions: string[] = 
-    [
-      "On a scale of 1-10 how would you rate your financial stability?",
-      "How often do you worry about your financial situation?",
-      "How would you handle an unexpected $400 expense?",
-      "What type(s) of financial hardship have you experienced in the\n past 6 months?",
-      "What kinds of financial help would you use, if it were offered\n to you by the employer?",
-      "What are your top financial concerns?"
-    ];
+  const questions: string[] = [
+    'On a scale of 1-10 how would you rate your financial stability?',
+    'How often do you worry about your financial situation?',
+    'How would you handle an unexpected $400 expense?',
+    'What type(s) of financial hardship have you experienced in the\n past 6 months?',
+    'What kinds of financial help would you use, if it were offered\n to you by the employer?',
+    'What are your top financial concerns?',
+  ];
 
   interface GraphData {
     x: string;
@@ -181,24 +178,24 @@ const ViewResultsPage = () => {
   }
 
   const organizeArray = (results: any) => {
-    console.log("DATA RESULTS");
+    console.log('DATA RESULTS');
     console.log(results);
     totalAnswers = results.length;
     for (var i = 0; i < results.length; i++) {
       const result = results[i];
-      console.log("Result");
+      console.log('Result');
       console.log(result);
       if (result.responses instanceof Array) {
         for (var j = 0; j < result.responses.length; j++) {
           const answerObject = result.responses[j];
-          console.log("Answer obj");
+          console.log('Answer obj');
           console.log(answerObject);
-          const property = "q" + (j + 1);
+          const property = 'q' + (j + 1);
           console.log(property);
           if (answerObject[property] instanceof Array) {
-              const answerObjectK = answerObject[property];
+            const answerObjectK = answerObject[property];
             for (var k = 0; k < answerObjectK.length; k++) {
-              console.log("Answer obj k");
+              console.log('Answer obj k');
               console.log(answerObjectK[k]);
               survey[j].push(answerObjectK[Object.keys(answerObjectK)[0]]);
             }
@@ -281,13 +278,40 @@ const ViewResultsPage = () => {
     console.log(data);
     const arrayWithQ1 = arrayFromMap(finalData[0]);
     console.log(arrayWithQ1);
-    const q1DataValues: string = "Median: " + median(arrayWithQ1) + 
-                                " | Mean: " + mean(arrayWithQ1).toFixed(3) + 
-                                " | Standard Deviation: " + std(arrayWithQ1).toFixed(3);
+    const q1DataValues: string =
+      'Median: ' +
+      median(arrayWithQ1) +
+      ' | Mean: ' +
+      mean(arrayWithQ1).toFixed(3) +
+      ' | Standard Deviation: ' +
+      std(arrayWithQ1).toFixed(3);
     console.log(q1DataValues);
-    const q1legend = [{ name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" }, { name: "6" }, { name: "7" }, { name: "8" }, { name: "9" }, { name: "10" }];
-    const q2legend = [{ name: 'Never' }, { name: "Almost never - a few times a year" }, { name: "Sometimes - 1-2 times a month" }, { name: "Frequently - at least weekly" }, { name: "Almost always - almost everyday, or every day" }];
-    const q6legend = [{ name: 'Having enough \nemergency savings' }, { name: "Meeting monthly \nexpenses" }, { name: "Paying off \ndebt" }, { name: "Being able to \nretire/retire on \ntime" }, { name: "Other" }];
+    const q1legend = [
+      { name: '1' },
+      { name: '2' },
+      { name: '3' },
+      { name: '4' },
+      { name: '5' },
+      { name: '6' },
+      { name: '7' },
+      { name: '8' },
+      { name: '9' },
+      { name: '10' },
+    ];
+    const q2legend = [
+      { name: 'Never' },
+      { name: 'Almost never - a few times a year' },
+      { name: 'Sometimes - 1-2 times a month' },
+      { name: 'Frequently - at least weekly' },
+      { name: 'Almost always - almost everyday, or every day' },
+    ];
+    const q6legend = [
+      { name: 'Having enough \nemergency savings' },
+      { name: 'Meeting monthly \nexpenses' },
+      { name: 'Paying off \ndebt' },
+      { name: 'Being able to \nretire/retire on \ntime' },
+      { name: 'Other' },
+    ];
     return (
       <Swiper
         id="main"
@@ -299,7 +323,7 @@ const ViewResultsPage = () => {
         <SwiperSlide>
           <VictoryPie
             questionNumber={1}
-            oriented={"vertical"}
+            oriented={'vertical'}
             question={questions[0]}
             description={q1DataValues}
             keys={data[0].map((elem) => {
@@ -307,7 +331,7 @@ const ViewResultsPage = () => {
             })}
             data={data[0]}
             textLength={100}
-            totalAnswers = {totalAnswers}
+            totalAnswers={totalAnswers}
             legend={q1legend}
           />
         </SwiperSlide>
@@ -315,7 +339,7 @@ const ViewResultsPage = () => {
         <SwiperSlide>
           <VictoryPie
             questionNumber={2}
-            oriented={"horizontal"}
+            oriented={'horizontal'}
             numItemsInRow={2}
             question={questions[1]}
             keys={data[1].map((elem) => {
@@ -323,9 +347,8 @@ const ViewResultsPage = () => {
             })}
             data={data[1]}
             textLength={200}
-            totalAnswers = {totalAnswers}
+            totalAnswers={totalAnswers}
             legend={q2legend}
-
           />
         </SwiperSlide>
         <SwiperSlide>
@@ -337,7 +360,6 @@ const ViewResultsPage = () => {
             })}
             data={data[2]}
             textLength={200}
-
           />
         </SwiperSlide>
         <SwiperSlide>
@@ -349,7 +371,6 @@ const ViewResultsPage = () => {
             })}
             data={data[3]}
             textLength={200}
-
           />
         </SwiperSlide>
         <SwiperSlide>
@@ -361,7 +382,6 @@ const ViewResultsPage = () => {
             })}
             data={data[4]}
             textLength={200}
-
           />
         </SwiperSlide>
         <SwiperSlide>
@@ -373,7 +393,6 @@ const ViewResultsPage = () => {
             })}
             data={data[5]}
             textLength={200}
-
           />
         </SwiperSlide>
       </Swiper>
