@@ -27,7 +27,7 @@ The Onward Financial Team
 export const surveyReminder = (surveyId: string): string => `
 <p>Hi!
 <br/><br/>
-Please fill out your employee survey using <a href="${CLIENT_URL}survey/${surveyId}/welcome">this unique survey link.</a>
+Please fill out your employee survey using <a href="${CLIENT_URL}/survey/${surveyId}/welcome">this unique survey link.</a>
 <br/><br/>
 Sincerely,
 <br/>
