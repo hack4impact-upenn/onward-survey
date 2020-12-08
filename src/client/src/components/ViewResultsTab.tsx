@@ -9,6 +9,7 @@ import { fetchData } from '../api/userApi';
 import { fetchEmployees } from '../api/userApi';
 import { fetchMe } from '../api/userApi';
 import VictoryGraph from '../components/VictoryGraph';
+import VictoryPie from '../components/VictoryPie';
 import auth from '../utils/auth';
 import 'swiper/swiper.scss';
 
@@ -33,6 +34,7 @@ const ViewResultsPage = () => {
     }
   );
 
+  // map of answer/count for question 1
   const map1 = new Map<string, number>([
     ['1', 0],
     ['2', 0],
@@ -45,14 +47,26 @@ const ViewResultsPage = () => {
     ['9', 0],
     ['10', 0],
   ]);
-  const map2 = new Map<string, number>([
+
+  // map of answer/count for question 2
+  /*const map2 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
     ['D', 0],
     ['E', 0],
+  ]);*/
+  const map2 = new Map<string, number>([
+    ['Never', 0],
+    ['Almost never - a few times a year', 0],
+    ['Sometimes - 1-2 times a month', 0],
+    ['Frequently - at least weekly', 0],
+    ['Almost always - almost everyday, or every day', 0],
   ]);
-  const map3 = new Map<string, number>([
+  
+
+  // map of answer/count for question 3
+  /*const map3 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
@@ -62,8 +76,32 @@ const ViewResultsPage = () => {
     ['G', 0],
     ['H', 0],
     ['I', 0],
+  ]);*/
+  const map3 = new Map<string, number>([
+    ['Pay with cash or credit card paid in full', 0],
+    ['Credit card and pay it off over time', 0],
+    ['Money from bank loan', 0],
+    ['Borrow from friend/family', 0],
+    ['Use payday loan/overdraft', 0],
+    ['Sell something', 0],
+    ['Ask for salary advance or loan from workplace', 0],
+    ['Other (if so, how?)', 0],
+    ['Would not be able to pay', 0],
   ]);
+
+  // map of answer/count for question 4
   const map4 = new Map<string, number>([
+    ['Did not pay full rent/mortgage', 0],
+    ['Skipped paying a bill or paid late', 0],
+    ['Skipped essential medical care due to cost', 0],
+    ['Could not afford food', 0],
+    ['Had credit declined', 0],
+    ['Overdraft a bank account', 0],
+    ['Borrowed from a payday lender/pawn shop/car title lender', 0],
+  ]);
+
+  // map of answer/count for question 5
+  /*const map5 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
@@ -71,23 +109,33 @@ const ViewResultsPage = () => {
     ['E', 0],
     ['F', 0],
     ['G', 0],
+  ]);*/
+   const map5 = new Map<string, number>([
+    ['A free savings account', 0],
+    ['Short financial tips', 0],
+    ['Articles about how to more effectively save', 0],
+    ['Personalized, 1:1 financial coaching', 0],
+    ['Loans', 0],
+    ['Pay advances', 0],
+    ['Other', 0],
   ]);
-  const map5 = new Map<string, number>([
+
+  // map of answer/count for question 6
+  /*const map6 = new Map<string, number>([
     ['A', 0],
     ['B', 0],
     ['C', 0],
     ['D', 0],
     ['E', 0],
-    ['F', 0],
-    ['G', 0],
-  ]);
+  ]);*/
   const map6 = new Map<string, number>([
-    ['A', 0],
-    ['B', 0],
-    ['C', 0],
-    ['D', 0],
-    ['E', 0],
+    ['Having enough emergency savings', 0],
+    ['Meeting monthly expenses', 0],
+    ['Paying off debt', 0],
+    ['Being able to retire/retire on time', 0],
+    ['Other', 0],
   ]);
+
 
   const survey: string[][] = [[], [], [], [], [], []];
   const counters: Map<number, Map<string, number>> = new Map([
@@ -103,13 +151,29 @@ const ViewResultsPage = () => {
   interface MyDataResponse {
     _v: number;
     _id: string;
-    responses: ISurveyAnswers[];
+    responses: ITempSurveyAnswers[];
     surveyId: string;
+  }
+
+  interface ITempSurveyAnswers {
+    [questionNumber: number]: String[];
   }
 
   interface MyData extends IAPIResponse {
     data: MyDataResponse[];
   }
+
+  var totalAnswers: number = 0;
+
+  const questions: string[] = 
+    [
+      "On a scale of 1-10 how would you rate your financial stability?",
+      "How often do you worry about your financial situation?",
+      "How would you handle an unexpected $400 expense?",
+      "What type(s) of financial hardship have you experienced in the\n past 6 months?",
+      "What kinds of financial help would you use, if it were offered\n to you by the employer?",
+      "What are your top financial concerns?"
+    ];
 
   interface GraphData {
     x: string;
@@ -117,19 +181,34 @@ const ViewResultsPage = () => {
   }
 
   const organizeArray = (results: any) => {
+    console.log("DATA RESULTS");
+    console.log(results);
+    totalAnswers = results.length;
     for (var i = 0; i < results.length; i++) {
       const result = results[i];
+      console.log("Result");
+      console.log(result);
       if (result.responses instanceof Array) {
         for (var j = 0; j < result.responses.length; j++) {
           const answerObject = result.responses[j];
-          survey[j].push(answerObject[Object.keys(answerObject)[0]]);
+          console.log("Answer obj");
+          console.log(answerObject);
+          const property = "q" + (j + 1);
+          console.log(property);
+          if (answerObject[property] instanceof Array) {
+              const answerObjectK = answerObject[property];
+            for (var k = 0; k < answerObjectK.length; k++) {
+              console.log("Answer obj k");
+              console.log(answerObjectK[k]);
+              survey[j].push(answerObjectK[Object.keys(answerObjectK)[0]]);
+            }
+          }
         }
       }
     }
   };
   //
-  //
-  // assuming that there is one answer per question (not an array)
+  // assuming that every answer comes in an array (even if single answer)
   //
   //
 
@@ -201,6 +280,14 @@ const ViewResultsPage = () => {
     const data = createFinalData(myData);
     console.log(data);
     const arrayWithQ1 = arrayFromMap(finalData[0]);
+    console.log(arrayWithQ1);
+    const q1DataValues: string = "Median: " + median(arrayWithQ1) + 
+                                " | Mean: " + mean(arrayWithQ1).toFixed(3) + 
+                                " | Standard Deviation: " + std(arrayWithQ1).toFixed(3);
+    console.log(q1DataValues);
+    const q1legend = [{ name: "1" }, { name: "2" }, { name: "3" }, { name: "4" }, { name: "5" }, { name: "6" }, { name: "7" }, { name: "8" }, { name: "9" }, { name: "10" }];
+    const q2legend = [{ name: 'Never' }, { name: "Almost never - a few times a year" }, { name: "Sometimes - 1-2 times a month" }, { name: "Frequently - at least weekly" }, { name: "Almost always - almost everyday, or every day" }];
+    const q6legend = [{ name: 'Having enough \nemergency savings' }, { name: "Meeting monthly \nexpenses" }, { name: "Paying off \ndebt" }, { name: "Being able to \nretire/retire on \ntime" }, { name: "Other" }];
     return (
       <Swiper
         id="main"
@@ -210,67 +297,83 @@ const ViewResultsPage = () => {
         slidesPerView={1}
       >
         <SwiperSlide>
-          <VictoryGraph
-            question={1}
-            description={
-              <p>
-                {' '}
-                <br />
-                Median: {median(arrayWithQ1)} | Mean:{' '}
-                {mean(arrayWithQ1).toFixed(3)} | Standard Deviation:{' '}
-                {std(arrayWithQ1).toFixed(3)}
-              </p>
-            }
+          <VictoryPie
+            questionNumber={1}
+            oriented={"vertical"}
+            question={questions[0]}
+            description={q1DataValues}
             keys={data[0].map((elem) => {
               return elem.x;
             })}
             data={data[0]}
+            textLength={100}
+            totalAnswers = {totalAnswers}
+            legend={q1legend}
           />
         </SwiperSlide>
 
         <SwiperSlide>
-          <VictoryGraph
-            question={2}
+          <VictoryPie
+            questionNumber={2}
+            oriented={"horizontal"}
+            numItemsInRow={2}
+            question={questions[1]}
             keys={data[1].map((elem) => {
               return elem.x;
             })}
             data={data[1]}
+            textLength={200}
+            totalAnswers = {totalAnswers}
+            legend={q2legend}
+
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
-            question={3}
+            questionNumber={3}
+            question={questions[2]}
             keys={data[2].map((elem) => {
               return elem.x;
             })}
             data={data[2]}
+            textLength={200}
+
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
-            question={4}
+            questionNumber={4}
+            question={questions[3]}
             keys={data[3].map((elem) => {
               return elem.x;
             })}
             data={data[3]}
+            textLength={200}
+
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
-            question={5}
+            questionNumber={5}
+            question={questions[4]}
             keys={data[4].map((elem) => {
               return elem.x;
             })}
             data={data[4]}
+            textLength={200}
+
           />
         </SwiperSlide>
         <SwiperSlide>
           <VictoryGraph
-            question={6}
+            questionNumber={6}
+            question={questions[5]}
             keys={data[5].map((elem) => {
               return elem.x;
             })}
             data={data[5]}
+            textLength={200}
+
           />
         </SwiperSlide>
       </Swiper>
