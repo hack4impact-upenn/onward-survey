@@ -39,7 +39,7 @@ $ cd onward-survey
 $ yarn setup
 ```
 
-##### Configuring Enviromental Variable
+#### Configuring Enviromental Variable
 
 Create file called ".env.development" in "./config", it should look something like the following:
 
@@ -77,6 +77,10 @@ $ # for client only
 $ cd src/client && yarn test
 ```
 
-#### To Deploy
+## To Deploy (for Production)
 
+#### Heroku
 Deploying this project on Heroku is dead simple. Basically, go on Heroku and create a new Heroku app, connect your project Github to your new Heroku app, and hit Deploy. Note, that you will need to configure the enviromental variable under settings.
+
+#### AWS
+TBD
