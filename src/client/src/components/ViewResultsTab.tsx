@@ -176,25 +176,18 @@ const ViewResultsPage = () => {
   }
 
   const organizeArray = (results: any) => {
-    console.log('DATA RESULTS');
-    console.log(results);
     totalAnswers = results.length;
     for (var i = 0; i < results.length; i++) {
       const result = results[i];
-      console.log('Result');
-      console.log(result);
+
       if (result.responses instanceof Array) {
         for (var j = 0; j < result.responses.length; j++) {
           const answerObject = result.responses[j];
-          console.log('Answer obj');
-          console.log(answerObject);
           const property = 'q' + (j + 1);
-          console.log(property);
+
           if (answerObject[property] instanceof Array) {
             const answerObjectK = answerObject[property];
             for (var k = 0; k < answerObjectK.length; k++) {
-              console.log('Answer obj k');
-              console.log(answerObjectK[k]);
               survey[j].push(answerObjectK[Object.keys(answerObjectK)[0]]);
             }
           }
@@ -202,11 +195,8 @@ const ViewResultsPage = () => {
       }
     }
   };
-  //
-  // assuming that every answer comes in an array (even if single answer)
-  //
-  //
 
+  /* assuming that every answer comes in an array (even if single answer) */
   const partitionIntoMaps = () => {
     for (var i = 0; i < survey.length; i++) {
       const numberedArray = survey[i];
@@ -265,11 +255,8 @@ const ViewResultsPage = () => {
 
   const MyTable = (res: MyData) => {
     const { data: myData } = res;
-    console.log(myData);
     const data = createFinalData(myData);
-    console.log(data);
     const arrayWithQ1 = arrayFromMap(finalData[0]);
-    console.log(arrayWithQ1);
     const q1DataValues: string =
       'Median: ' +
       median(arrayWithQ1) +
@@ -277,7 +264,7 @@ const ViewResultsPage = () => {
       mean(arrayWithQ1).toFixed(3) +
       ' | Standard Deviation: ' +
       std(arrayWithQ1).toFixed(3);
-    console.log(q1DataValues);
+
     const q1legend = [
       { name: '1' },
       { name: '2' },
@@ -391,7 +378,6 @@ const ViewResultsPage = () => {
     );
   };
   const data: any = meQuery.data;
-  console.log(data);
   return (
     <div>
       {meQuery.isLoading ? (

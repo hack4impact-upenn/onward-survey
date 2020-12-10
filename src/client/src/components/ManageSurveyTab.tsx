@@ -18,8 +18,18 @@ const SendOutButton = styled.div`
   font-weight: 700;
   font-size: 24px;
   width: 200px;
-  height: 60px;
+  height: 80px;
   background: #00d898;
+  margin: 0px 10px;
+`;
+
+const ResetButton = styled.div`
+  font-weight: 700;
+  font-size: 24px;
+  width: 200px;
+  height: 80px;
+  background: #00d898;
+  margin: 0px 10px;
 `;
 
 const handleSendAll = () => {
@@ -50,6 +60,12 @@ const ManageSurveyTab: React.FC<Props> = (props) => {
         >
           Send Out Survey
         </SendOutButton>
+        <ResetButton
+          className="button is-pulled-right"
+          onClick={() => alert('Placeholder action!')}
+        >
+          Reset Survey
+        </ResetButton>
       </SurveyButtonGroup>
     </div>
   );
