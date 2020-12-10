@@ -46,7 +46,7 @@ router.post('/signup', async (req, res) => {
       firstName,
       lastName,
       email,
-      company,
+      institutionName: company,
       password: hashedPassword,
     });
 
@@ -133,7 +133,7 @@ router.post('/sendSurveyUrl', auth, async (req, res) => {
         sendMessage({
           from: SENDGRID_EMAIL,
           to: email,
-          subject: 'Inivitation to fill out Survey',
+          subject: 'Invitation to fill out Survey',
           html: surveyInvitation(employerName, surveyId),
         });
       }
@@ -160,7 +160,7 @@ router.post('/sendIndividualUrl', auth, async (req, res) => {
     sendMessage({
       from: SENDGRID_EMAIL,
       to: email,
-      subject: 'Inivitation to fill out Survey',
+      subject: 'Invitation to fill out Survey',
       html: surveyReminder(surveyId),
     });
 
@@ -247,13 +247,14 @@ router.post('/create/employee', auth, async (req, res) => {
     newEmployee.employerName = user.institutionName;
     newEmployee.surveyId = surveyId;
     newEmployee.completed = false;
+
     try {
       await newEmployee.save();
       await User.updateOne(
         { _id: userId },
-        { $push: { employees: newEmployee.id } },
-        { $push: { surveyIDs: surveyId } }
+        { $push: { employees: newEmployee.id } }
       );
+      await User.updateOne({ _id: userId }, { $push: { surveyIDs: surveyId } });
     } catch (err) {
       return errorHandler(res, err);
     }
@@ -269,7 +270,6 @@ router.get('/emails', auth, (req, res) => {
     .then((user) => {
       if (!user) return errorHandler(res, 'User does not exist.');
       const employees = user.employees;
-      //const emails = user.employees.map(employee => employee.email);
       return res.status(200).json({ success: true, data: employees });
     })
     .catch((err) => errorHandler(res, err.message));
@@ -283,12 +283,11 @@ router.delete('/delete/employee', async (req, res) => {
     const employer = req.body.employer;
     await User.updateOne(
       { _id: employer },
-      { $pull: { employees: employeeId } },
-      { $pull: { surveyIds: surveyId } }
+      { $pull: { employees: employeeId } }
     );
-    await Employee.findByIdAndDelete(employeeId).then(() =>
-      res.status(200).json({ success: true })
-    );
+    await User.updateOne({ _id: employer }, { $pull: { surveyIDs: surveyId } });
+    await Employee.findByIdAndDelete(employeeId);
+    return res.status(200).json({ success: true });
   } catch (error) {
     errorHandler(res, error.message);
   }
@@ -303,7 +302,11 @@ router.get('/data', auth, async (req, res) => {
       if (!user) return errorHandler(res, 'User does not exist.');
       const ids = user.surveyIDs;
 
+      console.log(user);
+
       const results = await EmployeeResponse.find({ surveyId: { $in: ids } });
+
+      console.log(results);
 
       return res.status(200).json({ success: true, data: results });
     })

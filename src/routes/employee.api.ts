@@ -30,6 +30,7 @@ router.get('/:surveyId/completed', (req, res) => {
 /* submit survey and change status to completed */
 router.post('/survey', async (req, res) => {
   const { surveyId, responses } = req.body;
+  console.log(responses);
   Employee.findOne({ surveyId })
     .select('surveyId employer')
     .then(async (employee) => {

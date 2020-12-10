@@ -82,7 +82,6 @@ const SurveyQuestions = () => {
 
     for (var i = 1; i <= numQuestions; i++) {
       const obj = { ['q' + i]: values[i] };
-      // console.log(`value ${i} is ${values[i]}`);
       responses.push(obj);
     }
     return responses;
