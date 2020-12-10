@@ -48,7 +48,7 @@ ATLAS_URI=mongodb-connection-string-placeholder
 JWT_SECRET=my-secret-jwt-key-placeholder
 ```
 
-Then, create another file called ".env" in "src/client", it should look like the following:
+Then, create another file called ".env" in "src/client", it should look like the following. Note this is only needed for Development, and not needed for Production.
 
 ```
 REACT_APP_API_URL="http://localhost:5000"
