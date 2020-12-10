@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory, useParams } from 'react-router-dom';
 import { submit } from '../../api/employeeResponseApi';
@@ -41,17 +41,40 @@ interface ParamTypes {
   surveyId: string;
 }
 
-const initialValues = {
-  1: '',
-  2: '',
-  3: '',
-  4: '',
+const initialValues: ISurveyAnswers = {
+  1: [],
+  2: [],
+  3: [],
+  4: [],
+  5: [],
+  6: [],
 };
 
 const SurveyQuestions = () => {
   const history = useHistory();
   const [submitResponseMutate] = useMutation(submit);
   const { surveyId } = useParams<ParamTypes>();
+  const [values, setState] = useState(initialValues);
+
+  const handleFormSelection = (
+    event: any,
+    questionNumber: number,
+    new_value: string
+  ) => {
+    if (event.target.checked) {
+      values[questionNumber].push(new_value);
+      setState(values);
+    } else {
+      // do some work to remove new_value from values[question_number]
+      for (var i = 0; i < 6; i++) {
+        if (values[questionNumber][i] === new_value) {
+          values[questionNumber].splice(i, 1);
+          setState(values);
+          return;
+        }
+      }
+    }
+  };
 
   const convertToArrayOfQuestions = (values: ISurveyAnswers) => {
     var responses = [];
@@ -65,7 +88,18 @@ const SurveyQuestions = () => {
   };
 
   const handleSubmit = async (values: ISurveyAnswers) => {
+    const numQuestions = Object.keys(values).length;
+
     var responses = convertToArrayOfQuestions(values);
+
+    for (var i = 1; i <= numQuestions; i++) {
+      values;
+      if (values[i].length == 0) {
+        alert(`Please select an option for each question.`);
+        return;
+      }
+    }
+    console.log(responses);
 
     const employeeResponse: ISurveyResponse = {
       surveyId: surveyId,
@@ -92,7 +126,10 @@ const SurveyQuestions = () => {
               question="On a scale of 1-10 how would you rate your financial stability?"
               subtext="1 = not at all stable 5 = more or less stable 10 = totally stable"
             />
-            <SurveyAnswersScale />
+            <SurveyAnswersScale
+              questionNumber={1}
+              onChange={handleFormSelection}
+            />
           </QuestionContainer>
 
           <QuestionContainer>
@@ -101,11 +138,31 @@ const SurveyQuestions = () => {
               question="How often do you worry about your financial situation?"
             />
             <div>
-              <SurveyQuestionAnswer potentialAnswer=" Never" />
-              <SurveyQuestionAnswer potentialAnswer=" Almost never - a few times a year" />
-              <SurveyQuestionAnswer potentialAnswer=" Sometimes - 1-2 times a month" />
-              <SurveyQuestionAnswer potentialAnswer=" Frequently - at least weekly" />
-              <SurveyQuestionAnswer potentialAnswer=" Almost always - almost everyday, or every day" />
+              <SurveyQuestionAnswer
+                questionNumber={2}
+                potentialAnswer=" Never"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={2}
+                potentialAnswer=" Almost never - a few times a year"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={2}
+                potentialAnswer=" Sometimes - 1-2 times a month"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={2}
+                potentialAnswer=" Frequently - at least weekly"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={2}
+                potentialAnswer=" Almost always - almost everyday, or every day"
+                onChange={handleFormSelection}
+              />
             </div>
           </QuestionContainer>
 
@@ -115,14 +172,46 @@ const SurveyQuestions = () => {
               question="How would you handle an unexpected $400 expense? (select all that apply)"
             />
             <div>
-              <SurveyQuestionAnswer potentialAnswer=" Pay with cash or credit card paid in full" />
-              <SurveyQuestionAnswer potentialAnswer=" Credit card and pay it off over time" />
-              <SurveyQuestionAnswer potentialAnswer=" Money from bank loan" />
-              <SurveyQuestionAnswer potentialAnswer=" Use payday loan/overdraft" />
-              <SurveyQuestionAnswer potentialAnswer=" Sell something" />
-              <SurveyQuestionAnswer potentialAnswer=" Ask for salary advance or loan from workplace" />
-              <SurveyQuestionAnswer potentialAnswer=" Other" />
-              <SurveyQuestionAnswer potentialAnswer=" Would not be able to pay" />
+              <SurveyQuestionAnswer
+                questionNumber={3}
+                potentialAnswer=" Pay with cash or credit card paid in full"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={3}
+                potentialAnswer=" Credit card and pay it off over time"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={3}
+                potentialAnswer=" Money from bank loan"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={3}
+                potentialAnswer=" Use payday loan/overdraft"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={3}
+                potentialAnswer=" Sell something"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={3}
+                potentialAnswer=" Ask for salary advance or loan from workplace"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={3}
+                potentialAnswer=" Other"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={3}
+                potentialAnswer=" Would not be able to pay"
+                onChange={handleFormSelection}
+              />
             </div>
           </QuestionContainer>
 
@@ -132,13 +221,41 @@ const SurveyQuestions = () => {
               question="What type(s) of financial hardship have you experienced in the past 6 months? (select all that apply)"
             />
             <div>
-              <SurveyQuestionAnswer potentialAnswer=" Did not pay full rent/mortgage" />
-              <SurveyQuestionAnswer potentialAnswer=" Skipped paying a bill or paid late" />
-              <SurveyQuestionAnswer potentialAnswer=" Skipped essential medical care due to cost" />
-              <SurveyQuestionAnswer potentialAnswer=" Could not afford food" />
-              <SurveyQuestionAnswer potentialAnswer=" Had credit declined" />
-              <SurveyQuestionAnswer potentialAnswer=" Overdraft a bank account" />
-              <SurveyQuestionAnswer potentialAnswer=" Borrowed from a payday lender/pawn shop/car title lender" />
+              <SurveyQuestionAnswer
+                questionNumber={4}
+                potentialAnswer=" Did not pay full rent/mortgage"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={4}
+                potentialAnswer=" Skipped paying a bill or paid late"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={4}
+                potentialAnswer=" Skipped essential medical care due to cost"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={4}
+                potentialAnswer=" Could not afford food"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={4}
+                potentialAnswer=" Had credit declined"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={4}
+                potentialAnswer=" Overdraft a bank account"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={4}
+                potentialAnswer=" Borrowed from a payday lender/pawn shop/car title lender"
+                onChange={handleFormSelection}
+              />
             </div>
           </QuestionContainer>
 
@@ -148,13 +265,41 @@ const SurveyQuestions = () => {
               question="What kinds of financial help would you use, if it were offered to you by __EMPLOYER NAME___? (select all that apply)"
             />
             <div>
-              <SurveyQuestionAnswer potentialAnswer=" A free savings account" />
-              <SurveyQuestionAnswer potentialAnswer=" Short financial tips" />
-              <SurveyQuestionAnswer potentialAnswer=" Articles about how to more effectively save" />
-              <SurveyQuestionAnswer potentialAnswer=" Personalized, 1:1 financial coaching" />
-              <SurveyQuestionAnswer potentialAnswer=" Loans" />
-              <SurveyQuestionAnswer potentialAnswer=" Pay advances" />
-              <SurveyQuestionAnswer potentialAnswer=" Other" />
+              <SurveyQuestionAnswer
+                questionNumber={5}
+                potentialAnswer=" A free savings account"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={5}
+                potentialAnswer=" Short financial tips"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={5}
+                potentialAnswer=" Articles about how to more effectively save"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={5}
+                potentialAnswer=" Personalized, 1:1 financial coaching"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={5}
+                potentialAnswer=" Loans"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={5}
+                potentialAnswer=" Pay advances"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={5}
+                potentialAnswer=" Other"
+                onChange={handleFormSelection}
+              />
             </div>
           </QuestionContainer>
 
@@ -164,11 +309,31 @@ const SurveyQuestions = () => {
               question="What are your top financial concerns?"
             />
             <div>
-              <SurveyQuestionAnswer potentialAnswer=" Having enough emergency savings" />
-              <SurveyQuestionAnswer potentialAnswer=" Meeting monthly expenses" />
-              <SurveyQuestionAnswer potentialAnswer=" Paying off debt" />
-              <SurveyQuestionAnswer potentialAnswer=" Being able to retire/retire on time" />
-              <SurveyQuestionAnswer potentialAnswer=" Other" />
+              <SurveyQuestionAnswer
+                questionNumber={6}
+                potentialAnswer=" Having enough emergency savings"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={6}
+                potentialAnswer=" Meeting monthly expenses"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={6}
+                potentialAnswer=" Paying off debt"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={6}
+                potentialAnswer=" Being able to retire/retire on time"
+                onChange={handleFormSelection}
+              />
+              <SurveyQuestionAnswer
+                questionNumber={6}
+                potentialAnswer=" Other"
+                onChange={handleFormSelection}
+              />
             </div>
           </QuestionContainer>
 

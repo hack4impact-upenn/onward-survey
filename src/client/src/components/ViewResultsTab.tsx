@@ -5,13 +5,11 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { fetchData } from '../api/userApi';
-import { fetchEmployees } from '../api/userApi';
-import { fetchMe } from '../api/userApi';
+import 'swiper/swiper.scss';
+import { fetchData, fetchMe } from '../api/userApi';
 import VictoryGraph from '../components/VictoryGraph';
 import VictoryPie from '../components/VictoryPie';
 import auth from '../utils/auth';
-import 'swiper/swiper.scss';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -379,15 +377,17 @@ const ViewResultsPage = () => {
       </Swiper>
     );
   };
-  const { data: data }: any = meQuery.data;
+  const data: any = meQuery.data;
   return (
     <div>
-      {data.thresholdMet ? (
+      {meQuery.isLoading ? (
+        <div>Loading...</div>
+      ) : (meQuery.data as any).data.thresholdMet ? (
         <>
           {employeeQuery.isLoading ? (
             <div>Loading...</div>
           ) : (
-            MyTable(employeeQuery.data as any)
+            <>{employeeQuery.data && MyTable(employeeQuery.data as any)}</>
           )}
         </>
       ) : (

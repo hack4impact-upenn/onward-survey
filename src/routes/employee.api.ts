@@ -65,14 +65,12 @@ router.post('/survey', async (req, res) => {
               subject: 'Survey Results Are Ready!',
               html,
             });
-            console.log(employer.thresholdMet.valueOf());
             employer.thresholdMet = true;
           }
           employer.numCompleted = employer.numCompleted + 1;
           employer.save();
         });
       } catch (err) {
-        console.log(err);
         return errorHandler(res, err);
       }
       return res.status(200).json({ message: 'success' });
