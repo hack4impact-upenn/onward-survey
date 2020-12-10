@@ -21,7 +21,7 @@ Essentially, here're some of its features:
 - Pretty UI using Bulma and Styled Components
 - Easy deployability on Heroku (literally 3 steps, it's really easy)
 
-## Setting Up
+## Setting Up (for Development)
 
 #### Recommended Tools Checklist
 
@@ -41,11 +41,14 @@ $ yarn setup
 
 ##### Configuring Enviromental Variable
 
-Create file called ".env.development" in root directory, it should look like the following:
+Create file called ".env.development" in "./config", it should look something like the following:
 
 ```
 ATLAS_URI=mongodb-connection-string-placeholder
 JWT_SECRET=my-secret-jwt-key-placeholder
+SENDGRID_API_KEY=xxxxxxxxxxxxxxxxxx
+SENDGRID_EMAIL=xxxxxxxxxxxxxxxxxx
+CLIENT_URL=xxxxxxxxxxxxxxxxxx
 ```
 
 Then, create another file called ".env" in "src/client", it should look like the following. Note this is only needed for Development, and not needed for Production.
@@ -63,6 +66,15 @@ $ # run server only
 $ yarn server
 $ # run client only
 $ yarn client
+```
+
+#### Running Tests
+
+```bash
+$ # for server only
+$ yarn test
+$ # for client only
+$ cd src/client && yarn test
 ```
 
 #### To Deploy
