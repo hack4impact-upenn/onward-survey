@@ -20,7 +20,7 @@ declare interface IAPIResponse {
 }
 
 declare interface ISurveyAnswers {
-  [questionNumber: number]: string;
+  [questionNumber: number]: string[];
 }
 
 declare interface ISurveyResponse {

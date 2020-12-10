@@ -42,12 +42,12 @@ interface ParamTypes {
 }
 
 const initialValues: ISurveyAnswers = {
-  1: '',
-  2: '',
-  3: '',
-  4: '',
-  5: '',
-  6: '',
+  1: [],
+  2: [],
+  3: [],
+  4: [],
+  5: [],
+  6: [],
 };
 
 const SurveyQuestions = () => {
@@ -58,15 +58,22 @@ const SurveyQuestions = () => {
 
   const handleFormSelection = (
     event: any,
-    question_number: number,
+    questionNumber: number,
     new_value: string
   ) => {
-    // console.log(event.target.checked);
-    // console.log(question_number);
-    // console.log(`${new_value}`);
-    values[question_number] = new_value;
-    setState(values);
-    // console.log(values);
+    if (event.target.checked) {
+      values[questionNumber].push(new_value);
+      setState(values);
+    } else {
+      // do some work to remove new_value from values[question_number]
+      for (var i = 0; i < 6; i++) {
+        if (values[questionNumber][i] === new_value) {
+          values[questionNumber].splice(i, 1);
+          setState(values);
+          return;
+        }
+      }
+    }
   };
 
   const convertToArrayOfQuestions = (values: ISurveyAnswers) => {
@@ -88,9 +95,8 @@ const SurveyQuestions = () => {
 
     for (var i = 1; i <= numQuestions; i++) {
       values;
-      if (values[i] === '') {
+      if (values[i].length == 0) {
         alert(`Please select an option for each question.`);
-        //console.log(values[i]);
         return;
       }
     }
