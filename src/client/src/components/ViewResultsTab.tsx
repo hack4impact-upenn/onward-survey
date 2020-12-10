@@ -255,12 +255,6 @@ const ViewResultsPage = () => {
     return newArray;
   };
 
-  // const calculatePercentage = () => {
-  //   const employeeDataArray : any  = employeesQuery.data;
-  //   var numberEmployees = employeeDataArray.length;
-  //   console.log(numberEmployees);
-  // }
-
   const Placeholder = () => {
     return (
       <p>

@@ -206,7 +206,6 @@ router.post('/uploadCSV', upload.single('file'), auth, async (req, res) => {
             { $push: { surveyIds: surveyId } }
           );
         } catch (err) {
-          console.log(err);
           return errorHandler(res, err);
         }
       });
@@ -276,17 +275,35 @@ router.get('/emails', auth, (req, res) => {
 });
 
 /* delete a single employee */
-router.delete('/delete/employee', async (req, res) => {
+router.delete('/delete/employee', auth, async (req, res) => {
+  const { userId } = req;
+  const { _id: employeeId } = req.body;
+  const { surveyId } = req.body;
+  const { employer } = req.body;
+
   try {
-    const employeeId = req.body._id;
-    const surveyId = req.body.surveyId;
-    const employer = req.body.employer;
     await User.updateOne(
       { _id: employer },
       { $pull: { employees: employeeId } }
     );
     await User.updateOne({ _id: employer }, { $pull: { surveyIDs: surveyId } });
+    const employee = await Employee.findById(employeeId);
+
+    const user = await User.findById(userId);
+    if (!user) return errorHandler(res, 'User does not exist.');
+
+    if (employee && employee.completed) {
+      user.numCompleted -= 1;
+    }
+
+    const threshold = user.numCompleted / user.employees.length;
+    if (threshold < 0.75) {
+      user.thresholdMet = false;
+      await user.save();
+    }
+
     await Employee.findByIdAndDelete(employeeId);
+
     return res.status(200).json({ success: true });
   } catch (error) {
     errorHandler(res, error.message);
@@ -301,12 +318,7 @@ router.get('/data', auth, async (req, res) => {
     .then(async (user) => {
       if (!user) return errorHandler(res, 'User does not exist.');
       const ids = user.surveyIDs;
-
-      console.log(user);
-
       const results = await EmployeeResponse.find({ surveyId: { $in: ids } });
-
-      console.log(results);
 
       return res.status(200).json({ success: true, data: results });
     })

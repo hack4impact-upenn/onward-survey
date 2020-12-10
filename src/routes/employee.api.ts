@@ -30,7 +30,6 @@ router.get('/:surveyId/completed', (req, res) => {
 /* submit survey and change status to completed */
 router.post('/survey', async (req, res) => {
   const { surveyId, responses } = req.body;
-  console.log(responses);
   Employee.findOne({ surveyId })
     .select('surveyId employer')
     .then(async (employee) => {
@@ -66,14 +65,12 @@ router.post('/survey', async (req, res) => {
               subject: 'Survey Results Are Ready!',
               html,
             });
-            console.log(employer.thresholdMet.valueOf());
             employer.thresholdMet = true;
           }
           employer.numCompleted = employer.numCompleted + 1;
           employer.save();
         });
       } catch (err) {
-        console.log(err);
         return errorHandler(res, err);
       }
       return res.status(200).json({ message: 'success' });
