@@ -217,6 +217,46 @@ router.post('/uploadCSV', upload.single('file'), auth, async (req, res) => {
     });
 });
 
+
+/* user reset survey endpoint */
+router.post('/resetSurvey', auth, async (req, res) => {
+  const { userId } = req;
+  try {
+    // get employer
+    const userEmployer = await User.findById(userId).populate('employees');
+    if (!userEmployer) return errorHandler(res, 'User does not exist.');
+    const employees = userEmployer.employees;
+    const surveyIds = userEmployer.surveyIDs
+    // set employer thresholdMet to false and numCompleted to 0
+    await User.updateOne(
+      { _id: userId},
+      { $set: { thresholdMet: false, numCompleted: 0} }
+    );
+    // set employee survey completed to false
+    if (employees) {
+      employees.forEach(async (employeeId) => {
+        const employee = await Employee.findById(employeeId).select( '_id completed');
+        if (!employee) return;
+        await Employee.updateOne(
+          { _id: employee._id }, 
+          { $set: { completed: false } }
+        );
+      })
+    }
+    // delete all relevant survey responses 
+    if (surveyIds) {
+      surveyIds.forEach(async (surveyId) => {
+        await EmployeeResponse.findOneAndDelete(
+          { "surveyId" : surveyId}
+        );
+      })
+    }
+  } catch (err) {
+    return errorHandler(res, err);
+  }
+  return res.status(200).json({ message: 'success' });
+});
+
 /* user fetch self info endpoint */
 router.get('/me', auth, async (req, res) => {
   const { userId } = req;

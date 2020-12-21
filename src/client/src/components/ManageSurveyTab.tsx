@@ -46,6 +46,20 @@ const handleSendAll = () => {
     .catch((err: Error) => alert(err.message));
 };
 
+const handleResetSurvey = () => {
+  secureAxios({
+    url: '/api/users/resetSurvey',
+    method: 'POST',
+    timeout: 0,
+    headers: {
+      Authorization: `Bearer ${auth.getAccessToken()}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then(() => alert('Survey reset!'))
+    .catch((err: Error) => alert(err.message));
+};
+
 interface Props {}
 const ManageSurveyTab: React.FC<Props> = (props) => {
   return (
@@ -62,7 +76,7 @@ const ManageSurveyTab: React.FC<Props> = (props) => {
         </SendOutButton>
         <ResetButton
           className="button is-pulled-right"
-          onClick={() => alert('Placeholder action!')}
+          onClick={() => handleResetSurvey()}
         >
           Reset Survey
         </ResetButton>
