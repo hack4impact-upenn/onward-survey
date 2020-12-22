@@ -99,6 +99,22 @@ const MyTable = (res: MyData) => {
       { x: 'Overdraft a bank account', y: 0 },
       { x: 'Borrowed from a payday lender/pawn shop/car title lender', y: 0 },
     ],
+    [
+      { x: 'A free savings account', y: 0 },
+      { x: 'Short financial tips', y: 0 },
+      { x: 'Articles about how to more effectively save', y: 0 },
+      { x: 'Personalized, 1:1 financial coaching', y: 0 },
+      { x: 'Loans', y: 0 },
+      { x: 'Pay advances', y: 0 },
+      { x: 'Other', y: 0 },
+    ],
+    [
+      { x: 'Having enough emergency savings', y: 0 },
+      { x: 'Meeting monthly expenses', y: 0 },
+      { x: 'Paying off debt', y: 0 },
+      { x: 'Being able to retire/retire on time', y: 0 },
+      { x: 'Other', y: 0 },
+    ],
   ];
 
   const responseMeta = [
@@ -117,7 +133,16 @@ const MyTable = (res: MyData) => {
     {
       totalAnswers: 0,
       title:
-        'What type(s) of financial hardship have you experienced in the past 6 months?',
+        'What type(s) of financial hardship have you experienced in the\n past 6 months?',
+    },
+    {
+      totalAnswers: 0,
+      title:
+        'What kinds of financial help would you use, if it were offered\n to you by the employer?',
+    },
+    {
+      totalAnswers: 0,
+      title: 'What are your top financial concerns?',
     },
   ];
 
@@ -185,6 +210,24 @@ const MyTable = (res: MyData) => {
           question={responseMeta[3].title}
           keys={responseSpace[3].map((e) => e.x)}
           data={responseSpace[3]}
+          textLength={200}
+        />
+      </SwiperSlide>
+      <SwiperSlide>
+        <VictoryGraph
+          questionNumber={5}
+          question={responseMeta[4].title}
+          keys={responseSpace[4].map((e) => e.x)}
+          data={responseSpace[4]}
+          textLength={200}
+        />
+      </SwiperSlide>
+      <SwiperSlide>
+        <VictoryGraph
+          questionNumber={6}
+          question={responseMeta[5].title}
+          keys={responseSpace[5].map((e) => e.x)}
+          data={responseSpace[5]}
           textLength={200}
         />
       </SwiperSlide>
