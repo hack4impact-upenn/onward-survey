@@ -62,6 +62,8 @@ const handleResetSurvey = () => {
 
 interface Props {}
 const ManageSurveyTab: React.FC<Props> = (props) => {
+  document.title = 'Onward | Manage Survey';
+
   return (
     <div>
       <AddEmailField></AddEmailField>
