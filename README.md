@@ -80,7 +80,9 @@ $ cd src/client && yarn test
 ## To Deploy (for Production)
 
 #### Heroku
+
 Deploying this project on Heroku is dead simple. Basically, go on Heroku and create a new Heroku app, connect your project Github to your new Heroku app, and hit Deploy. Note, that you will need to configure the enviromental variable under settings.
 
 #### AWS
+
 TBD
