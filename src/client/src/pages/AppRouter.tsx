@@ -33,11 +33,13 @@ const AppRouter = () => {
             path="/survey/:surveyId/welcome"
             component={SurveyWelcome}
           />
+
           <Route
             exact
             path="/survey/:surveyId/questions"
             component={SurveyQuestions}
           />
+
           <Route
             exact
             path="/survey/:surveyId/nextsteps"

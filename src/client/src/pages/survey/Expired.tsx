@@ -22,6 +22,7 @@ interface ParamTypes {
 }
 
 const Expired = () => {
+  document.title = 'Onward | Expired Survey';
   const history = useHistory();
 
   return (

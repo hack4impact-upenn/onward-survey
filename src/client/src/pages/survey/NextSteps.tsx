@@ -13,6 +13,7 @@ const Button = styled.button`
 `;
 
 const NextSteps = () => {
+  document.title = 'Onward | Thanks for Your Response!';
   return (
     <ContentContainer>
       <div className="columns is-mobile is-centered is-vcentered">

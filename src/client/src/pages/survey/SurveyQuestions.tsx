@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { useHistory, useParams } from 'react-router-dom';
 import { submit } from '../../api/employeeResponseApi';
@@ -9,17 +9,13 @@ import SurveyQuestionAnswer from '../../components/SurveyQuestionAnswer';
 import SurveyAnswersScale from '../../components/SurveyAnswersScale';
 
 const ContentContainer = styled.div`
-  margin: 10vh auto;
+  margin: 0px auto 80px auto;
   width: 80vw;
-`;
-
-const Button = styled.button`
-  width: 200px;
 `;
 
 const QuestionContainer = styled.div`
   width: 100%;
-  height: 70vh;
+  height: 80vh;
   background-color: #ecf0f1;
   display: flex;
   align-items: center;
@@ -27,14 +23,6 @@ const QuestionContainer = styled.div`
   border-radius: 15px;
   margin: 20px 0px;
   flex-direction: column;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 5vh;
 `;
 
 interface ParamTypes {
@@ -51,6 +39,7 @@ const initialValues: ISurveyAnswers = {
 };
 
 const SurveyQuestions = () => {
+  document.title = 'Onward | Fill Out Survey';
   const history = useHistory();
   const [submitResponseMutate] = useMutation(submit);
   const { surveyId } = useParams<ParamTypes>();
@@ -95,11 +84,9 @@ const SurveyQuestions = () => {
     for (var i = 1; i <= numQuestions; i++) {
       values;
       if (values[i].length == 0) {
-        alert(`Please select an option for each question.`);
         return;
       }
     }
-    console.log(responses);
 
     const employeeResponse: ISurveyResponse = {
       surveyId: surveyId,
@@ -114,22 +101,40 @@ const SurveyQuestions = () => {
     }
   };
 
+  const q1Ref = useRef<HTMLDivElement>(null);
+  const q2Ref = useRef<HTMLDivElement>(null);
+  const q3Ref = useRef<HTMLDivElement>(null);
+  const q4Ref = useRef<HTMLDivElement>(null);
+  const q5Ref = useRef<HTMLDivElement>(null);
+  const q6Ref = useRef<HTMLDivElement>(null);
+
+  const executeScroll = (ref: any) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  };
+
   return (
     <ContentContainer>
-      <h1 className="title is-3 is-spaced">Onward Financial Survey</h1>
-      <h2 className="subtitle is-6">Please complete the survey below.</h2>
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         <Form>
           <QuestionContainer>
             <SurveyQuestionTextbox
               name="1. "
-              question="On a scale of 1-10 how would you rate your financial stability?"
+              question="On a scale of 1-10, how would you rate your financial stability?"
               subtext="1 = not at all stable 5 = more or less stable 10 = totally stable"
             />
             <SurveyAnswersScale
               questionNumber={1}
               onChange={handleFormSelection}
             />
+            <button
+              onClick={() => executeScroll(q2Ref)}
+              className="button is-primary"
+              style={{ marginTop: '40px' }}
+            >
+              Continue
+            </button>
           </QuestionContainer>
 
           <QuestionContainer>
@@ -137,7 +142,7 @@ const SurveyQuestions = () => {
               name="2. "
               question="How often do you worry about your financial situation?"
             />
-            <div>
+            <div ref={q2Ref}>
               <SurveyQuestionAnswer
                 questionNumber={2}
                 potentialAnswer=" Never"
@@ -164,14 +169,21 @@ const SurveyQuestions = () => {
                 onChange={handleFormSelection}
               />
             </div>
+            <button
+              onClick={() => executeScroll(q3Ref)}
+              className="button is-primary"
+              style={{ marginTop: '40px' }}
+            >
+              Continue
+            </button>
           </QuestionContainer>
 
           <QuestionContainer>
             <SurveyQuestionTextbox
               name="3. "
-              question="How would you handle an unexpected $400 expense? (select all that apply)"
+              question="How would you handle an unexpected $400 expense? Select all that apply."
             />
-            <div>
+            <div ref={q3Ref}>
               <SurveyQuestionAnswer
                 questionNumber={3}
                 potentialAnswer=" Pay with cash or credit card paid in full"
@@ -213,14 +225,22 @@ const SurveyQuestions = () => {
                 onChange={handleFormSelection}
               />
             </div>
+
+            <button
+              onClick={() => executeScroll(q4Ref)}
+              className="button is-primary"
+              style={{ marginTop: '40px' }}
+            >
+              Continue
+            </button>
           </QuestionContainer>
 
           <QuestionContainer>
             <SurveyQuestionTextbox
               name="4. "
-              question="What type(s) of financial hardship have you experienced in the past 6 months? (select all that apply)"
+              question="What type(s) of financial hardship have you experienced in the past 6 months? Select all that apply."
             />
-            <div>
+            <div ref={q4Ref}>
               <SurveyQuestionAnswer
                 questionNumber={4}
                 potentialAnswer=" Did not pay full rent/mortgage"
@@ -257,14 +277,22 @@ const SurveyQuestions = () => {
                 onChange={handleFormSelection}
               />
             </div>
+
+            <button
+              onClick={() => executeScroll(q5Ref)}
+              className="button is-primary"
+              style={{ marginTop: '40px' }}
+            >
+              Continue
+            </button>
           </QuestionContainer>
 
           <QuestionContainer>
             <SurveyQuestionTextbox
               name="5. "
-              question="What kinds of financial help would you use, if it were offered to you by __EMPLOYER NAME___? (select all that apply)"
+              question="What kinds of financial help would you use, if it were offered to you by your employer? Select all that apply."
             />
-            <div>
+            <div ref={q5Ref}>
               <SurveyQuestionAnswer
                 questionNumber={5}
                 potentialAnswer=" A free savings account"
@@ -301,9 +329,17 @@ const SurveyQuestions = () => {
                 onChange={handleFormSelection}
               />
             </div>
+
+            <button
+              onClick={() => executeScroll(q6Ref)}
+              className="button is-primary"
+              style={{ marginTop: '40px' }}
+            >
+              Continue
+            </button>
           </QuestionContainer>
 
-          <QuestionContainer>
+          <QuestionContainer ref={q6Ref}>
             <SurveyQuestionTextbox
               name="6. "
               question="What are your top financial concerns?"
@@ -335,13 +371,15 @@ const SurveyQuestions = () => {
                 onChange={handleFormSelection}
               />
             </div>
-          </QuestionContainer>
 
-          <ButtonContainer>
-            <Button className="button is-primary" type="submit">
+            <button
+              type="submit"
+              className="button is-primary"
+              style={{ marginTop: '40px', width: '200px' }}
+            >
               Submit
-            </Button>
-          </ButtonContainer>
+            </button>
+          </QuestionContainer>
         </Form>
       </Formik>
     </ContentContainer>

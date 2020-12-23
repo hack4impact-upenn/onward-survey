@@ -32,6 +32,7 @@ interface ParamTypes {
 }
 
 const Welcome = () => {
+  document.title = 'Onward | Fill Out Survey';
   const history: any = useHistory();
   const { surveyId } = useParams<ParamTypes>();
 
