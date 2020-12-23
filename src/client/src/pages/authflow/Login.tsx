@@ -43,6 +43,9 @@ const FormContainer = styled.div`
 
 const Button = styled.button`
   width: 100%;
+  font-weight: 700;
+  font-size: 24px;
+  font-family: 'Montserrat', sans-serif;
 `;
 
 const initialValues = {
@@ -83,7 +86,8 @@ const Login = () => {
     if (!errorMessage) {
       history.push('/dashboard');
     } else {
-      alert(`Error: ${JSON.stringify(errorMessage)}`);
+      console.error(`Error: ${JSON.stringify(errorMessage)}`);
+      alert('Oops... Either your email or your password is incorrect.');
     }
   };
 

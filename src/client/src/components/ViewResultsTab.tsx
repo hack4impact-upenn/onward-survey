@@ -8,6 +8,7 @@ import VictoryPie from '../components/VictoryPie';
 import auth from '../utils/auth';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import '../styles/manage_survey.css';
 
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
@@ -19,7 +20,12 @@ const PlaceholderContainer = styled.div`
   text-align: left;
 `;
 
-const Button = styled.button``;
+const Button = styled.button`
+  font-weight: 700;
+  font-size: 24px;
+  font-family: 'Montserrat', sans-serif;
+  width: 200px;
+`;
 
 /* questions provided by onward */
 const q1legend = [

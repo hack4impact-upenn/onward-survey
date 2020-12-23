@@ -10,6 +10,12 @@ const InputWrapper = styled.div`
   justify-content: space-between;
 `;
 
+const Button = styled.button`
+  font-weight: 600;
+  font-size: 24px;
+  font-family: 'Montserrat', sans-serif;
+`;
+
 interface Props {}
 const UploadCSV: React.FC<Props> = (props) => {
   const [file, setFile] = useState<any>({ name: 'No File Selected' });
@@ -60,13 +66,13 @@ const UploadCSV: React.FC<Props> = (props) => {
           </label>
         </div>
         {/* Front end does not allow upload unless it is a csv file. */}
-        <button
+        <Button
           disabled={!(file.type === 'text/csv')}
           className="button is-primary flex-Item"
           onClick={handleUpload}
         >
           Upload
-        </button>
+        </Button>
       </InputWrapper>
     </>
   );

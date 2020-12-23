@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
-
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import auth from '../utils/auth';
-
+import styled from 'styled-components';
 import '../styles/navbar.css';
+import auth from '../utils/auth';
 
 const NavbarContainer = styled.div`
   width: 100vw;
@@ -43,37 +41,40 @@ class ProfileMenu extends React.Component<{}, { open: boolean }> {
 
   render() {
     return (
-      <div
-        className={
-          this.state.open ? 'dropdown is-right is-active' : 'dropdown is-right '
-        }
-        style={{ boxShadow: 'none' }}
-      >
-        <div className="dropdown-trigger">
-          <button
-            className="button"
-            aria-haspopup="true"
-            aria-controls="dropdown-menu"
-            onClick={this.toggleMenu}
-          >
-            <span>Profile</span>
-            <span className="icon is-small">
-              <i className="fas fa-angle-down" aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-        <div className="dropdown-menu" id="dropdown-menu" role="menu">
-          <div className="dropdown-content">
-            <a href="/profile">
-              <strong className="dropdown-item">Profile</strong>
-            </a>
-            <hr className="dropdown-divider"></hr>
-            <strong className="dropdown-item" onClick={() => auth.logout()}>
-              Logout
-            </strong>
-          </div>
-        </div>
-      </div>
+      <button className="button" onClick={() => auth.logout()}>
+        Logout
+      </button>
+      // <div
+      //   className={
+      //     this.state.open ? 'dropdown is-right is-active' : 'dropdown is-right '
+      //   }
+      //   style={{ boxShadow: 'none' }}
+      // >
+      //   <div className="dropdown-trigger">
+      //     <button
+      //       className="button"
+      //       aria-haspopup="true"
+      //       aria-controls="dropdown-menu"
+      //       onClick={this.toggleMenu}
+      //     >
+      //       <span>Profile</span>
+      //       <span className="icon is-small">
+      //         <i className="fas fa-angle-down" aria-hidden="true"></i>
+      //       </span>
+      //     </button>
+      //   </div>
+      //   <div className="dropdown-menu" id="dropdown-menu" role="menu">
+      //     <div className="dropdown-content">
+      //       <a href="/profile">
+      //         <strong className="dropdown-item">Profile</strong>
+      //       </a>
+      //       <hr className="dropdown-divider"></hr>
+      //       <strong className="dropdown-item" onClick={() => auth.logout()}>
+      //         Logout
+      //       </strong>
+      //     </div>
+      //   </div>
+      // </div>
     );
   }
 }

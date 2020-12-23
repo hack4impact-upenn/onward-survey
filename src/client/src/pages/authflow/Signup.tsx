@@ -44,6 +44,9 @@ const FormContainer = styled.div`
 
 const Button = styled.button`
   width: 100%;
+  font-weight: 700;
+  font-size: 24px;
+  font-family: 'Montserrat', sans-serif;
 `;
 const initialValues = {
   firstName: '',
@@ -85,7 +88,8 @@ const Signup = () => {
       alert('Success');
       history.push('/');
     } catch (error) {
-      alert(`Error: ${error.response.data}`);
+      console.error(`Error: ${error.response.data}`);
+      alert('Oops... Something went wrong, try again later.');
     }
   };
 
