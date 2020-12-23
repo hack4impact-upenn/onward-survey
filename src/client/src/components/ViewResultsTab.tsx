@@ -6,10 +6,20 @@ import { fetchData, fetchMe } from '../api/userApi';
 import VictoryGraph from '../components/VictoryGraph';
 import VictoryPie from '../components/VictoryPie';
 import auth from '../utils/auth';
+import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 import 'swiper/components/navigation/navigation.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/swiper.scss';
+
+/* styled components */
+const PlaceholderContainer = styled.div`
+  width: 100%;
+  text-align: left;
+`;
+
+const Button = styled.button``;
 
 /* questions provided by onward */
 const q1legend = [
@@ -45,15 +55,6 @@ interface MyData extends IAPIResponse {
 }
 
 SwiperCore.use([Navigation, Pagination]);
-
-/* Placeholder Component */
-const Placeholder = () => {
-  return (
-    <p>
-      50% of your employees must complete the survey in order to see results.
-    </p>
-  );
-};
 
 /* Data Visualizer Component */
 const MyTable = (res: MyData) => {
@@ -244,7 +245,8 @@ const MyTable = (res: MyData) => {
 };
 
 /* View Results (Root) Component */
-const ViewResultsPage = () => {
+const ViewResultsPage: React.FC<any> = () => {
+  const history = useHistory();
   const employeeQuery = useQuery(
     ['fetchData', { accessToken: auth.getAccessToken() }],
     fetchData
@@ -270,7 +272,21 @@ const ViewResultsPage = () => {
           )}
         </>
       ) : (
-        Placeholder()
+        <PlaceholderContainer>
+          <p className="subtitle is-5">
+            You currently don’t have enough responses to your survey. Do you
+            want to get started?
+          </p>
+          <Button
+            className="button is-primary"
+            onClick={() => {
+              history.push('/dashboard/manage');
+              window.location.reload(true);
+            }}
+          >
+            Get Started
+          </Button>
+        </PlaceholderContainer>
       )}
     </div>
   );

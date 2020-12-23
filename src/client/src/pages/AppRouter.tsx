@@ -12,16 +12,20 @@ import Expired from './survey/Expired';
 import NextSteps from './survey/NextSteps';
 import SurveyQuestions from './survey/SurveyQuestions';
 import SurveyWelcome from './survey/Welcome';
+import NotFound from './NotFound';
 
 const AppRouter = () => {
   return (
     <Router>
       <AppContainer>
         <Switch>
-          {/* <PublicRoute exact path="/" component={Main} /> */}
-          <PublicRoute exact path="/signup" component={Signup} />
           <PublicRoute exact path="/" component={Login} />
-          <PrivateRoute exact path="/dashboard" component={ManageSurvey} />
+          <PublicRoute exact path="/signup" component={Signup} />
+          <PrivateRoute
+            exact
+            path="/dashboard/:tab?"
+            component={ManageSurvey}
+          />
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/dashboard-old" component={Dashboard} />
           <Route
@@ -40,7 +44,7 @@ const AppRouter = () => {
             component={NextSteps}
           />
           <Route exact path="/survey/expired" component={Expired} />
-          <Route path="/" component={Login} />
+          <Route path="/" component={NotFound} />
         </Switch>
       </AppContainer>
     </Router>

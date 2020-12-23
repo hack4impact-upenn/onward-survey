@@ -63,22 +63,32 @@ function MyEmployerName() {
   }
 }
 
-class SurveyTabs extends React.Component<{}, { tabClicked: number }> {
+class SurveyTabs extends React.Component<
+  { defaultTab: string; history: any },
+  { tabClicked: number }
+> {
   constructor(props: any) {
     super(props);
-    this.state = { tabClicked: 2 };
+
+    if (props.defaultTab === 'manage') {
+      this.state = { tabClicked: 2 };
+    } else {
+      this.state = { tabClicked: 1 };
+    }
   }
 
   clickTab1() {
     this.setState({
       tabClicked: 1,
     });
+    this.props.history.push('/dashboard/results');
   }
 
   clickTab2() {
     this.setState({
       tabClicked: 2,
     });
+    this.props.history.push('/dashboard/manage');
   }
 
   render() {
