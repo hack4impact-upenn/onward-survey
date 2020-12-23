@@ -1,12 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import AppContainer from '../components/AppContainer';
 import PrivateRoute from '../components/routing/PrivateRoute';
 import PublicRoute from '../components/routing/PublicRoute';
 import Login from './authflow/Login';
 import Signup from './authflow/Signup';
 import Dashboard from './Dashboard';
-import Main from './Main';
 import ManageSurvey from './ManageSurvey';
 import Profile from './Profile';
 import Expired from './survey/Expired';
@@ -19,10 +18,9 @@ const AppRouter = () => {
     <Router>
       <AppContainer>
         <Switch>
-          {/* falsy loginRedirect prevents a public route from redirecting to dashboard once loggedin */}
-          <PublicRoute exact path="/" component={Main} />
+          {/* <PublicRoute exact path="/" component={Main} /> */}
           <PublicRoute exact path="/signup" component={Signup} />
-          <PublicRoute exact path="/login" component={Login} />
+          <PublicRoute exact path="/" component={Login} />
           <PrivateRoute exact path="/dashboard" component={ManageSurvey} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <PrivateRoute exact path="/dashboard-old" component={Dashboard} />
@@ -42,7 +40,7 @@ const AppRouter = () => {
             component={NextSteps}
           />
           <Route exact path="/survey/expired" component={Expired} />
-          <Route path="/" component={Main} />
+          <Route path="/" component={Login} />
         </Switch>
       </AppContainer>
     </Router>

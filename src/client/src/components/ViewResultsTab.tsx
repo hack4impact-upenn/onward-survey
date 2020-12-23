@@ -1,14 +1,15 @@
 import React from 'react';
 import { useQuery } from 'react-query';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
-import 'swiper/components/navigation/navigation.scss';
-import 'swiper/components/pagination/pagination.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper.scss';
 import { fetchData, fetchMe } from '../api/userApi';
 import VictoryGraph from '../components/VictoryGraph';
 import VictoryPie from '../components/VictoryPie';
 import auth from '../utils/auth';
+
+import 'swiper/components/navigation/navigation.scss';
+import 'swiper/components/pagination/pagination.scss';
+import 'swiper/swiper.scss';
 
 /* questions provided by onward */
 const q1legend = [
@@ -173,7 +174,14 @@ const MyTable = (res: MyData) => {
   }
 
   return (
-    <Swiper id="main" navigation pagination spaceBetween={50} slidesPerView={1}>
+    <Swiper
+      id="main"
+      navigation
+      pagination
+      spaceBetween={100}
+      slidesPerView={1}
+      className="container-1"
+    >
       <SwiperSlide>
         <VictoryPie
           questionNumber={1}
