@@ -8,11 +8,13 @@ const Container = styled.div`
   width: 100%;
   height: 80vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 `;
 
 const FormWrapper = styled.div`
+  margin-top: auto;
+  margin-bottom: auto;
   width: 60vw;
   max-width: 700px;
   padding: 100px 10px;

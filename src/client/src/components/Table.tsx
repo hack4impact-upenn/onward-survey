@@ -91,6 +91,13 @@ const Table = styled.table`
   }
 `;
 
+const Placeholder = styled.div`
+  height: 25vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 function getResendElement(entry: IEmployee) {
   return (
     <td
@@ -156,31 +163,51 @@ interface IEmployeeS extends IAPIResponse {
 const ManageSurveyTable: React.FC<any> = () => {
   const employeeQuery = useQuery(
     ['fetchEmployees', { accessToken: auth.getAccessToken() }],
-    fetchEmployees,
-    {
-      refetchOnWindowFocus: false,
-    }
+    fetchEmployees
   );
+
   const TableBody = (res: IEmployeeS) => {
     const { data: employees } = res;
     const employeesList: any = employees;
+
+    if (employeesList.length < 1) {
+      return (
+        <Placeholder>
+          <p className="subtitle is-5">
+            Oops... You haven't added any employees yet. Try entering a few
+            emails or upload a CSV.
+          </p>
+        </Placeholder>
+      );
+    }
+
     return (
-      <>
-        {employeesList.map((entry: any) => (
-          <tr key={entry._id}>
-            <td id="checkmark">
-              {entry.completed ? (
-                <img src="/images/checkmark.png" alt="checkmark"></img>
-              ) : (
-                <p></p>
-              )}
-            </td>
-            <td id="email">{entry.email}</td>
-            {getDeleteElement(entry, employeeQuery.refetch)}
-            {getResendElement(entry)}
+      <Table>
+        <thead>
+          <tr>
+            <th id="status">Status</th>
+            <th id="email">Email</th>
+            <th id="delete">Delete Email</th>
+            <th id="resend">Resend Email</th>
           </tr>
-        ))}
-      </>
+        </thead>
+        <tbody>
+          {employeesList.map((entry: any) => (
+            <tr key={entry._id}>
+              <td id="checkmark">
+                {entry.completed ? (
+                  <img src="/images/checkmark.png" alt="checkmark"></img>
+                ) : (
+                  <p></p>
+                )}
+              </td>
+              <td id="email">{entry.email}</td>
+              {getDeleteElement(entry, employeeQuery.refetch)}
+              {getResendElement(entry)}
+            </tr>
+          ))}
+        </tbody>
+      </Table>
     );
   };
 
@@ -189,19 +216,7 @@ const ManageSurveyTable: React.FC<any> = () => {
       {employeeQuery.isLoading ? (
         <div>Loading...</div>
       ) : (
-        <Table>
-          <thead>
-            <tr>
-              <th id="status">Status</th>
-              <th id="email">Email</th>
-              <th id="delete">Delete Email</th>
-              <th id="resend">Resend Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employeeQuery.data && TableBody(employeeQuery.data as any)}
-          </tbody>
-        </Table>
+        employeeQuery.data && TableBody(employeeQuery.data as any)
       )}
     </div>
   );

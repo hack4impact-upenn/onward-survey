@@ -94,7 +94,6 @@ const SurveyQuestions = () => {
     };
     try {
       await submitResponseMutate(employeeResponse);
-      alert('Success');
       history.push(`/survey/${surveyId}/nextsteps`);
     } catch (error) {
       alert(`Error: ${error.response.data}`);

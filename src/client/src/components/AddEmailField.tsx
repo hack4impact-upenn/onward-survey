@@ -32,7 +32,7 @@ class AddEmail extends React.Component<{}, { emailInput: string }> {
       },
       data: JSON.stringify({ emails }),
     })
-      .then((res) => window.location.reload(true))
+      .then(() => window.location.reload(true))
       .catch((err: Error) => alert(err.message));
   }
 

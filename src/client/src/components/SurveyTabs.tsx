@@ -57,7 +57,15 @@ function MyEmployerName() {
   if (query.data) {
     const { data: myProfile } = query as any;
     const profile: MyProfileResponse = myProfile;
-    return <span>{profile.data.firstName}</span>;
+    return (
+      <WelcomeText className="title has-text-left">
+        Welcome Back,{' '}
+        <EmployerName>
+          <span>{profile.data.firstName}</span>
+        </EmployerName>
+        !
+      </WelcomeText>
+    );
   } else {
     return <span> </span>;
   }
@@ -96,13 +104,7 @@ class SurveyTabs extends React.Component<
       <ContentContainer>
         <div className="columns">
           <div className="column is-two-fifths">
-            <WelcomeText className="title has-text-left">
-              Welcome Back,{' '}
-              <EmployerName>
-                <MyEmployerName />
-              </EmployerName>
-              !
-            </WelcomeText>
+            <MyEmployerName />
           </div>
         </div>
         <TabsContainer className="tabs is-large">

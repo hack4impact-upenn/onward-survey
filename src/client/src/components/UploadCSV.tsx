@@ -37,7 +37,7 @@ const UploadCSV: React.FC<Props> = (props) => {
       },
       data,
     })
-      .then((res) => alert('emails uploaded'))
+      .then((res) => alert('Your CSV was uploaded!'))
       .catch((err: Error) => alert(err.message));
   };
 
